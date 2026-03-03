@@ -1,0 +1,1469 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Психолог для женщин | Консультации онлайн и очно</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="theme_overrides.css">
+</head>
+<body>
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getDatabase, ref, onValue, set, update, get, push, remove } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyC57bRYXu4-9QS1egYAYeSzLg2U8jtYdfI",
+            authDomain: "endorphin-lux.firebaseapp.com",
+            databaseURL: "https://endorphin-lux-default-rtdb.firebaseio.com",
+            projectId: "endorphin-lux",
+            storageBucket: "endorphin-lux.firebasestorage.app",
+            messagingSenderId: "1022654583755",
+            appId: "1:1022654583755:web:2852e49be8b98f0f825c4e"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase(app);
+
+        // ДАННЫЕ
+        let appData = {
+            about: { name: "Елена Волкова", specialty: "Клинический психолог", bio: "Помогаю женщинам отыскать гармонию внутри себя", experience: 10 },
+            contacts: { phone: "79990000000", telegram: "psychologist_nick" },
+            sections: {}
+        };
+
+        let customSections = {};
+        let servicesData = {};
+        let reviewsData = {};
+        let bookingsData = {};
+        let consultationSlots = {};
+        let isAdmin = false;
+
+        // ИНИЦИАЛИЗАЦИЯ
+        function initApp() {
+            checkAdmin();
+            loadData();
+            setupEventListeners();
+        }
+
+        function checkAdmin() {
+            const urlParams = new URLSearchParams(location.search);
+            const hash = window.location.hash;
+            if (urlParams.get('admin') === 'psykolog2024' || hash === '#admin') {
+                isAdmin = true;
+                showAdminButton();
+            }
+        }
+
+        function showAdminButton() {
+            const adminBtn = document.getElementById('adminBtn');
+            if (adminBtn) adminBtn.style.display = 'inline-flex';
+            updateNotifications();
+        }
+
+        function updateNotifications() {
+            const bookingCount = Object.keys(bookingsData).length;
+            const reviewCount = Object.keys(reviewsData).length;
+            const totalCount = bookingCount + reviewCount;
+            const displayCount = totalCount > 9 ? '9+' : totalCount;
+            
+            const notificationEl = document.getElementById('adminNotification');
+            if (notificationEl) {
+                if (totalCount > 0) {
+                    notificationEl.textContent = displayCount;
+                    notificationEl.style.display = 'flex';
+                } else {
+                    notificationEl.style.display = 'none';
+                }
+            }
+        }
+
+        function loadData() {
+            onValue(ref(db, 'psycholoog'), (snap) => {
+                appData = snap.val() || appData;
+                renderAbout();
+                updateContacts();
+            });
+
+            onValue(ref(db, 'customSections'), (snap) => {
+                customSections = snap.val() || {};
+                renderCustomSections();
+            });
+
+            onValue(ref(db, 'services'), (snap) => {
+                servicesData = snap.val() || {};
+                renderServices();
+            });
+
+            onValue(ref(db, 'reviews'), (snap) => {
+                reviewsData = snap.val() || {};
+                renderReviews();
+                updateNotifications();
+            });
+
+            onValue(ref(db, 'bookings'), (snap) => {
+                bookingsData = snap.val() || {};
+                updateNotifications();
+            });
+
+            onValue(ref(db, 'consultationSlots'), (snap) => {
+                consultationSlots = snap.val() || {};
+            });
+        }
+
+        function renderAbout() {
+            const nameEl = document.getElementById('psychName');
+            const specEl = document.getElementById('psychSpec');
+            const bioEl = document.getElementById('psychBio');
+            const expEl = document.getElementById('psychExp');
+
+            if (nameEl) nameEl.textContent = appData.about.name;
+            if (specEl) specEl.textContent = appData.about.specialty;
+            if (bioEl) bioEl.textContent = appData.about.bio;
+            if (expEl) expEl.textContent = appData.about.experience + ' лет';
+        }
+
+        function updateContacts() {
+            const phoneLinks = document.querySelectorAll('[data-role="phone"]');
+            const tgLinks = document.querySelectorAll('[data-role="telegram"]');
+
+            phoneLinks.forEach(el => {
+                el.href = 'tel:+' + appData.contacts.phone;
+                el.textContent = '+' + appData.contacts.phone;
+            });
+
+            tgLinks.forEach(el => {
+                el.href = 'https://t.me/' + appData.contacts.telegram;
+                el.textContent = '@' + appData.contacts.telegram;
+            });
+        }
+
+        function renderCustomSections() {
+            const container = document.getElementById('customSectionsContainer');
+            if (!container) return;
+
+            container.innerHTML = '';
+
+            if (Object.keys(customSections).length === 0) {
+                return; // Не показываем пустой контейнер
+            }
+
+            Object.entries(customSections).forEach(([id, section]) => {
+                const sectionEl = document.createElement('section');
+                sectionEl.className = 'custom-section';
+                sectionEl.id = 'section-' + id;
+
+                let content = `<div class="container"><h2>${escapeHtml(section.title)}</h2>`;
+
+                if (section.type === 'text') {
+                    content += `<div class="section-text">${section.content || ''}</div>`;
+                } else if (section.type === 'cards') {
+                    content += `<div class="cards-grid">`;
+                    if (section.items) {
+                        Object.entries(section.items).forEach(([, item]) => {
+                            content += `<div class="card"><h3>${escapeHtml(item.title)}</h3><p>${escapeHtml(item.description || '')}</p></div>`;
+                        });
+                    }
+                    content += `</div>`;
+                } else if (section.type === 'blog') {
+                    content += `<div class="blog-grid">`;
+                    if (section.items) {
+                        Object.entries(section.items).forEach(([, item]) => {
+                            content += `<article class="blog-card"><h3>${escapeHtml(item.title)}</h3><p class="blog-date">${item.date || ''}</p><p>${escapeHtml(item.content || '')}</p></article>`;
+                        });
+                    }
+                    content += `</div>`;
+                }
+
+                content += `</div>`;
+                sectionEl.innerHTML = content;
+                container.appendChild(sectionEl);
+            });
+        }
+
+        function renderReviews() {
+            const reviewsContainer = document.getElementById('reviewsContainer');
+            if (!reviewsContainer) return;
+
+            reviewsContainer.innerHTML = '';
+
+            const reviews = Object.values(reviewsData).slice(-6);
+            if (reviews.length === 0) {
+                reviewsContainer.innerHTML = '<p style="text-align: center; padding: 40px; color: #999;">Отзывов пока нет. станьте первой!</p>';
+                return;
+            }
+
+            reviews.forEach(review => {
+                const reviewEl = document.createElement('div');
+                reviewEl.className = 'review-card';
+                reviewEl.innerHTML = `
+                    <div class="review-rating">${'⭐'.repeat(review.rating)}</div>
+                    <p class="review-text">"${escapeHtml(review.text)}"</p>
+                    <p class="review-author">— ${escapeHtml(review.author)}</p>
+                `;
+                reviewsContainer.appendChild(reviewEl);
+            });
+        }
+
+        function setupEventListeners() {
+            document.getElementById('closeBookingModal')?.addEventListener('click', closeBookingModal);
+            document.getElementById('bookingForm')?.addEventListener('submit', submitBooking);
+            document.getElementById('reviewBtn')?.addEventListener('click', openReviewModal);
+            document.getElementById('closeReviewModal')?.addEventListener('click', closeReviewModal);
+            document.getElementById('reviewForm')?.addEventListener('submit', submitReview);
+            
+            // Обработчик формы записи на консультацию
+            document.getElementById('consultationBookingForm')?.addEventListener('submit', submitConsultationBooking);
+
+            // Модал закрывается при клике вне его
+            document.getElementById('bookingModal')?.addEventListener('click', (e) => {
+                if (e.target.id === 'bookingModal') closeBookingModal();
+            });
+
+            document.getElementById('reviewModal')?.addEventListener('click', (e) => {
+                if (e.target.id === 'reviewModal') closeReviewModal();
+            });
+            
+            document.getElementById('noSlotsModal')?.addEventListener('click', (e) => {
+                if (e.target.id === 'noSlotsModal') closeNoSlotsModal();
+            });
+            
+            document.getElementById('consultationSlotModal')?.addEventListener('click', (e) => {
+                if (e.target.id === 'consultationSlotModal') document.getElementById('consultationSlotModal').classList.remove('open');
+            });
+            
+            document.getElementById('consultationBookingModal')?.addEventListener('click', (e) => {
+                if (e.target.id === 'consultationBookingModal') closeConsultationBookingModal();
+            });
+            
+            document.getElementById('bookingSuccessModal')?.addEventListener('click', (e) => {
+                if (e.target.id === 'bookingSuccessModal') closeBookingSuccessModal();
+            });
+        }
+
+        function openBookingModal() {
+            document.getElementById('bookingModal').classList.add('open');
+            
+            // Заполняем список услуг
+            const serviceSelect = document.getElementById('bookingServiceSelect');
+            if (serviceSelect) {
+                serviceSelect.innerHTML = '<option value="">Выберите услугу</option>';
+                Object.values(servicesData).forEach(service => {
+                    const option = document.createElement('option');
+                    option.value = service.id;
+                    option.textContent = `${service.title} - ${service.price} ₽`;
+                    serviceSelect.appendChild(option);
+                });
+            }
+        }
+        
+        window.updateBookingService = function(serviceId) {
+            if (!serviceId) return;
+            
+            const service = servicesData[serviceId];
+            if (service) {
+                document.getElementById('bookingServiceId').value = service.title;
+                document.getElementById('bookingServicePrice').value = service.price;
+                document.getElementById('bookingServiceName').textContent = service.title;
+                document.getElementById('bookingServicePriceText').textContent = service.price + ' ₽';
+                document.getElementById('bookingServiceInfo').style.display = 'block';
+            }
+        };
+
+        function closeBookingModal() {
+            document.getElementById('bookingModal').classList.remove('open');
+            
+            // Сброс состояния формы
+            document.getElementById('bookingServiceId').value = '';
+            document.getElementById('bookingServicePrice').value = '';
+            document.getElementById('bookingServiceInfo').style.display = 'none';
+            
+            const serviceSelect = document.getElementById('bookingServiceSelect');
+            if (serviceSelect) {
+                serviceSelect.disabled = false;
+                serviceSelect.value = '';
+            }
+            
+            const serviceSelectGroup = document.getElementById('serviceSelectGroup');
+            if (serviceSelectGroup) {
+                serviceSelectGroup.style.display = 'block';
+            }
+        }
+
+        window.openBookingModalWithService = function(serviceId, serviceTitle, price) {
+            document.getElementById('bookingServiceId').value = serviceTitle;
+            document.getElementById('bookingServicePrice').value = price;
+            document.getElementById('bookingServiceName').textContent = serviceTitle;
+            document.getElementById('bookingServicePriceText').textContent = price + ' ₽';
+            document.getElementById('bookingServiceInfo').style.display = 'block';
+            document.getElementById('bookingModal').classList.add('open');
+        };
+
+        async function submitBooking(e) {
+            e.preventDefault();
+            const formData = new FormData(e.target);
+            const booking = {
+                id: 'booking_' + Date.now(),
+                name: formData.get('name'),
+                phone: formData.get('phone'),
+                date: formData.get('date'),
+                time: formData.get('time'),
+                service: formData.get('service') || 'Общая консультация',
+                servicePrice: parseInt(formData.get('servicePrice')) || 0,
+                message: formData.get('message') || '',
+                timestamp: new Date().toISOString()
+            };
+
+            await update(ref(db), { ['bookings/' + booking.id]: booking });
+            showNotification('✓ Заявка отправлена! Я свяжусь с вами в ближайшее время.', 'success');
+            closeBookingModal();
+            document.getElementById('bookingServiceId').value = '';
+            document.getElementById('bookingServicePrice').value = '';
+            document.getElementById('bookingServiceInfo').style.display = 'none';
+            e.target.reset();
+        }
+
+        function openReviewModal() {
+            document.getElementById('reviewModal').classList.add('open');
+        }
+
+        function closeReviewModal() {
+            document.getElementById('reviewModal').classList.remove('open');
+        }
+
+        async function submitReview(e) {
+            e.preventDefault();
+            const formData = new FormData(e.target);
+            const review = {
+                id: 'review_' + Date.now(),
+                author: formData.get('author'),
+                rating: parseInt(formData.get('rating')),
+                text: formData.get('text'),
+                timestamp: new Date().toISOString()
+            };
+
+            await update(ref(db), { ['reviews/' + review.id]: review });
+            showNotification('✓ Спасибо за отзыв!', 'success');
+            closeReviewModal();
+            e.target.reset();
+        }
+
+        // АДМИН-ПАНЕЛЬ
+        window.openAdminPanel = function() {
+            if (!isAdmin) {
+                const pwd = prompt('🔐 Пароль администратора:');
+                if (pwd === 'psykolog2024') {
+                    isAdmin = true;
+                    showAdminButton();
+                } else if (pwd !== null) {
+                    showNotification('❌ Неверный пароль', 'error');
+                    return;
+                }
+            }
+
+            document.getElementById('adminPanel').classList.add('open');
+            renderAdminPanel();
+        };
+
+        window.closeAdminPanel = function() {
+            document.getElementById('adminPanel').classList.remove('open');
+        };
+
+        function renderAdminPanel() {
+            updateTabIndicators();
+            renderAboutEditor();
+            renderServicesEditor();
+            renderReviewsEditor();
+            renderBookingsEditor();
+        }
+
+        function updateTabIndicators() {
+            const bookingBtn = document.querySelector('.admin-tab-btn:nth-child(2)');
+            const reviewBtn = document.querySelector('.admin-tab-btn:nth-child(5)');
+            
+            if (bookingBtn) {
+                const count = Object.keys(bookingsData).length;
+                bookingBtn.dataset.count = count;
+                bookingBtn.textContent = 'Заявки' + (count > 0 ? ' (' + count + ')' : '');
+            }
+            
+            if (reviewBtn) {
+                const count = Object.keys(reviewsData).length;
+                reviewBtn.dataset.count = count;
+                reviewBtn.textContent = 'Отзывы' + (count > 0 ? ' (' + count + ')' : '');
+            }
+        }
+
+        function renderAboutEditor() {
+            const editor = document.getElementById('adminAboutTab');
+            editor.innerHTML = `
+                <h3>Редактирование профиля психолога</h3>
+                <div class="admin-form">
+                    <label>Имя и фамилия:</label>
+                    <input type="text" id="adminName" value="${appData.about.name}" />
+
+                    <label>Специальность:</label>
+                    <input type="text" id="adminSpec" value="${appData.about.specialty}" />
+
+                    <label>Краткая биография:</label>
+                    <textarea id="adminBio">${appData.about.bio}</textarea>
+
+                    <label>Опыт работы (лет):</label>
+                    <input type="number" id="adminExp" value="${appData.about.experience}" />
+
+                    <label>Номер телефона:</label>
+                    <input type="text" id="adminPhone" value="${appData.contacts.phone}" />
+
+                    <label>Telegram (без @):</label>
+                    <input type="text" id="adminTg" value="${appData.contacts.telegram}" />
+
+                    <button class="admin-btn-save" onclick="saveAboutData()">
+                        <i class="fas fa-save"></i> Сохранить профиль
+                    </button>
+                </div>
+            `;
+        }
+
+        window.saveAboutData = async function() {
+            appData.about = {
+                name: document.getElementById('adminName').value,
+                specialty: document.getElementById('adminSpec').value,
+                bio: document.getElementById('adminBio').value,
+                experience: parseInt(document.getElementById('adminExp').value) || 10
+            };
+
+            appData.contacts = {
+                phone: document.getElementById('adminPhone').value,
+                telegram: document.getElementById('adminTg').value
+            };
+
+            await update(ref(db), { psycholoog: appData });
+            showNotification('✓ Профиль сохранён!', 'success');
+        };
+
+        window.addNewService = function() {
+            const title = prompt('📝 Название услуги (например: "Консультация"):');
+            if (!title) return;
+
+            const priceStr = prompt('💰 Стоимость (число):');
+            const price = parseInt(priceStr) || 0;
+            if (!price) {
+                showNotification('❌ Укажите корректную стоимость', 'error');
+                return;
+            }
+
+            const id = 'service_' + Date.now();
+            servicesData[id] = {
+                id,
+                title,
+                price,
+                description: 'Описание услуги'
+            };
+
+            updateServices();
+        };
+
+        // ФУНКЦИЯ ЗАПИСИ НА КОНСУЛЬТАЦИЮ
+        window.openConsultationBooking = function() {
+            // Получаем доступные слоты (не занятые)
+            const availableSlots = Object.entries(consultationSlots).filter(([id, slot]) => !slot.booked);
+            
+            if (availableSlots.length === 0) {
+                // Нет доступных слотов - показываем сообщение
+                showNoSlotsMessage();
+            } else {
+                // Есть слоты - открываем модальное окно выбора
+                openConsultationSlotModal(availableSlots);
+            }
+        };
+
+        // Показать сообщение о отсутствии слотов
+        function showNoSlotsMessage() {
+            const modal = document.getElementById('noSlotsModal');
+            if (modal) {
+                modal.classList.add('open');
+            }
+        }
+
+        // Закрыть модальное окно "нет слотов"
+        window.closeNoSlotsModal = function() {
+            const modal = document.getElementById('noSlotsModal');
+            if (modal) {
+                modal.classList.remove('open');
+            }
+        };
+
+        // Открыть модальное окно выбора слота консультации
+        function openConsultationSlotModal(availableSlots) {
+            const modal = document.getElementById('consultationSlotModal');
+            const slotsContainer = document.getElementById('availableSlotsList');
+            
+            if (!modal || !slotsContainer) return;
+            
+            // Сортируем слоты по дате и времени
+            availableSlots.sort((a, b) => {
+                const dateA = new Date(a[1].date + 'T' + a[1].time);
+                const dateB = new Date(b[1].date + 'T' + b[1].time);
+                return dateA - dateB;
+            });
+            
+            // Генерируем HTML для слотов
+            let html = '';
+            availableSlots.forEach(([id, slot]) => {
+                const dateObj = new Date(slot.date);
+                const dateStr = dateObj.toLocaleDateString('ru-RU', { day: 'numeric', month: 'long' });
+                html += `
+                    <div class="slot-item" onclick="selectConsultationSlot('${id}', '${slot.date}', '${slot.time}')">
+                        <div class="slot-date">${dateStr}</div>
+                        <div class="slot-time">${slot.time}</div>
+                    </div>
+                `;
+            });
+            
+            slotsContainer.innerHTML = html;
+            modal.classList.add('open');
+        }
+
+        // Выбрать слот консультации
+        window.selectConsultationSlot = function(slotId, date, time) {
+            document.getElementById('consultationSlotModal').classList.remove('open');
+            openConsultationBookingForm(slotId, date, time);
+        };
+
+        // Открыть форму записи на консультацию с выбранным слотом
+        function openConsultationBookingForm(slotId, date, time) {
+            const modal = document.getElementById('consultationBookingModal');
+            if (!modal) return;
+            
+            document.getElementById('consultationSlotId').value = slotId;
+            document.getElementById('consultationSelectedDate').textContent = new Date(date).toLocaleDateString('ru-RU', { day: 'numeric', month: 'long', year: 'numeric' });
+            document.getElementById('consultationSelectedTime').textContent = time;
+            
+            modal.classList.add('open');
+        }
+
+        // Закрыть форму записи на консультацию
+        window.closeConsultationBookingModal = function() {
+            const modal = document.getElementById('consultationBookingModal');
+            if (modal) {
+                modal.classList.remove('open');
+            }
+            document.getElementById('consultationBookingForm')?.reset();
+        };
+
+        // Отправить заявку на консультацию
+        async function submitConsultationBooking(e) {
+            e.preventDefault();
+            const slotId = document.getElementById('consultationSlotId').value;
+            const formData = new FormData(e.target);
+            
+            const booking = {
+                id: 'consultation_' + Date.now(),
+                slotId: slotId,
+                name: formData.get('name'),
+                phone: formData.get('phone'),
+                date: consultationSlots[slotId]?.date,
+                time: consultationSlots[slotId]?.time,
+                type: 'Консультация (30 мин)',
+                message: formData.get('message') || '',
+                timestamp: new Date().toISOString()
+            };
+
+            // Сохраняем бронирование и помечаем слот как занятый
+            await update(ref(db), {
+                ['bookings/' + booking.id]: booking,
+                ['consultationSlots/' + slotId + '/booked']: true,
+                ['consultationSlots/' + slotId + '/bookingId']: booking.id
+            });
+            
+            closeConsultationBookingModal();
+            showBookingSuccessMessage();
+            e.target.reset();
+        }
+
+        // Показать сообщение об успешной записи
+        function showBookingSuccessMessage() {
+            const modal = document.getElementById('bookingSuccessModal');
+            if (modal) {
+                modal.classList.add('open');
+            }
+        }
+
+        // Закрыть модальное окно успешной записи
+        window.closeBookingSuccessModal = function() {
+            const modal = document.getElementById('bookingSuccessModal');
+            if (modal) {
+                modal.classList.remove('open');
+            }
+        };
+
+        window.editService = function(id) {
+            const service = servicesData[id];
+            if (!service) return;
+
+            let html = `
+                <div class="admin-form">
+                    <h4>Редактирование услуги: ${escapeHtml(service.title)}</h4>
+
+                    <label>Название услуги:</label>
+                    <input type="text" id="serviceTitle_${id}" value="${escapeHtml(service.title)}" />
+
+                    <label>Описание:</label>
+                    <textarea id="serviceDesc_${id}" style="height: 120px;">${escapeHtml(service.description || '')}</textarea>
+
+                    <label>Стоимость (₽):</label>
+                    <input type="number" id="servicePrice_${id}" value="${service.price}" />
+
+                    <div class="button-group">
+                        <button type="button" class="admin-btn-save" onclick="saveServiceEdits('${id}')">
+                            <i class="fas fa-save"></i> Сохранить
+                        </button>
+                        <button type="button" class="admin-btn-cancel" onclick="renderServicesEditor()">Отмена</button>
+                    </div>
+                </div>
+            `;
+
+            document.getElementById('adminServicesTab').innerHTML = html;
+        };
+
+
+
+        window.saveSectionEdits = async function(sectionId) {
+            const section = customSections[sectionId];
+            section.title = document.getElementById(`sectionTitle_${sectionId}`)?.value || section.title;
+
+            if (section.type === 'text') {
+                section.content = document.getElementById(`sectionContent_${sectionId}`)?.value || '';
+            } else {
+                document.querySelectorAll('.item-title').forEach(el => {
+                    const itemId = el.dataset.itemId;
+                    if (!section.items[itemId]) return;
+                    
+                    section.items[itemId].title = el.value;
+                    const descEl = document.querySelector(`.item-desc[data-item-id="${itemId}"]`);
+                    const descValue = descEl?.value || '';
+                    
+                    // Используем content для blog, description для cards
+                    if (section.type === 'blog') {
+                        section.items[itemId].content = descValue;
+                    } else {
+                        section.items[itemId].description = descValue;
+                    }
+                    
+                    const dateEl = document.querySelector(`.item-date[data-item-id="${itemId}"]`);
+                    if (dateEl) section.items[itemId].date = dateEl.value;
+                });
+            }
+
+            await update(ref(db), { customSections });
+            showNotification('✓ Изменения сохранены', 'success');
+            renderSectionsEditor();
+        };
+
+        window.deleteSection = async function(sectionId) {
+            if (confirm('Вы уверены? Этот раздел будет удалён безвозвратно.')) {
+                delete customSections[sectionId];
+                await update(ref(db), { customSections });
+                renderSectionsEditor();
+            }
+        };
+
+        async function updateCustomSections() {
+            await update(ref(db), { customSections });
+            renderCustomSections();
+            renderSectionsEditor();
+        }
+
+        function renderReviewsEditor() {
+            const editor = document.getElementById('adminReviewsTab');
+            const count = Object.keys(reviewsData).length;
+            
+            let html = `<h3>Управление отзывами <span style="color: #C197D2; font-size: 14px;">(${count})</span></h3><div class="reviews-list">`;
+
+            if (Object.keys(reviewsData).length === 0) {
+                html += '<p style="padding: 20px; text-align: center; color: #999;">Отзывов ещё нет</p>';
+            } else {
+                Object.entries(reviewsData).forEach(([id, review]) => {
+                    html += `
+                        <div class="review-item-admin">
+                            <div class="review-info">
+                                <strong>${escapeHtml(review.author)}</strong>
+                                <small>${'⭐'.repeat(review.rating)}</small>
+                            </div>
+                            <p>"${escapeHtml(review.text.substring(0, 100))}..."</p>
+                            <button class="btn-delete" onclick="deleteReviewAdmin('${id}')">Удалить отзыв</button>
+                        </div>
+                    `;
+                });
+            }
+
+            html += '</div>';
+            editor.innerHTML = html;
+        }
+
+        function renderBookingsEditor() {
+            const editor = document.getElementById('adminBookingsTab');
+            const count = Object.keys(bookingsData).length;
+            
+            let html = `<h3>Заявки на консультацию <span style="color: #C197D2; font-size: 14px;">(${count})</span></h3><div class="bookings-list">`;
+
+            if (Object.keys(bookingsData).length === 0) {
+                html += '<p style="padding: 20px; text-align: center; color: #999;">Заявок пока нет</p>';
+            } else {
+                // Сортируем по дате (новые сверху)
+                const bookings = Object.entries(bookingsData).sort((a, b) => 
+                    new Date(b[1].timestamp) - new Date(a[1].timestamp)
+                );
+
+                bookings.forEach(([id, booking]) => {
+                    const date = new Date(booking.timestamp);
+                    const dateStr = date.toLocaleDateString('ru-RU', { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' });
+                    
+                    html += `
+                        <div class="booking-item-admin">
+                            <div class="booking-header">
+                                <strong>${escapeHtml(booking.name)}</strong>
+                                <small class="booking-date">${dateStr}</small>
+                            </div>
+                            <div class="booking-details">
+                                ${booking.service ? `<p><strong>🎯 Услуга:</strong> ${escapeHtml(booking.service)}</p>` : ''}
+                                ${booking.servicePrice ? `<p><strong>💵 Стоимость:</strong> ${booking.servicePrice} ₽</p>` : ''}
+                                <p><strong>☎️ Телефон:</strong> <a href="tel:${booking.phone}">${booking.phone}</a></p>
+                                <p><strong>📅 Дата приёма:</strong> ${booking.date}</p>
+                                <p><strong>⏰ Время:</strong> ${booking.time}</p>
+                                ${booking.message ? `<p><strong>💬 Сообщение:</strong> ${escapeHtml(booking.message)}</p>` : ''}
+                            </div>
+                            <div class="booking-actions">
+                                <a href="https://wa.me/${booking.phone.replace(/\D/g, '')}" target="_blank" class="btn-contact whatsapp">WhatsApp</a>
+                                <button class="btn-delete" onclick="deleteBookingAdmin('${id}')">Удалить</button>
+                            </div>
+                        </div>
+                    `;
+                });
+            }
+
+            html += '</div>';
+            editor.innerHTML = html;
+        }
+
+        window.deleteReviewAdmin = async function(id) {
+            if (confirm('Удалить отзыв?')) {
+                await remove(ref(db, 'reviews/' + id));
+                renderReviewsEditor();
+            }
+        };
+
+        window.deleteBookingAdmin = async function(id) {
+            if (confirm('Удалить заявку?')) {
+                await remove(ref(db, 'bookings/' + id));
+                renderBookingsEditor();
+            }
+        };
+
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        // УПРАВЛЕНИЕ УСЛУГАМИ
+        window.addNewService = function() {
+            const title = prompt('📝 Название услуги (например: "Консультация"):');
+            if (!title) return;
+
+            const priceStr = prompt('💰 Стоимость (число):');
+            const price = parseInt(priceStr) || 0;
+            if (!price) {
+                showNotification('❌ Укажите корректную стоимость', 'error');
+                return;
+            }
+
+            const id = 'service_' + Date.now();
+            servicesData[id] = {
+                id,
+                title,
+                price,
+                description: 'Описание услуги'
+            };
+
+            updateServices();
+        };
+
+        // УПРАВЛЕНИЕ СЛОТАМИ КОНСУЛЬТАЦИЙ (АДМИН)
+        window.renderConsultationSlotsEditor = function() {
+            const editor = document.getElementById('adminConsultationSlotsTab');
+            if (!editor) return;
+
+            const slots = Object.entries(consultationSlots).sort((a, b) => {
+                const dateA = new Date(a[1].date + 'T' + a[1].time);
+                const dateB = new Date(b[1].date + 'T' + b[1].time);
+                return dateA - dateB;
+            });
+
+            let html = `
+                <h3>Управление слотами консультации</h3>
+                <p style="margin-bottom: 16px; color: #666;">Добавьте доступные даты и время для 30-минутных консультаций с клиентами.</p>
+                
+                <!-- Форма добавления слота -->
+                <div class="slot-add-form">
+                    <input type="date" id="newSlotDate" placeholder="Дата" />
+                    <input type="time" id="newSlotTime" placeholder="Время" />
+                    <button class="admin-btn-add" onclick="addConsultationSlot()" style="margin: 0;">
+                        <i class="fas fa-plus"></i> Добавить
+                    </button>
+                </div>
+                
+                <div class="slots-list">
+            `;
+
+            if (slots.length === 0) {
+                html += '<p style="color: #999; text-align: center; padding: 40px;">Нет доступных слотов. Добавьте первый слот для консультации.</p>';
+            } else {
+                slots.forEach(([id, slot]) => {
+                    const dateObj = new Date(slot.date);
+                    const dateStr = dateObj.toLocaleDateString('ru-RU', { day: 'numeric', month: 'long', year: 'numeric' });
+                    const statusClass = slot.booked ? 'slot-booked' : 'slot-available';
+                    const statusText = slot.booked ? 'Занят' : 'Свободен';
+                    
+                    html += `
+                        <div class="slot-item-admin ${statusClass}">
+                            <div class="slot-info">
+                                <span class="slot-date">${dateStr}</span>
+                                <span class="slot-time">${slot.time}</span>
+                                <span class="slot-status">${statusText}</span>
+                                ${slot.booked && slot.bookingId ? `<span class="slot-client">Бронь: ${slot.bookingId.slice(-6)}</span>` : ''}
+                            </div>
+                            <div class="slot-actions">
+                                <button class="btn-delete" onclick="deleteConsultationSlot('${id}')">Удалить</button>
+                            </div>
+                        </div>
+                    `;
+                });
+            }
+
+            html += '</div>';
+            editor.innerHTML = html;
+        };
+
+        window.addConsultationSlot = async function() {
+            const dateInput = document.getElementById('newSlotDate');
+            const timeInput = document.getElementById('newSlotTime');
+            
+            const date = dateInput?.value;
+            const time = timeInput?.value;
+            
+            if (!date || !time) {
+                showNotification('Выберите дату и время', 'error');
+                return;
+            }
+
+            const slotDate = new Date(date);
+            const today = new Date();
+            today.setHours(0, 0, 0, 0);
+            
+            if (slotDate < today) {
+                showNotification('Нельзя добавить слот в прошлом', 'error');
+                return;
+            }
+
+            const id = 'slot_' + Date.now();
+            consultationSlots[id] = {
+                id,
+                date,
+                time,
+                booked: false,
+                createdAt: new Date().toISOString()
+            };
+
+            await update(ref(db), { ['consultationSlots/' + id]: consultationSlots[id] });
+            showNotification('Слот добавлен', 'success');
+            
+            if (dateInput) dateInput.value = '';
+            if (timeInput) timeInput.value = '';
+            renderConsultationSlotsEditor();
+        };
+
+        window.deleteConsultationSlot = async function(id) {
+            if (confirm('Удалить слот?')) {
+                await remove(ref(db, 'consultationSlots/' + id));
+                renderConsultationSlotsEditor();
+            }
+        };
+
+        // Показать уведомление (замена alert)
+        function showNotification(message, type = 'info') {
+            const container = document.getElementById('notificationContainer');
+            if (!container) return;
+            
+            const notification = document.createElement('div');
+            notification.className = `notification ${type}`;
+            notification.textContent = message;
+            
+            container.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.classList.add('show');
+            }, 10);
+            
+            setTimeout(() => {
+                notification.classList.remove('show');
+                setTimeout(() => notification.remove(), 300);
+            }, 3000);
+        }
+
+        window.editService = function(id) {
+            const service = servicesData[id];
+            if (!service) return;
+
+            let html = `
+                <div class="admin-form">
+                    <h4>Редактирование услуги: ${escapeHtml(service.title)}</h4>
+
+                    <label>Название услуги:</label>
+                    <input type="text" id="serviceTitle_${id}" value="${escapeHtml(service.title)}" />
+
+                    <label>Описание:</label>
+                    <textarea id="serviceDesc_${id}" style="height: 120px;">${escapeHtml(service.description || '')}</textarea>
+
+                    <label>Стоимость (₽):</label>
+                    <input type="number" id="servicePrice_${id}" value="${service.price}" />
+
+                    <div class="button-group">
+                        <button type="button" class="admin-btn-save" onclick="saveServiceEdits('${id}')">
+                            <i class="fas fa-save"></i> Сохранить
+                        </button>
+                        <button type="button" class="admin-btn-cancel" onclick="renderServicesEditor()">Отмена</button>
+                    </div>
+                </div>
+            `;
+
+            document.getElementById('adminServicesTab').innerHTML = html;
+        };
+
+        window.saveServiceEdits = async function(serviceId) {
+            const service = servicesData[serviceId];
+            service.title = document.getElementById(`serviceTitle_${serviceId}`)?.value || service.title;
+            service.description = document.getElementById(`serviceDesc_${serviceId}`)?.value || '';
+            service.price = parseInt(document.getElementById(`servicePrice_${serviceId}`)?.value) || 0;
+
+            await update(ref(db), { services: servicesData });
+            showNotification('✓ Услуга обновлена', 'success');
+            renderServicesEditor();
+            renderServices();
+        };
+
+        window.deleteService = async function(serviceId) {
+            if (confirm('Удалить услугу?')) {
+                delete servicesData[serviceId];
+                await update(ref(db), { services: servicesData });
+                renderServicesEditor();
+            }
+        };
+
+        async function updateServices() {
+            await update(ref(db), { services: servicesData });
+            renderServices();
+            renderServicesEditor();
+        }
+
+        function renderServicesEditor() {
+            const editor = document.getElementById('adminServicesTab');
+
+            let html = `
+                <h3>Управление услугами</h3>
+                <button class="admin-btn-add" onclick="addNewService()">
+                    <i class="fas fa-plus"></i> Добавить новую услугу
+                </button>
+                <div class="services-list">
+            `;
+
+            Object.entries(servicesData).forEach(([id, service]) => {
+                html += `
+                    <div class="service-item">
+                        <div class="service-header">
+                            <h4>${escapeHtml(service.title)}</h4>
+                            <strong class="service-price">${service.price} ₽</strong>
+                        </div>
+                        <p class="service-desc">${escapeHtml(service.description || '')}</p>
+                        <div class="service-buttons">
+                            <button class="btn-edit" onclick="editService('${id}')">Редактировать</button>
+                            <button class="btn-delete" onclick="deleteService('${id}')">Удалить</button>
+                        </div>
+                    </div>
+                `;
+            });
+
+            html += `</div>`;
+            editor.innerHTML = html;
+        }
+
+        function renderServices() {
+            const container = document.getElementById('servicesContainer');
+            if (!container) return;
+            
+            container.innerHTML = '';
+            
+            Object.entries(servicesData).forEach(([id, service]) => {
+                const card = document.createElement('div');
+                card.className = 'service-card';
+                card.innerHTML = `
+                    <i class="fas fa-comments"></i>
+                    <h3>${escapeHtml(service.title)}</h3>
+                    <p>${escapeHtml(service.description || '')}</p>
+                    <p class="price">${service.price} ₽</p>
+                    <button class="btn btn-primary" onclick="openBookingModalWithService('${id}', '${escapeHtml(service.title)}', ${service.price})">
+                        <i class="fas fa-calendar-check"></i> Записаться
+                    </button>
+                `;
+                container.appendChild(card);
+            });
+        }  
+
+        // Установка минимальной даты
+        function setupDatePicker() {
+            const dateInput = document.getElementById('bookingDateInput');
+            if (dateInput) {
+                const today = new Date();
+                const year = today.getFullYear();
+                const month = String(today.getMonth() + 1).padStart(2, '0');
+                const day = String(today.getDate()).padStart(2, '0');
+                dateInput.min = `${year}-${month}-${day}`;
+            }
+        }
+
+        // Инициализация при загрузке
+        document.addEventListener('DOMContentLoaded', () => {
+            initApp();
+            setupDatePicker();
+        });
+
+        // АНИМАЦИЯ ОГЛОЩЕНИЯ СЕКЦИЙ
+        const observerOptions = { threshold: 0.2, rootMargin: '0px 0px -100px 0px' };
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        // Инициализация при загрузке
+        document.addEventListener('DOMContentLoaded', () => {
+            setupDatePicker();
+            document.querySelectorAll('section').forEach(section => observer.observe(section));
+        });
+
+        // ПЛАВНЫЙ СКРОЛЛ
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) target.scrollIntoView({ behavior: 'smooth' });
+            });
+        });
+
+        // КАРУСЕЛЬ ДЛЯ "ДЛЯ КОГО" (восстановлено)
+        document.addEventListener('DOMContentLoaded', function() {
+            const carouselWrapper = document.querySelector('.carousel-image-wrapper');
+            if (!carouselWrapper) return;
+
+            const images = Array.from(carouselWrapper.querySelectorAll('.carousel-image'));
+            const prevBtn = document.querySelector('.carousel-btn.prev');
+            const nextBtn = document.querySelector('.carousel-btn.next');
+            const dotsContainer = document.querySelector('.carousel-dots');
+            let current = 0;
+            let intervalId = null;
+
+            function goTo(index) {
+                images.forEach((img, i) => img.classList.toggle('active', i === index));
+                const dots = Array.from(dotsContainer.children);
+                dots.forEach((d, i) => d.classList.toggle('active', i === index));
+                current = index;
+            }
+
+            function next() { goTo((current + 1) % images.length); }
+            function prev() { goTo((current - 1 + images.length) % images.length); }
+
+            // Создаем точки
+            images.forEach((_, i) => {
+                const btn = document.createElement('button');
+                btn.addEventListener('click', () => { goTo(i); resetAuto(); });
+                if (i === 0) btn.classList.add('active');
+                dotsContainer.appendChild(btn);
+            });
+
+            nextBtn?.addEventListener('click', () => { next(); resetAuto(); });
+            prevBtn?.addEventListener('click', () => { prev(); resetAuto(); });
+
+            function startAuto() { intervalId = setInterval(next, 4000); }
+            function stopAuto() { clearInterval(intervalId); intervalId = null; }
+            function resetAuto() { stopAuto(); startAuto(); }
+
+            carouselWrapper.addEventListener('mouseenter', stopAuto);
+            carouselWrapper.addEventListener('mouseleave', startAuto);
+
+            // Инициализация
+            goTo(0);
+            startAuto();
+        });
+    </script>
+
+    <!-- HEADER/НАВИГАЦИЯ -->
+    <header class="header white-bg sticky-header">
+        <div class="header-inner">
+            <div class="logo-brand">
+                <i class="fas fa-lotus"></i>
+                <span>Психолог</span>
+            </div>
+            <nav class="header-nav">
+                <a href="#about">Обо мне</a>
+                <a href="#services">Услуги</a>
+                <a href="#reviews">Отзывы</a>
+                <a href="#contact">Контакты</a>
+            </nav>
+            <div class="header-actions">
+                <button id="bookingBtn" class="btn btn-primary" onclick="document.querySelector('#services').scrollIntoView({behavior: 'smooth'})">Записаться</button>
+                <button id="adminBtn" class="admin-toggle" onclick="openAdminPanel()" style="display: none;" title="Админ">
+                    <i class="fas fa-cog"></i>
+                    <span id="adminNotification" class="admin-notification" style="display: none;">0</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- HERO/ГЛАВНАЯ -->
+    <section class="hero-section">
+        <!-- Карусель на весь фон секции -->
+        <div class="hero-carousel full-bg">
+            <div class="carousel-main large">
+                <button class="carousel-btn prev" aria-label="Предыдущее">‹</button>
+                <div class="carousel-image-wrapper hero-wrapper full-bg-wrapper">
+                    <img src="images/1.png" alt="Слайд 1" class="carousel-image active">
+                    <img src="images/2.png" alt="Слайд 2" class="carousel-image">
+                    <img src="images/3.png" alt="Слайд 3" class="carousel-image">
+                    <img src="images/4.png" alt="Слайд 4" class="carousel-image">
+                </div>
+                <button class="carousel-btn next" aria-label="Следующее">›</button>
+            </div>
+            <div class="carousel-dots hero-dots" aria-hidden="false"></div>
+        </div>
+
+        <!-- Текст поверх карусели, слева -->
+        <div class="hero-content hero-left">
+            <h1 class="hero-title">Путь к себе и к гармоничным отношениям</h1>
+            <p class="hero-subtitle">Для женщин, которые хотят разобраться в себе и наладить жизнь</p>
+            <button class="btn btn-large btn-primary" onclick="document.querySelector('#services').scrollIntoView({behavior: 'smooth'})">
+                <i class="fas fa-calendar-alt"></i> Записаться на консультацию
+            </button>
+        </div>
+    </section>
+
+    <!-- ОБОМНЕ -->
+    <section id="about" class="section">
+        <div class="container">
+            <h2 class="section-title">Обо мне</h2>
+            <div class="about-grid">
+                <div class="about-image">
+                    <div class="image-placeholder">
+                        <i class="fas fa-user-circle"></i>
+                    </div>
+                </div>
+                <div class="about-content">
+                    <h3 id="psychName">Елена Волкова</h3>
+                    <p class="specialty" id="psychSpec">Клинический психолог</p>
+                    <p id="psychBio">Помогаю женщинам отыскать гармонию внутри себя</p>
+                    <ul class="about-list">
+                        <li><strong id="psychExp">10 лет</strong> опыта работы</li>
+                        <li>Сертифицированный специалист</li>
+                        <li>Индивидуальный подход к каждой клиентке</li>
+                        <li>Консультации онлайн и очно</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- УСЛУГИ -->
+    
+    <!-- Секция "Для кого" удалена — карусель перемещена в верхний герой -->
+
+    <section id="services" class="section light-bg">
+        <div class="container">
+            <h2 class="section-title">Услуги</h2>
+            <div class="services-grid" id="servicesContainer">
+                <!-- Услуги будут загружены из Firebase -->
+            </div>
+        </div>
+    </section>
+
+    <!-- ОТЗЫВЫ -->
+    <section id="reviews" class="section">
+        <div class="container">
+            <h2 class="section-title">Что говорят клиентки</h2>
+            <div class="reviews-grid" id="reviewsContainer">
+                <div class="review-card">
+                    <div class="review-rating">⭐⭐⭐⭐⭐</div>
+                    <p>"Наконец-то нашла хорошего психолога! Елена очень понимающая и помогла мне разобраться с давними проблемами."</p>
+                    <p class="review-author">— Анна, 31</p>
+                </div>
+                <div class="review-card">
+                    <div class="review-rating">⭐⭐⭐⭐⭐</div>
+                    <p>"Спасибо за то, что помогли мне стать более уверенной в себе. Это был отличный опыт работы."</p>
+                    <p class="review-author">— Мария, 28</p>
+                </div>
+                <div class="review-card">
+                    <div class="review-rating">⭐⭐⭐⭐⭐</div>
+                    <p>"Благодарна за работу над отношениями. Многое стало на места, и я чувствую себя намного лучше."</p>
+                    <p class="review-author">— Екатерина, 35</p>
+                </div>
+            </div>
+            <div style="text-align: center; margin-top: 40px;">
+                <button id="reviewBtn" class="btn btn-outline">Оставить свой отзыв</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- ДИНАМИЧЕСКИЕ РАЗДЕЛЫ -->
+    <div id="customSectionsContainer"></div>
+
+    <!-- ЗАПИСЬ -->
+    <section id="booking" class="section light-bg">
+        <div class="container">
+            <h2 class="section-title">Запись на консультацию</h2>
+            <p style="text-align: center; margin-bottom: 40px; color: #666;">Выберите удобную для вас дату и время</p>
+            <button class="btn btn-primary" onclick="openConsultationBooking()">
+                <i class="fas fa-calendar-check"></i> Записаться на консультацию
+            </button>
+        </div>
+    </section>
+
+    <!-- КОНТАКТЫ -->
+    <section id="contact" class="section">
+        <div class="container">
+            <h2 class="section-title">Свяжитесь со мной</h2>
+            <div class="contacts-info">
+                <div class="contact-block">
+                    <i class="fas fa-phone"></i>
+                    <p>Телефон:</p>
+                    <a href="tel:+79990000000" data-role="phone">+79990000000</a>
+                </div>
+                <div class="contact-block">
+                    <i class="fas fa-paper-plane"></i>
+                    <p>Telegram:</p>
+                    <a href="https://t.me/psychologist_nick" data-role="telegram" target="_blank">@psychologist_nick</a>
+                </div>
+                <div class="contact-block">
+                    <i class="fas fa-clock"></i>
+                    <p>Режим работы:</p>
+                    <p>Пн-Пт: 10:00 - 18:00</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- МОДАЛ ЗАПИСЬ -->
+    <div id="bookingModal" class="modal">
+        <div class="modal-inner">
+            <button id="closeBookingModal" class="modal-close"><i class="fas fa-times"></i></button>
+            <h3>Запись на консультацию</h3>
+            <div id="bookingServiceInfo" style="display: none; background: var(--color-light); padding: 16px; border-radius: 8px; margin-bottom: 20px; border-left: 4px solid var(--color-primary);">
+                <p><strong>Услуга:</strong> <span id="bookingServiceName"></span></p>
+                <p><strong>Стоимость:</strong> <span id="bookingServicePriceText"></span></p>
+            </div>
+            <form id="bookingForm">
+                <input type="hidden" id="bookingServiceId" name="service" value="" />
+                <input type="hidden" id="bookingServicePrice" name="servicePrice" value="" />
+                <div class="form-group" id="serviceSelectGroup">
+                    <label>Услуга</label>
+                    <select id="bookingServiceSelect" name="serviceSelect" onchange="updateBookingService(this.value)">
+                        <option value="">Выберите услугу</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Ваше имя *</label>
+                    <input type="text" name="name" required />
+                </div>
+                <div class="form-group">
+                    <label>Телефон *</label>
+                    <input type="tel" name="phone" required />
+                </div>
+                <div class="form-group">
+                    <label>Предпочитаемая дата *</label>
+                    <input type="date" id="bookingDateInput" name="date" required />
+                </div>
+                <div class="form-group">
+                    <label>Время</label>
+                    <select name="time">
+                        <option>10:00 - 11:00</option>
+                        <option>11:00 - 12:00</option>
+                        <option>14:00 - 15:00</option>
+                        <option>15:00 - 16:00</option>
+                        <option>16:00 - 17:00</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Расскажите о вашей ситуации (опционально)</label>
+                    <textarea name="message" placeholder="Это поможет мне лучше подготовиться..."></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary btn-block">
+                    <i class="fas fa-check"></i> Отправить заявку
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- МОДАЛ ОТЗЫВ -->
+    <div id="reviewModal" class="modal">
+        <div class="modal-inner">
+            <button id="closeReviewModal" class="modal-close"><i class="fas fa-times"></i></button>
+            <h3>Оставить отзыв</h3>
+            <form id="reviewForm">
+                <div class="form-group">
+                    <label>Ваше имя *</label>
+                    <input type="text" name="author" required />
+                </div>
+                <div class="form-group">
+                    <label>Оценка *</label>
+                    <select name="rating" required>
+                        <option value="5">⭐⭐⭐⭐⭐ Отлично!</option>
+                        <option value="4">⭐⭐⭐⭐ Хорошо</option>
+                        <option value="3">⭐⭐⭐ Нормально</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Ваш отзыв *</label>
+                    <textarea name="text" placeholder="Поделитесь впечатлениями..." required></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary btn-block">Опубликовать отзыв</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- МОДАЛ: НЕТ ДОСТУПНЫХ СЛОТОВ -->
+    <div id="noSlotsModal" class="modal">
+        <div class="modal-inner" style="text-align: center; max-width: 400px;">
+            <button class="modal-close" onclick="closeNoSlotsModal()"><i class="fas fa-times"></i></button>
+            <div style="font-size: 48px; margin-bottom: 16px;">📅</div>
+            <h3>Запись на консультацию</h3>
+            <p style="color: #666; margin: 20px 0;">В ближайшее время записей нету.</p>
+            <p style="color: #999; font-size: 14px; margin-bottom: 24px;">Пожалуйста, проверьте позже или свяжитесь со мной напрямую.</p>
+            <button class="btn btn-primary" onclick="closeNoSlotsModal()">Понятно</button>
+        </div>
+    </div>
+
+    <!-- МОДАЛ: ВЫБОР СЛОТА КОНСУЛЬТАЦИИ -->
+    <div id="consultationSlotModal" class="modal">
+        <div class="modal-inner" style="max-width: 500px;">
+            <button class="modal-close" onclick="document.getElementById('consultationSlotModal').classList.remove('open')"><i class="fas fa-times"></i></button>
+            <h3>Выберите удобное время</h3>
+            <p style="color: #666; margin-bottom: 20px;">Доступные слоты для 30-минутной консультации:</p>
+            <div id="availableSlotsList" class="slots-list-modal">
+                <!-- Слоты загружаются динамически -->
+            </div>
+        </div>
+    </div>
+
+    <!-- МОДАЛ: ФОРМА ЗАПИСИ НА КОНСУЛЬТАЦИЮ -->
+    <div id="consultationBookingModal" class="modal">
+        <div class="modal-inner">
+            <button class="modal-close" onclick="closeConsultationBookingModal()"><i class="fas fa-times"></i></button>
+            <h3>Запись на консультацию</h3>
+            <div style="background: var(--color-light); padding: 16px; border-radius: 8px; margin-bottom: 20px; border-left: 4px solid var(--color-primary);">
+                <p><strong>📅 Дата:</strong> <span id="consultationSelectedDate"></span></p>
+                <p><strong>⏰ Время:</strong> <span id="consultationSelectedTime"></span></p>
+                <p style="margin-bottom: 0; color: #666; font-size: 14px;">Продолжительность: 30 минут</p>
+            </div>
+            <form id="consultationBookingForm">
+                <input type="hidden" id="consultationSlotId" value="" />
+                <div class="form-group">
+                    <label>Ваше имя *</label>
+                    <input type="text" name="name" required />
+                </div>
+                <div class="form-group">
+                    <label>Телефон *</label>
+                    <input type="tel" name="phone" required />
+                </div>
+                <div class="form-group">
+                    <label>Расскажите о вашей ситуации (опционально)</label>
+                    <textarea name="message" placeholder="Это поможет мне лучше подготовиться к разговору..."></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary btn-block">
+                    <i class="fas fa-check"></i> Подтвердить запись
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- МОДАЛ: УСПЕШНАЯ ЗАПИСЬ -->
+    <div id="bookingSuccessModal" class="modal">
+        <div class="modal-inner" style="text-align: center; max-width: 400px;">
+            <button class="modal-close" onclick="closeBookingSuccessModal()"><i class="fas fa-times"></i></button>
+            <div style="font-size: 48px; margin-bottom: 16px;">✅</div>
+            <h3>Запись подтверждена!</h3>
+            <p style="color: #666; margin: 20px 0;">Я свяжусь с вами в ближайшее время для подтверждения консультации.</p>
+            <button class="btn btn-primary" onclick="closeBookingSuccessModal()">Отлично</button>
+        </div>
+    </div>
+
+    <!-- КОНТЕЙНЕР ДЛЯ УВЕДОМЛЕНИЙ -->
+    <div id="notificationContainer" class="notification-container"></div>
+
+    <!-- АДМИН-ПАНЕЛЬ -->
+    <div id="adminPanel" class="admin-panel">
+        <div class="admin-header">
+            <h2>🔧 Панель администратора</h2>
+            <button onclick="closeAdminPanel()" class="admin-close"><i class="fas fa-times"></i></button>
+        </div>
+
+        <div class="admin-tabs">
+            <button class="admin-tab-btn active" onclick="switchAdminTab(event, 'adminAboutTab')">Профиль</button>
+            <button class="admin-tab-btn" onclick="switchAdminTab(event, 'adminBookingsTab')">Заявки</button>
+            <button class="admin-tab-btn" onclick="switchAdminTab(event, 'adminServicesTab')">Услуги</button>
+            <button class="admin-tab-btn" onclick="switchAdminTab(event, 'adminConsultationSlotsTab')">Консультации</button>
+            <button class="admin-tab-btn" onclick="switchAdminTab(event, 'adminReviewsTab')">Отзывы</button>
+        </div>
+
+        <div class="admin-content">
+            <div id="adminAboutTab" class="admin-tab visible"></div>
+            <div id="adminBookingsTab" class="admin-tab"></div>
+            <div id="adminServicesTab" class="admin-tab"></div>
+            <div id="adminConsultationSlotsTab" class="admin-tab"></div>
+            <div id="adminReviewsTab" class="admin-tab"></div>
+        </div>
+    </div>
+
+    <script>
+        window.switchAdminTab = function(event, tabId) {
+            document.querySelectorAll('.admin-tab').forEach(t => t.classList.remove('visible'));
+            document.querySelectorAll('.admin-tab-btn').forEach(b => b.classList.remove('active'));
+            
+            event.target.classList.add('active');
+            document.getElementById(tabId).classList.add('visible');
+            
+            if (tabId === 'adminAboutTab') renderAboutEditor();
+            else if (tabId === 'adminBookingsTab') renderBookingsEditor();
+            else if (tabId === 'adminServicesTab') renderServicesEditor();
+            else if (tabId === 'adminConsultationSlotsTab') renderConsultationSlotsEditor();
+            else if (tabId === 'adminReviewsTab') renderReviewsEditor();
+        };
+    </script>
+
+    <!-- ПЛАВАЮЩИЕ КНОПКИ -->
+    <div class="floating-buttons">
+        <a href="https://wa.me/79990000000" class="float-btn whatsapp" title="WhatsApp">
+            <i class="fab fa-whatsapp"></i>
+        </a>
+        <a href="https://t.me/psychologist_nick" class="float-btn telegram" title="Telegram">
+            <i class="fab fa-telegram"></i>
+        </a>
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 Психолог для женщин. Все права защищены.</p>
+        </div>
+    </footer>
+</body>
+</html>
