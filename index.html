@@ -1,1566 +1,1991 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Психолог для женщин | Консультации онлайн и очно</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Путь к счастью через сеть</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Raleway:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="theme_overrides.css">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg: #faf8f4;
+  --text: #1c1a17;
+  --muted: #8a8278;
+  --card: #ede9e1;
+  --card2: #e4dfd5;
+  --border: #d6d0c6;
+  --warm: #c9b99a;
+  --warm-light: #e8dfd0;
+  --rose: #c4857a;
+  --rose-light: #f0dbd7;
+  --btn-dark: #1c1a17;
+  --btn-r: 50px;
+  --shadow: 0 4px 28px rgba(0,0,0,0.08);
+  --shadow-lg: 0 12px 48px rgba(0,0,0,0.13);
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Raleway', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  font-size: 15px;
+  line-height: 1.65;
+  overflow-x: hidden;
+}
+
+/* ══════════════════════════════
+   SCROLLBAR
+══════════════════════════════ */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--warm); border-radius: 3px; }
+
+/* ══════════════════════════════
+   NAV
+══════════════════════════════ */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 16px 48px;
+  background: rgba(250,248,244,0.88);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid rgba(214,208,198,0.6);
+  transition: padding .3s, box-shadow .3s;
+}
+nav.scrolled { padding: 10px 48px; box-shadow: 0 2px 20px rgba(0,0,0,0.06); }
+.nav-logo {
+  font-family: 'Playfair Display', serif;
+  font-size: 15px; font-weight: 700;
+  letter-spacing: 0.01em;
+}
+.nav-links { display: flex; gap: 30px; }
+.nav-links a {
+  text-decoration: none; color: var(--muted);
+  font-size: 12px; font-weight: 500; letter-spacing: 0.05em;
+  transition: color .2s;
+}
+.nav-links a:hover { color: var(--text); }
+.nav-cta {
+  background: var(--btn-dark); color: #fff;
+  padding: 9px 22px;
+  border-radius: var(--btn-r);
+  font-size: 11px; font-weight: 700; letter-spacing: 0.1em;
+  text-transform: uppercase; text-decoration: none;
+  transition: transform .2s, box-shadow .2s, background .2s;
+  box-shadow: 0 2px 12px rgba(28,26,23,0.25);
+}
+.nav-cta:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(28,26,23,0.3); }
+
+
+/* ══════════════════════════════
+   BUTTONS
+══════════════════════════════ */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center;
+  gap: 8px;
+  border-radius: var(--btn-r);
+  font-family: 'Raleway', sans-serif;
+  font-size: 11px; font-weight: 700; letter-spacing: 0.1em;
+  text-transform: uppercase; text-decoration: none;
+  cursor: pointer; border: none;
+  transition: transform .22s, box-shadow .22s, background .22s, color .22s;
+}
+.btn:hover { transform: translateY(-2px); }
+.btn-dark {
+  background: var(--btn-dark); color: #fff;
+  padding: 14px 32px;
+  box-shadow: 0 4px 18px rgba(28,26,23,0.22);
+}
+.btn-dark:hover { box-shadow: 0 8px 28px rgba(28,26,23,0.3); }
+.btn-outline-dark {
+  background: transparent; color: var(--text);
+  padding: 13px 30px;
+  border: 2px solid var(--text);
+}
+.btn-outline-dark:hover { background: var(--text); color: #fff; }
+.btn-outline-white {
+  background: transparent; color: #fff;
+  padding: 13px 30px;
+  border: 2px solid rgba(255,255,255,0.7);
+}
+.btn-outline-white:hover { background: rgba(255,255,255,0.15); border-color: #fff; }
+.btn-rose {
+  background: var(--rose); color: #fff;
+  padding: 14px 32px;
+  box-shadow: 0 4px 18px rgba(196,133,122,0.35);
+}
+.btn-rose:hover { box-shadow: 0 8px 28px rgba(196,133,122,0.45); }
+.btn-sm { padding: 10px 22px; font-size: 10px; }
+
+/* ══════════════════════════════
+   HERO + CAROUSEL
+══════════════════════════════ */
+.hero-wrap {
+  position: relative;
+  width: 100%; height: 100vh; min-height: 600px;
+  overflow: hidden;
+}
+
+/* carousel slides */
+.carousel-slides {
+  position: absolute; inset: 0;
+  display: flex; transition: none;
+}
+.carousel-slide {
+  position: absolute; inset: 0;
+  opacity: 0;
+  transition: opacity 1.2s cubic-bezier(.4,0,.2,1);
+}
+.carousel-slide.active { opacity: 1; }
+
+.carousel-slide img { width:100%; height:100%; object-fit:cover; display:block; }
+
+/* beautiful gradient slides using CSS art */
+.slide-1 {
+  background:
+    radial-gradient(ellipse 80% 60% at 70% 40%, rgba(196,133,122,0.45) 0%, transparent 65%),
+    radial-gradient(ellipse 60% 80% at 20% 80%, rgba(201,185,154,0.35) 0%, transparent 60%),
+    linear-gradient(135deg, #2d1f1a 0%, #4a2e26 40%, #3d2820 100%);
+}
+.slide-2 {
+  background:
+    radial-gradient(ellipse 70% 70% at 80% 30%, rgba(180,160,130,0.5) 0%, transparent 60%),
+    radial-gradient(ellipse 50% 60% at 10% 70%, rgba(196,133,122,0.3) 0%, transparent 55%),
+    linear-gradient(150deg, #1a2030 0%, #2c3545 45%, #1e2838 100%);
+}
+.slide-3 {
+  background:
+    radial-gradient(ellipse 90% 50% at 50% 60%, rgba(224,196,172,0.4) 0%, transparent 60%),
+    radial-gradient(ellipse 40% 70% at 85% 20%, rgba(196,133,122,0.5) 0%, transparent 55%),
+    linear-gradient(120deg, #1e1a28 0%, #2e2438 50%, #1a1624 100%);
+}
+.slide-4 {
+  background:
+    radial-gradient(ellipse 75% 65% at 30% 50%, rgba(201,185,154,0.4) 0%, transparent 65%),
+    radial-gradient(ellipse 55% 55% at 80% 70%, rgba(180,120,110,0.4) 0%, transparent 55%),
+    linear-gradient(160deg, #201810 0%, #382416 50%, #241c10 100%);
+}
+
+/* abstract floating shapes on slides */
+.slide-shape {
+  position: absolute; border-radius: 50%;
+  opacity: 0.12; filter: blur(40px);
+  pointer-events: none;
+}
+
+/* dark overlay for readability */
+.hero-overlay {
+  position: absolute; inset: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(10,8,6,0.35) 0%,
+    rgba(10,8,6,0.25) 40%,
+    rgba(10,8,6,0.55) 100%
+  );
+  z-index: 2;
+}
+
+/* hero content */
+.hero-content {
+  position: relative; z-index: 10;
+  height: 100%;
+  display: flex; flex-direction: column; justify-content: center;
+  padding: 0 48px;
+  max-width: 780px;
+}
+.hero-badge {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: rgba(255,255,255,0.12);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255,255,255,0.2);
+  border-radius: 30px;
+  padding: 6px 16px;
+  font-size: 11px; font-weight: 600; letter-spacing: 0.1em;
+  color: rgba(255,255,255,0.85);
+  text-transform: uppercase;
+  margin-bottom: 24px;
+  width: fit-content;
+}
+.hero-badge::before {
+  content: '';
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--rose);
+  box-shadow: 0 0 8px var(--rose);
+  animation: pulse-dot 2s ease-in-out infinite;
+}
+@keyframes pulse-dot {
+  0%,100% { opacity:1; transform: scale(1); }
+  50% { opacity:.5; transform: scale(1.4); }
+}
+
+.hero-content h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(42px, 6.5vw, 80px);
+  font-weight: 700;
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  color: #fff;
+  margin-bottom: 22px;
+  text-shadow: 0 2px 30px rgba(0,0,0,0.3);
+}
+.hero-content h1 em {
+  font-style: italic; font-weight: 400;
+  color: rgba(255,220,210,0.95);
+}
+.hero-content p {
+  font-size: 15px; font-weight: 400;
+  color: rgba(255,255,255,0.75);
+  max-width: 420px; line-height: 1.7;
+  margin-bottom: 36px;
+}
+.hero-btns { display: flex; gap: 14px; flex-wrap: wrap; }
+
+/* carousel dots */
+.carousel-dots {
+  position: absolute; bottom: 36px; left: 48px; z-index: 20;
+  display: flex; gap: 10px; align-items: center;
+}
+.dot {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: rgba(255,255,255,0.35);
+  cursor: pointer;
+  transition: background .3s, width .3s, border-radius .3s;
+}
+.dot.active {
+  background: #fff; width: 28px; border-radius: 4px;
+}
+
+/* carousel arrows */
+.carousel-arrows {
+  position: absolute; bottom: 28px; right: 48px; z-index: 20;
+  display: flex; gap: 10px;
+}
+.arrow-btn {
+  width: 42px; height: 42px; border-radius: 50%;
+  background: rgba(255,255,255,0.15);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255,255,255,0.25);
+  color: #fff; font-size: 18px;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer;
+  transition: background .2s, transform .2s;
+}
+.arrow-btn:hover { background: rgba(255,255,255,0.28); transform: scale(1.05); }
+
+/* scroll hint */
+.scroll-hint {
+  position: absolute; bottom: 38px; left: 50%; transform: translateX(-50%);
+  z-index: 20;
+  display: flex; flex-direction: column; align-items: center; gap: 6px;
+  color: rgba(255,255,255,0.5); font-size: 10px; letter-spacing: 0.12em;
+  text-transform: uppercase;
+  animation: float-hint 2.5s ease-in-out infinite;
+}
+@keyframes float-hint {
+  0%,100% { transform: translateX(-50%) translateY(0); }
+  50% { transform: translateX(-50%) translateY(6px); }
+}
+.scroll-hint svg { width: 20px; height: 20px; opacity: .6; }
+
+/* ══════════════════════════════
+   LAYOUT HELPERS
+══════════════════════════════ */
+.container { max-width: 940px; margin: 0 auto; padding: 0 48px; }
+.sec-label {
+  font-size: 10px; font-weight: 700; letter-spacing: 0.18em;
+  text-transform: uppercase; color: var(--rose);
+  margin-bottom: 10px;
+}
+.two-col { display: grid; grid-template-columns: 120px 1fr; gap: 0 64px; }
+.two-col .sec-label { grid-column: 1; padding-top: 4px; }
+.two-col > *:last-child { grid-column: 2; }
+
+/* ══════════════════════════════
+   SECTION BASE
+══════════════════════════════ */
+.section { padding: 90px 0; }
+
+/* ══════════════════════════════
+   PAIN SECTION
+══════════════════════════════ */
+.pain-content h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(26px, 3.5vw, 40px);
+  font-weight: 400; font-style: italic;
+  line-height: 1.2; margin-bottom: 36px;
+}
+.chat-list { display: flex; flex-direction: column; gap: 12px; margin-bottom: 36px; }
+.bubble {
+  padding: 13px 20px;
+  border-radius: 18px;
+  font-size: 13px; line-height: 1.55; color: #4a4540;
+  max-width: 70%;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+}
+.bubble-left {
+  background: var(--card);
+  border-bottom-left-radius: 4px;
+  align-self: flex-start;
+}
+.bubble-right {
+  background: var(--rose-light);
+  border-bottom-right-radius: 4px;
+  align-self: flex-end;
+}
+.bubble-center {
+  background: #fff;
+  border-radius: 18px;
+  align-self: center; text-align: center; max-width: 80%;
+  border: 1px solid var(--border);
+}
+.pain-divider {
+  font-family: 'Playfair Display', serif;
+  font-size: 18px; font-style: italic;
+  color: var(--muted); margin: 28px 0 36px;
+}
+.pain-closing {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(18px, 2.5vw, 26px);
+  font-weight: 400; line-height: 1.45;
+  color: var(--text);
+}
+
+/* ══════════════════════════════
+   QUOTE BANNER
+══════════════════════════════ */
+.quote-banner {
+  background: linear-gradient(135deg, #2d1f1a 0%, #4a2e26 100%);
+  padding: 60px 48px;
+  text-align: center;
+  position: relative; overflow: hidden;
+}
+.quote-banner::before {
+  content: '❝';
+  position: absolute; top: -20px; left: 60px;
+  font-size: 200px; color: rgba(255,255,255,0.04);
+  font-family: Georgia, serif; line-height: 1;
+  pointer-events: none;
+}
+.quote-banner h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(22px, 3.5vw, 36px);
+  font-weight: 400; font-style: italic;
+  color: #fff; line-height: 1.45;
+  position: relative; z-index: 1;
+}
+
+/* ══════════════════════════════
+   DIRECTION / MODULES
+══════════════════════════════ */
+.direction-content h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(28px, 4vw, 48px); font-weight: 700;
+  line-height: 1.1; margin-bottom: 14px;
+}
+.direction-content .subtitle {
+  color: var(--muted); font-size: 14px;
+  margin-bottom: 38px; max-width: 400px; line-height: 1.65;
+}
+.module-cards { display: flex; flex-direction: column; gap: 14px; }
+.module-card {
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 20px; padding: 26px 30px;
+  display: grid; grid-template-columns: 1fr auto; gap: 20px; align-items: center;
+  box-shadow: var(--shadow);
+  transition: transform .25s, box-shadow .25s;
+}
+.module-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-lg); }
+.module-card.two-panel { grid-template-columns: 1fr 1fr; }
+.module-card-body {}
+.module-tag {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: var(--rose-light);
+  color: var(--rose);
+  border-radius: 30px; padding: 5px 14px;
+  font-size: 10px; font-weight: 700; letter-spacing: 0.1em;
+  text-transform: uppercase; margin-bottom: 12px;
+}
+.module-card h4 { font-size: 15px; font-weight: 700; margin-bottom: 7px; }
+.module-card p { font-size: 12px; color: var(--muted); line-height: 1.6; }
+.module-card-visual {
+  width: 110px; height: 110px; border-radius: 16px;
+  background: linear-gradient(135deg, var(--card) 0%, var(--warm-light) 100%);
+  flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 36px;
+}
+
+/* ══════════════════════════════
+   HOW IT WORKS
+══════════════════════════════ */
+.how-content h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(26px, 4vw, 44px); font-weight: 700; margin-bottom: 12px;
+}
+.how-content .subtitle {
+  color: var(--muted); font-size: 14px; margin-bottom: 46px; max-width: 420px;
+}
+.steps-wrap {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  gap: 16px; align-items: center; margin-bottom: 32px;
+}
+.step-card {
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 20px; padding: 22px 20px;
+  box-shadow: var(--shadow);
+  transition: transform .25s, box-shadow .25s;
+}
+.step-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-lg); }
+.step-num {
+  font-size: 10px; font-weight: 700; letter-spacing: 0.12em;
+  color: var(--rose); text-transform: uppercase; margin-bottom: 8px;
+}
+.step-card h4 { font-size: 13px; font-weight: 700; margin-bottom: 6px; }
+.step-card p { font-size: 11px; color: var(--muted); line-height: 1.55; }
+.step-center { display: flex; align-items: center; justify-content: center; }
+.orbit {
+  width: 100px; height: 100px; border-radius: 50%;
+  border: 2px dashed var(--border);
+  display: flex; align-items: center; justify-content: center;
+  position: relative;
+  animation: spin-slow 20s linear infinite;
+}
+@keyframes spin-slow { to { transform: rotate(360deg); } }
+.orbit-inner {
+  width: 68px; height: 68px; border-radius: 50%;
+  background: linear-gradient(135deg, var(--rose-light), var(--warm-light));
+  display: flex; align-items: center; justify-content: center;
+  font-size: 11px; font-weight: 700; text-align: center; color: var(--rose);
+  line-height: 1.3; padding: 6px;
+  animation: spin-slow 20s linear infinite reverse;
+}
+.orbit-dot {
+  position: absolute; top: -4px; left: 50%; transform: translateX(-50%);
+  width: 8px; height: 8px; border-radius: 50%;
+  background: var(--rose);
+}
+.steps-cta { text-align: right; }
+
+/* ══════════════════════════════
+   TESTIMONIALS
+══════════════════════════════ */
+.testimonials-content h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(24px, 3.5vw, 38px); font-weight: 700; margin-bottom: 30px;
+}
+.testi-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+.testi-card {
+  background: #fff; border: 1px solid var(--border);
+  border-radius: 20px; overflow: hidden;
+  box-shadow: var(--shadow);
+  transition: transform .25s, box-shadow .25s;
+}
+.testi-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); }
+.testi-img {
+  height: 160px; width: 100%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 42px;
+}
+.testi-img-1 { background: linear-gradient(135deg, #e8d5d0, #c9a89e); }
+.testi-img-2 { background: linear-gradient(135deg, #d5dfe8, #9aaccb); }
+.testi-img-3 { background: linear-gradient(135deg, #e8e3d5, #c9bfa8); }
+.testi-body { padding: 18px 18px 20px; }
+.testi-stars { color: #e8a87c; font-size: 12px; margin-bottom: 8px; letter-spacing: 2px; }
+.testi-body p { font-size: 12px; color: #4a4540; line-height: 1.6; font-style: italic; }
+.testi-name { margin-top: 12px; font-size: 11px; font-weight: 700; color: var(--muted); }
+
+/* testimonials tweaks */
+.testimonials-content .center-cta{display:flex;flex-direction:column;align-items:center;gap:10px;margin-bottom:14px}
+.testimonials-content.has-reviews{padding-top:18px}
+
+/* ══════════════════════════════
+   PRICING
+══════════════════════════════ */
+.pricing-content h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(22px, 3vw, 34px); font-weight: 700; margin-bottom: 30px;
+}
+.pricing-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; align-items: end; }
+.pricing-card {
+  background: #fff; border: 1px solid var(--border);
+  border-radius: 24px; padding: 28px 24px;
+  display: flex; flex-direction: column; justify-content: space-between;
+  box-shadow: var(--shadow);
+  transition: transform .25s;
+}
+.pricing-card:hover { transform: translateY(-4px); }
+.pricing-card.featured {
+  background: linear-gradient(155deg, #2d1f1a 0%, #4a2e26 100%);
+  color: #fff; border-color: transparent;
+  box-shadow: var(--shadow-lg);
+  transform: translateY(-10px);
+}
+.pricing-card.featured:hover { transform: translateY(-14px); }
+.pricing-label {
+  display: inline-block; background: var(--rose-light); color: var(--rose);
+  border-radius: 20px; padding: 4px 12px;
+  font-size: 10px; font-weight: 700; letter-spacing: 0.08em;
+  text-transform: uppercase; margin-bottom: 16px;
+}
+.pricing-card.featured .pricing-label { background: rgba(196,133,122,0.25); color: rgba(255,200,190,0.9); }
+.pricing-card h3 {
+  font-size: 20px; font-weight: 700;
+  margin-bottom: 20px;
+  font-family: 'Playfair Display', serif;
+}
+.pricing-card ul { list-style: none; margin-bottom: 24px; display: flex; flex-direction: column; gap: 9px; }
+.pricing-card ul li {
+  font-size: 12px; line-height: 1.4;
+  padding-left: 18px; position: relative; color: var(--muted);
+  display: flex; align-items: flex-start; gap: 0;
+}
+.pricing-card.featured ul li { color: rgba(255,255,255,0.65); }
+.pricing-card ul li::before {
+  content: '✓'; position: absolute; left: 0;
+  color: var(--rose); font-size: 11px; font-weight: 700; top: 1px;
+}
+.pricing-card.featured ul li::before { color: rgba(255,160,140,0.8); }
+.pricing-price {
+  font-family: 'Playfair Display', serif;
+  font-size: 30px; font-weight: 700; margin-bottom: 18px;
+}
+.pricing-price span { font-size: 14px; font-weight: 400; opacity: .6; margin-left: 2px; }
+
+/* ══════════════════════════════
+   FAQ
+══════════════════════════════ */
+.faq-content h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(22px, 3vw, 34px); font-weight: 700; margin-bottom: 28px;
+}
+.faq-highlight {
+  background: linear-gradient(135deg, var(--rose-light), var(--warm-light));
+  border-radius: 18px; padding: 20px 24px; margin-bottom: 14px;
+  box-shadow: 0 2px 14px rgba(196,133,122,0.12);
+}
+.faq-list { display: flex; flex-direction: column; }
+.faq-item { border-top: 1px solid var(--border); padding: 18px 0; }
+.faq-item:last-child { border-bottom: 1px solid var(--border); }
+.faq-q {
+  display: flex; justify-content: space-between; align-items: center;
+  cursor: pointer; font-size: 13px; font-weight: 600; gap: 16px;
+}
+.faq-icon {
+  width: 26px; height: 26px; border-radius: 50%;
+  background: var(--card);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 16px; color: var(--muted); flex-shrink: 0;
+  transition: transform .3s, background .3s;
+  font-weight: 400;
+}
+.faq-item.open .faq-icon,
+.faq-highlight.open .faq-icon { transform: rotate(45deg); background: var(--rose-light); color: var(--rose); }
+.faq-a {
+  font-size: 13px; color: var(--muted); line-height: 1.7;
+  max-height: 0; overflow: hidden;
+  transition: max-height .35s ease, padding .3s;
+}
+.faq-item.open .faq-a,
+.faq-highlight.open .faq-a { max-height: 300px; padding-top: 12px; }
+
+/* ══════════════════════════════
+   AUTHOR
+══════════════════════════════ */
+.author { padding: 90px 0 110px; }
+.author-inner { display: grid; grid-template-columns: 340px 1fr; gap: 64px; align-items: center; }
+
+/* polaroid stack */
+.author-photos {
+  position: relative;
+  width: 320px; height: 400px;
+  flex-shrink: 0;
+}
+.polaroid {
+  position: absolute;
+  background: #fff;
+  padding: 12px 12px 40px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.13), 0 2px 8px rgba(0,0,0,0.08);
+  border-radius: 3px;
+}
+.polaroid-main {
+  width: 230px; height: 290px;
+  top: 0; left: 0;
+  transform: rotate(-1.5deg);
+  z-index: 2;
+}
+.polaroid-small {
+  width: 180px; height: 210px;
+  bottom: 0; right: 0;
+  transform: rotate(4deg);
+  z-index: 3;
+  box-shadow: 0 12px 40px rgba(0,0,0,0.18), 0 3px 12px rgba(0,0,0,0.1);
+}
+.polaroid-img {
+  width: 100%; height: calc(100% - 28px);
+  background: #d0ccc4;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 13px; font-weight: 500; color: #aaa;
+  letter-spacing: 0.05em;
+  font-style: italic;
+}
+.polaroid-caption {
+  height: 28px; display: flex; align-items: center; justify-content: center;
+  font-size: 10px; color: #bbb; letter-spacing: 0.05em;
+}
+
+.author-info h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(28px, 3.5vw, 46px); font-weight: 700; margin-bottom: 22px;
+  letter-spacing: -0.01em;
+}
+.author-info ul {
+  list-style: disc; padding-left: 18px;
+  margin-bottom: 32px;
+  display: flex; flex-direction: column; gap: 8px;
+}
+.author-info ul li {
+  font-size: 14px; color: var(--text); line-height: 1.5;
+}
+.author-hint {
+  font-size: 13px; color: var(--muted); line-height: 1.6; margin-top: 18px;
+}
+.author-socials { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; margin-bottom: 0; }
+.social-pill {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 13px 26px; border-radius: 50px;
+  font-size: 13px; font-weight: 600;
+  text-decoration: none; min-width: 220px; justify-content: center;
+  transition: transform .2s, box-shadow .2s;
+}
+.social-pill:hover { transform: translateY(-2px); box-shadow: 0 6px 18px rgba(0,0,0,0.15); }
+.social-pill.tg { background: #3d3d3d; color: #fff; }
+.social-pill.tg svg, .social-pill.wa svg { width: 18px; height: 18px; flex-shrink: 0; }
+.social-pill.wa { background: #3d3d3d; color: #fff; }
+.social-pill.ig { background: linear-gradient(135deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888); color: #fff; }
+.social-pill.site { background: var(--card); color: var(--text); }
+
+/* ══════════════════════════════
+   FOOTER
+══════════════════════════════ */
+footer {
+  border-top: 1px solid var(--border);
+  padding: 28px 48px;
+  display: flex; justify-content: space-between; align-items: center;
+  font-size: 11px; color: var(--muted);
+}
+footer .footer-links { display: flex; gap: 22px; }
+footer a { color: inherit; text-decoration: none; transition: color .2s; }
+footer a:hover { color: var(--rose); }
+
+/* ══════════════════════════════
+   ANIMATIONS
+══════════════════════════════ */
+.reveal {
+  opacity: 0; transform: translateY(30px);
+  transition: opacity 0.65s ease, transform 0.65s ease;
+}
+.reveal.visible { opacity: 1; transform: translateY(0); }
+
+/* ══════════════════════════════
+   RESPONSIVE
+══════════════════════════════ */
+@media (max-width: 768px) {
+  nav { padding: 14px 20px; }
+  nav.scrolled { padding: 10px 20px; }
+  .nav-links { display: none; }
+  .hero-content { padding: 0 24px; }
+  .carousel-dots { left: 24px; }
+  .carousel-arrows { right: 24px; }
+  .container { padding: 0 24px; }
+  .two-col { grid-template-columns: 1fr; }
+  .two-col .sec-label { display: block; }
+  .two-col > *:last-child { grid-column: 1; }
+  .section { padding: 60px 0; }
+  .steps-wrap, .testi-grid, .pricing-grid { grid-template-columns: 1fr; }
+  .pricing-card.featured { transform: none; }
+  .author-inner { grid-template-columns: 1fr; }
+  .author-photos { width: 280px; height: 340px; margin: 0 auto 20px; }
+  .module-card.two-panel { grid-template-columns: 1fr; }
+  .module-card-visual { display: none; }
+  footer { flex-direction: column; gap: 14px; text-align: center; padding: 24px 20px; }
+  .quote-banner { padding: 40px 24px; }
+
+  /* admin on mobile */
+  .site-admin-btn{position:fixed;right:12px;top:80px;z-index:9999;margin-left:0}
+  #admin-panel{right:-100%;width:100%;max-width:100%;border-radius:0}
+  #admin-panel.open{right:0}
+}
+
+/* Admin panel styles - button positioned in nav */
+.site-admin-btn{
+  position:relative;right:auto;top:auto;z-index:9999;padding:9px 16px;border-radius:var(--btn-r);background:var(--btn-dark);color:#fff;border:none;cursor:pointer;font-weight:700;font-size:11px;letter-spacing:0.1em;text-transform:uppercase;margin-left:12px;display:inline-flex;align-items:center;gap:6px;transition:transform .2s,box-shadow .2s}
+.site-admin-btn:hover{transform:translateY(-1px);box-shadow:0 4px 16px rgba(0,0,0,0.25)}
+
+/* Admin panel - slide from right */
+#admin-panel{
+  position:fixed;top:0;right:-450px;width:450px;height:100vh;background:#fff;
+  box-shadow:-4px 0 20px rgba(0,0,0,0.15);overflow-y:auto;transition:right 0.3s ease;z-index:10000
+}
+#admin-panel{display:block} /* default hidden via right:-450px */
+#admin-panel.open{right:0}
+#admin-panel .admin-header{
+  padding:20px 24px;background:linear-gradient(135deg,var(--rose),#a86b5d);color:#fff;
+  display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;box-shadow:0 2px 8px rgba(0,0,0,0.1)
+}
+#admin-panel .admin-header h3{margin:0;font-size:18px;font-family:'Playfair Display',serif}
+#admin-panel .admin-close{
+  width:32px;height:32px;border:none;background:rgba(255,255,255,0.2);color:#fff;border-radius:6px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all 0.3s
+}
+#admin-panel .admin-close:hover{background:rgba(255,255,255,0.3)}
+#admin-panel .admin-tabs{
+  display:flex;flex-wrap:wrap;gap:6px;padding:16px 20px;border-bottom:1px solid #eee;background:#fafafa
+}
+.admin-tab{
+  background:#fff;border:1px solid #e0e0e0;padding:8px 14px;border-radius:20px;cursor:pointer;font-weight:600;font-size:12px;transition:all 0.2s
+}
+.admin-tab:hover{border-color:var(--rose);color:var(--rose)}
+.admin-tab.active{
+  background:linear-gradient(135deg,var(--rose),#a86b5d);color:#fff;border-color:transparent;box-shadow:0 4px 12px rgba(196,133,122,0.3)
+}
+#admin-panel .admin-section-title{font-weight:700;margin-bottom:8px;font-family:'Playfair Display',serif;font-size:16px}
+#admin-panel .admin-row{display:flex;justify-content:space-between;align-items:center;padding:12px;border-bottom:1px solid #f0f0f0}
+#admin-panel .admin-actions button{margin-left:8px}
+
+#admin-panel .admin-empty{color:#999;padding:20px;text-align:center;font-style:italic}
+#admin-panel .admin-list-item{
+  padding:14px;border-radius:10px;background:#fff;border:1px solid #eee;margin:8px 20px;
+  transition:box-shadow 0.2s
+}
+#admin-panel .admin-list-item:hover{box-shadow:0 4px 12px rgba(0,0,0,0.08)}
+#admin-panel .admin-list-item .meta{color:#888;font-size:12px;margin-top:6px}
+
+.admin-input{width:100%;padding:10px 14px;border:1px solid #ddd;border-radius:8px;font-family:'Raleway',sans-serif;font-size:14px;transition:border-color 0.2s}
+.admin-input:focus{outline:none;border-color:var(--rose)}
+.admin-textarea{width:100%;padding:10px 14px;border:1px solid #ddd;border-radius:8px;min-height:80px;font-family:'Raleway',sans-serif;font-size:14px;resize:vertical}
+.admin-textarea:focus{outline:none;border-color:var(--rose)}
+
+.admin-action-primary{
+  background:linear-gradient(135deg,var(--rose),#a86b5d);color:#fff;border:none;
+  padding:10px 16px;border-radius:8px;cursor:pointer;font-weight:600;font-size:13px;transition:transform 0.2s,box-shadow 0.2s
+}
+.admin-action-primary:hover{transform:translateY(-1px);box-shadow:0 4px 12px rgba(196,133,122,0.4)}
+.admin-action-danger{
+  background:#e74c3c;color:#fff;border:none;padding:10px 16px;border-radius:8px;cursor:pointer;font-weight:600;font-size:13px;transition:background 0.2s
+}
+.admin-action-danger:hover{background:#c0392b}
+
+.admin-btn-edit{
+  background:#6c757d;color:#fff;border:none;padding:8px 12px;border-radius:6px;cursor:pointer;font-size:12px;margin-right:6px
+}
+.admin-btn-edit:hover{background:#5a6268}
+
+.pricing-grid .pricing-card{display:flex;flex-direction:column;justify-content:space-between}
+
+</style>
 </head>
 <body>
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-        import { getDatabase, ref, onValue, set, update, get, push, remove } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
 
-        const firebaseConfig = {
-            apiKey: "AIzaSyC57bRYXu4-9QS1egYAYeSzLg2U8jtYdfI",
-            authDomain: "endorphin-lux.firebaseapp.com",
-            databaseURL: "https://endorphin-lux-default-rtdb.firebaseio.com",
-            projectId: "endorphin-lux",
-            storageBucket: "endorphin-lux.firebasestorage.app",
-            messagingSenderId: "1022654583755",
-            appId: "1:1022654583755:web:2852e49be8b98f0f825c4e"
-        };
+<!-- ══ NAV ══ -->
+<nav id="main-nav">
+  <div class="nav-logo">Валерия Паилидис</div>
+  <div class="nav-links">
+    <a href="#pain">О курсе</a>
+    <a href="#direction">Программа</a>
+    <a href="#how">Как это будет</a>
+    <a href="#pricing">Тарифы</a>
+    <a href="#faq">FAQ</a>
+  </div>
+  <a href="#pricing" class="nav-cta">Записаться</a>
+</nav>
 
-        const app = initializeApp(firebaseConfig);
-        const db = getDatabase(app);
+<!-- ══ HERO + CAROUSEL ══ -->
+<div class="hero-wrap">
 
-        // ДАННЫЕ
-        let appData = {
-            about: { name: "Елена Волкова", specialty: "Клинический психолог", bio: "Помогаю женщинам отыскать гармонию внутри себя", experience: 10 },
-            contacts: { phone: "79990000000", telegram: "psychologist_nick" },
-            sections: {}
-        };
+  <!-- Slides -->
+  <div class="carousel-slides">
+    <div class="carousel-slide active">
+      <img src="images/1.png" alt="slide-1">
+      <div class="slide-shape" style="width:500px;height:500px;background:rgba(200,133,122,0.28);top:-100px;right:-100px;"></div>
+    </div>
+    <div class="carousel-slide">
+      <img src="images/2.png" alt="slide-2">
+      <div class="slide-shape" style="width:600px;height:400px;background:rgba(122,154,200,0.24);top:0;right:-50px;"></div>
+    </div>
+    <div class="carousel-slide">
+      <img src="images/3.png" alt="slide-3">
+      <div class="slide-shape" style="width:450px;height:450px;background:rgba(168,122,200,0.22);top:-80px;left:30%;"></div>
+    </div>
+    <div class="carousel-slide">
+      <img src="images/4.png" alt="slide-4">
+      <div class="slide-shape" style="width:500px;height:350px;background:rgba(200,168,122,0.22);top:50px;right:0;"></div>
+    </div>
+  </div>
 
-        let customSections = {};
-        let servicesData = {};
-        let reviewsData = {};
-        let bookingsData = {};
-        let consultationSlots = {};
-        let isAdmin = false;
+  <!-- Overlay -->
+  <div class="hero-overlay"></div>
 
-        // ИНИЦИАЛИЗАЦИЯ
-        function initApp() {
-            checkAdmin();
-            loadData();
-            setupEventListeners();
+  <!-- Content -->
+  <div class="hero-content">
+    <div id="heroBadge" class="hero-badge">Онлайн-программа · 5 недель</div>
+    <h1 id="heroTitle">Путь к счастью<br><em>через сеть</em></h1>
+    <p id="heroSubtitle">Программа для женщин, которые хотят найти настоящие отношения через онлайн‑знакомства — без разочарований и потери времени.</p>
+    <div class="hero-btns">
+      <a href="#pricing" class="btn btn-dark">Узнать больше</a>
+      <a href="#pain" class="btn btn-outline-white">Как это работает</a>
+    </div>
+  </div>
+
+  <!-- Dots -->
+  <div class="carousel-dots">
+    <div class="dot active" onclick="goToSlide(0)"></div>
+    <div class="dot" onclick="goToSlide(1)"></div>
+    <div class="dot" onclick="goToSlide(2)"></div>
+    <div class="dot" onclick="goToSlide(3)"></div>
+  </div>
+
+  <!-- Arrows -->
+  <div class="carousel-arrows">
+    <button class="arrow-btn" onclick="prevSlide()" aria-label="Назад">&#8592;</button>
+    <button class="arrow-btn" onclick="nextSlide()" aria-label="Вперёд">&#8594;</button>
+  </div>
+
+  <!-- Scroll hint -->
+  <div class="scroll-hint">
+    <span>Скролл</span>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <path d="M12 5v14M5 12l7 7 7-7"/>
+    </svg>
+  </div>
+
+</div><!-- /hero-wrap -->
+
+<!-- ══ PAIN ══ -->
+<section class="section" id="pain">
+  <div class="container">
+    <div class="two-col reveal">
+      <div class="sec-label">до курса</div>
+      <div class="pain-content">
+        <h2>Если на твоём пути было…</h2>
+        <div class="chat-list">
+          <div class="bubble bubble-left">Мы так долго общались, а потом он просто пропал…</div>
+          <div class="bubble bubble-right">Я устала от пустых переписок ни о чём</div>
+          <div class="bubble bubble-left">Кажется, в приложениях только те, кто не хочет серьёзного</div>
+          <div class="bubble bubble-center">
+            Снова первое свидание, снова улыбаться и не знать — зачем я здесь?<br>
+            Хочется просто нормальных отношений, без этого всего…
+          </div>
+        </div>
+        <div class="pain-divider">… ты и раскроешь раскрою тебе секрет…</div>
+        <p class="pain-closing">
+          Не все свидания ведут к любви,<br>зато все — к пониманию себя
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Leave review modal -->
+<div id="leaveReviewModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);align-items:center;justify-content:center;z-index:9998;">
+  <div style="background:#fff;padding:20px;border-radius:12px;max-width:520px;margin:40px auto;position:relative;">
+    <button id="closeReviewModalBtn" style="position:absolute;right:12px;top:12px;border:none;background:transparent;font-size:18px;cursor:pointer;">✕</button>
+    <h3 style="margin-bottom:8px;font-family:'Playfair Display',serif;">Оставить отзыв</h3>
+    <form id="leaveReviewForm" style="display:grid;gap:8px;">
+      <input name="firstName" placeholder="Имя (обязательно)" required style="padding:10px;border:1px solid #eee;border-radius:8px;">
+      <input name="lastName" placeholder="Фамилия (обязательно)" required style="padding:10px;border:1px solid #eee;border-radius:8px;">
+      <textarea name="text" placeholder="Ваш отзыв (обязательно)" rows="5" required style="padding:10px;border:1px solid #eee;border-radius:8px;"></textarea>
+      <div style="display:flex;gap:8px;align-items:center;">
+        <button type="submit" class="btn btn-dark">Отправить</button>
+        <div id="leaveReviewStatus" style="color:var(--muted);"></div>
+      </div>
+    </form>
+  </div>
+</div>
+
+
+<!-- ══ QUOTE ══ -->
+<div class="quote-banner reveal">
+  <div class="container">
+    <h2>Не все свидания ведут к любви,<br>зато все — к пониманию себя</h2>
+  </div>
+</div>
+
+<!-- ══ DIRECTION ══ -->
+<section class="section" id="direction">
+  <div class="container">
+    <div class="two-col reveal">
+      <div class="sec-label">курс</div>
+      <div class="direction-content">
+        <h2>Направлю твой взгляд</h2>
+        <p class="subtitle">Глубокая работа с собой, своими паттернами и тем, как ты строишь отношения в онлайн-пространстве.</p>
+        <div class="module-cards">
+          <div class="module-card two-panel">
+            <div class="module-card-body">
+              <div class="module-tag">Модуль 1</div>
+              <h4>Начнёшь с себя, а не с него</h4>
+              <p>Найдёшь блоки, которые мешают строить близость. Поймёшь, каких партнёров ты притягиваешь и почему.</p>
+            </div>
+            <div class="module-card-visual">🪞</div>
+          </div>
+          <div class="module-card two-panel">
+            <div class="module-card-body">
+              <div class="module-tag">Модуль 2</div>
+              <h4>Переписка как инструмент</h4>
+              <p>Научишься выстраивать общение так, чтобы сразу видеть намерения человека — без лишнего времени.</p>
+            </div>
+            <div class="module-card-visual">💬</div>
+          </div>
+          <div class="module-card">
+            <div class="module-card-body">
+              <div class="module-tag">Модуль 3</div>
+              <h4>Свидание не как испытание</h4>
+              <p>Первые встречи перестанут быть стрессом. Ты будешь приходить с ясной головой и выбирать сама — а не ждать оценки.</p>
+            </div>
+          </div>
+        </div>
+
+            <!-- Booking modal (выбор услуги) -->
+            <div id="bookingModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:9998;align-items:center;justify-content:center;">
+              <!-- overlay remains full-screen; inner box будет центрирован по центру экрана -->
+              <div id="bookingBox" style="position:absolute;background:#fff;padding:18px;border-radius:12px;max-width:520px;width:340px;box-shadow:0 12px 40px rgba(0,0,0,0.18);">
+                <button id="closeBookingModalBtn" style="position:absolute;right:12px;top:12px;border:none;background:transparent;font-size:18px;cursor:pointer;">✕</button>
+                <h3 style="margin-bottom:8px;font-family:'Playfair Display',serif;">Запись на услугу</h3>
+                <div id="bookingInfo" style="margin-bottom:8px;font-weight:700;"><span id="bookingServiceTitle"></span> — <span id="bookingServicePrice"></span></div>
+                <form id="bookingForm" style="display:grid;gap:8px;">
+                  <input name="firstName" placeholder="Имя (обязательно)" required style="padding:10px;border:1px solid #eee;border-radius:8px;">
+                  <input name="lastName" placeholder="Фамилия (обязательно)" required style="padding:10px;border:1px solid #eee;border-radius:8px;">
+                  <input name="phone" placeholder="Телефон или WhatsApp (обязательно)" required style="padding:10px;border:1px solid #eee;border-radius:8px;">
+                  <textarea name="note" placeholder="Коротко: что нужно" rows="4" required style="padding:10px;border:1px solid #eee;border-radius:8px;"></textarea>
+                  <input type="hidden" name="serviceId">
+                  <div style="display:flex;gap:8px;align-items:center;">
+                    <button type="submit" class="btn btn-dark">Отправить заявку</button>
+                    <div id="bookingStatus" style="color:var(--muted);"></div>
+                  </div>
+                </form>
+              </div>
+            </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ HOW ══ -->
+<section class="section" id="how" style="background: #fff;">
+  <div class="container">
+    <div class="two-col reveal">
+      <div class="sec-label">программа</div>
+      <div class="how-content">
+        <h2>Как это будет…</h2>
+        <p class="subtitle">5 недель интенсивной, но деликатной работы — онлайн, в своём темпе, с поддержкой.</p>
+        <div class="steps-wrap">
+          <div class="step-card">
+            <div class="step-num">Шаг 01</div>
+            <h4>Диагностика</h4>
+            <p>Заполняешь анкету и получаешь первый разбор своего типа привязанности</p>
+          </div>
+          <div class="step-center">
+            <div class="orbit">
+              <div class="orbit-dot"></div>
+              <div class="orbit-inner">Ты<br>в центре</div>
+            </div>
+          </div>
+          <div class="step-card">
+            <div class="step-num">Шаг 02</div>
+            <h4>Практики</h4>
+            <p>Видео-уроки, рефлексивные задания и живые разборы реальных ситуаций</p>
+          </div>
+          <div class="step-card">
+            <div class="step-num">Шаг 03</div>
+            <h4>Поддержка</h4>
+            <p>Чат с куратором и другими участницами. Ты не одна в этом процессе</p>
+          </div>
+          <div></div>
+          <div class="step-card">
+            <div class="step-num">Шаг 04</div>
+            <h4>Результат</h4>
+            <p>Финальная сессия — осознаёшь, что изменилось, и идёшь вперёд с новым взглядом</p>
+          </div>
+        </div>
+        <div class="steps-cta">
+          <a href="#pricing" class="btn btn-rose">Начать путь</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ TESTIMONIALS ══ -->
+<section class="section" id="testimonials">
+  <div class="container">
+    <div class="two-col reveal">
+      <div class="sec-label">отзывы</div>
+      <div class="testimonials-content">
+        <h2>Истории клиенток</h2>
+        <div class="center-cta">
+          <div style="font-size:14px;color:var(--muted);">Истории клиенток</div>
+          <div><button id="leaveReviewBtn" class="btn btn-rose">Оставить отзыв</button></div>
+        </div>
+        <div id="reviewsGrid" class="testi-grid"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ PRICING ══ -->
+<section class="section" id="pricing" style="background: #fff;">
+  <div class="container">
+    <div class="two-col reveal">
+      <div class="sec-label">варианты</div>
+      <div class="pricing-content">
+        <h2>Варианты прохождения курса</h2>
+        <div id="pricingGrid" class="pricing-grid">
+          <!-- Элементы тарифов будут подгружаться из Firebase (services) -->
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ FAQ ══ -->
+<section class="section" id="faq">
+  <div class="container">
+    <div class="two-col reveal">
+      <div class="sec-label">вопросы</div>
+      <div class="faq-content">
+        <h2>Важные вопросы</h2>
+
+        <div class="faq-highlight" id="faq-h">
+          <div class="faq-q" onclick="toggleFaqEl('faq-h')">
+            <span>Вы гарантируете результат?</span>
+            <span class="faq-icon">+</span>
+          </div>
+          <div class="faq-a">Я не обещаю, что вы выйдете замуж. Я обещаю, что вы начнёте лучше понимать себя, сделаете осознанные выборы и перестанете бояться свиданий. Это уже огромный результат, который меняет всё.</div>
+        </div>
+
+        <div class="faq-list">
+          <div class="faq-item">
+            <div class="faq-q" onclick="toggleFaq(this)">
+              <span>Подойдёт ли курс, если я никогда не была на свидании из приложений?</span>
+              <span class="faq-icon">+</span>
+            </div>
+            <div class="faq-a">Да, абсолютно. Курс строится на базовых принципах коммуникации и самопознания — они работают вне зависимости от опыта.</div>
+          </div>
+          <div class="faq-item">
+            <div class="faq-q" onclick="toggleFaq(this)">
+              <span>Сколько времени в неделю нужно?</span>
+              <span class="faq-icon">+</span>
+            </div>
+            <div class="faq-a">Около 3–4 часов в неделю: видео, задания и при желании — участие в групповых разборах.</div>
+          </div>
+          <div class="faq-item">
+            <div class="faq-q" onclick="toggleFaq(this)">
+              <span>Я живу не в России — это важно?</span>
+              <span class="faq-icon">+</span>
+            </div>
+            <div class="faq-a">Совсем не важно. Всё проходит онлайн, участницы из разных стран.</div>
+          </div>
+          <div class="faq-item">
+            <div class="faq-q" onclick="toggleFaq(this)">
+              <span>Когда ближайший поток?</span>
+              <span class="faq-icon">+</span>
+            </div>
+            <div class="faq-a">Запишитесь сейчас, и я сообщу вам о ближайшем старте первой.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ AUTHOR ══ -->
+<section class="author" id="author">
+  <div class="container">
+    <div style="margin-bottom:10px;" class="reveal"><span class="sec-label">об авторе</span></div>
+    <div class="author-inner reveal">
+
+      <!-- Polaroid photos -->
+      <div class="author-photos">
+        <div class="polaroid polaroid-main">
+          <div class="polaroid-img"><img src="images/2.png" alt="author" style="width:100%;height:100%;object-fit:cover;display:block;border-radius:6px;"></div>
+          <div class="polaroid-caption">Фото</div>
+        </div>
+        <div class="polaroid polaroid-small">
+          <div class="polaroid-img"><img src="images/4.png" alt="author-small" style="width:100%;height:100%;object-fit:cover;display:block;border-radius:6px;"></div>
+          <div class="polaroid-caption">Фото</div>
+        </div>
+      </div>
+
+      <!-- Info -->
+      <div class="author-info">
+        <h2>Валерия Павлидис</h2>
+        <ul>
+          <li>Системный семейный терапевт</li>
+          <li>об опыте (кол-во лет практики?)</li>
+          <li>текст</li>
+          <li>текст</li>
+        </ul>
+        <div class="author-socials">
+          <a href="#" class="social-pill tg">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.562 8.248-2.04 9.613c-.148.658-.537.818-1.084.508l-3-2.21-1.447 1.394c-.16.16-.295.295-.605.295l.213-3.053 5.56-5.023c.242-.213-.054-.333-.373-.12l-6.871 4.326-2.962-.924c-.643-.204-.657-.643.136-.953l11.57-4.461c.537-.194 1.006.131.903.608z"/></svg>
+            написать в Telegram
+          </a>
+          <a href="#" class="social-pill wa">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+            написать в WhatsApp
+          </a>
+        </div>
+        <p class="author-hint">для тех кому трудно сделать первый шаг<br>— заполните форму и я свяжусь с Вами сама</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ══ FOOTER ══ -->
+<!-- ══ CONTACT / LEAD FORM ══ -->
+<section class="section" id="contact-form" style="background:var(--card2);">
+  <div class="container">
+    <div class="two-col reveal">
+      <div class="sec-label">контакт</div>
+      <div style="padding:28px; background:#fff; border-radius:18px; box-shadow:var(--shadow);">
+        <h2 style="font-family: 'Playfair Display', serif; margin-bottom:8px;">Оставьте заявку</h2>
+        <p style="color:var(--muted); margin-bottom:18px;">Я свяжусь с вами лично и помогу подобрать вариант участия.</p>
+        <form id="contactForm" style="display:grid; gap:12px; grid-template-columns:1fr;">
+          <input name="name" placeholder="Ваше имя" required style="padding:12px;border:1px solid var(--border);border-radius:10px;">
+          <input name="phone" placeholder="Телефон или Telegram" required style="padding:12px;border:1px solid var(--border);border-radius:10px;">
+          <textarea name="message" placeholder="Коротко о запросе (необязательно)" rows="4" style="padding:12px;border:1px solid var(--border);border-radius:10px;"></textarea>
+          <div style="display:flex;gap:12px;align-items:center;">
+            <button type="submit" class="btn btn-dark">Отправить</button>
+            <div id="contactStatus" style="color:var(--muted);font-size:13px;"></div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div>© 2026 Валерия Паилидис · Все права защищены</div>
+  <div class="footer-links">
+    <a href="#">Политика конфиденциальности</a>
+    <a href="#">Оферта</a>
+    <a href="#">Контакты</a>
+  </div>
+</footer>
+
+<script>
+// ── CAROUSEL ──
+let current = 0;
+const slides = document.querySelectorAll('.carousel-slide');
+const dots = document.querySelectorAll('.dot');
+let timer;
+
+function goToSlide(n) {
+  slides[current].classList.remove('active');
+  dots[current].classList.remove('active');
+  current = (n + slides.length) % slides.length;
+  slides[current].classList.add('active');
+  dots[current].classList.add('active');
+  resetTimer();
+}
+function nextSlide() { goToSlide(current + 1); }
+function prevSlide() { goToSlide(current - 1); }
+function resetTimer() {
+  clearInterval(timer);
+  timer = setInterval(nextSlide, 5000);
+}
+timer = setInterval(nextSlide, 5000);
+
+// ── NAV SCROLL ──
+window.addEventListener('scroll', () => {
+  document.getElementById('main-nav').classList.toggle('scrolled', window.scrollY > 60);
+});
+
+// ── FAQ ──
+function toggleFaq(el) {
+  el.closest('.faq-item').classList.toggle('open');
+}
+function toggleFaqEl(id) {
+  document.getElementById(id).classList.toggle('open');
+}
+
+// ── REVEAL ──
+const revealObs = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.classList.add('visible');
+      revealObs.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.08 });
+
+document.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
+</script>
+
+<!-- Firebase + contact handling + admin panel -->
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+  import { getDatabase, ref, push, onValue, remove, set, update, get } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyC57bRYXu4-9QS1egYAYeSzLg2U8jtYdfI",
+    authDomain: "endorphin-lux.firebaseapp.com",
+    databaseURL: "https://endorphin-lux-default-rtdb.firebaseio.com",
+    projectId: "endorphin-lux",
+    storageBucket: "endorphin-lux.firebasestorage.app",
+    messagingSenderId: "1022654583755",
+    appId: "1:1022654583755:web:2852e49be8b98f0f825c4e"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db = getDatabase(app);
+
+  // клиентская кэш-переменная для services и render
+  let services = {};
+
+  // Загрузка и отображение контента с сайта
+  function loadSiteContent(){
+    onValue(ref(db, 'siteContent'), (snap)=>{
+      const content = snap.val() || {};
+      
+      // Обновляем логотип
+      if(content.nav && content.nav.logoName){
+        const logoEl = document.querySelector('.nav-logo');
+        if(logoEl) logoEl.textContent = content.nav.logoName;
+        // Обновляем footer тоже
+        const footerEl = document.querySelector('footer div');
+        if(footerEl && footerEl.textContent.includes('©')){
+          const currentYear = new Date().getFullYear();
+          footerEl.textContent = `© ${currentYear} ${content.nav.logoName} · Все права защищены`;
         }
-
-        function checkAdmin() {
-            const urlParams = new URLSearchParams(location.search);
-            const hash = window.location.hash;
-            if (urlParams.get('admin') === 'psykolog2024' || hash === '#admin') {
-                isAdmin = true;
-                showAdminButton();
-            }
-        }
-
-        function showAdminButton() {
-            const adminBtn = document.getElementById('adminBtn');
-            if (adminBtn) adminBtn.style.display = 'inline-flex';
-            updateNotifications();
-        }
-
-        function updateNotifications() {
-            const bookingCount = Object.keys(bookingsData).length;
-            const reviewCount = Object.keys(reviewsData).length;
-            const totalCount = bookingCount + reviewCount;
-            const displayCount = totalCount > 9 ? '9+' : totalCount;
-            
-            const notificationEl = document.getElementById('adminNotification');
-            if (notificationEl) {
-                if (totalCount > 0) {
-                    notificationEl.textContent = displayCount;
-                    notificationEl.style.display = 'flex';
-                } else {
-                    notificationEl.style.display = 'none';
-                }
-            }
-        }
-
-        function loadData() {
-            onValue(ref(db, 'psycholoog'), (snap) => {
-                appData = snap.val() || appData;
-                renderAbout();
-                updateContacts();
-            });
-
-            onValue(ref(db, 'customSections'), (snap) => {
-                customSections = snap.val() || {};
-                renderCustomSections();
-            });
-
-            onValue(ref(db, 'services'), (snap) => {
-                servicesData = snap.val() || {};
-                renderServices();
-            });
-
-            onValue(ref(db, 'reviews'), (snap) => {
-                reviewsData = snap.val() || {};
-                renderReviews();
-                updateNotifications();
-            });
-
-            onValue(ref(db, 'bookings'), (snap) => {
-                bookingsData = snap.val() || {};
-                updateNotifications();
-            });
-
-            onValue(ref(db, 'consultationSlots'), (snap) => {
-                consultationSlots = snap.val() || {};
-            });
-        }
-
-        function renderAbout() {
-            const nameEl = document.getElementById('psychName');
-            const specEl = document.getElementById('psychSpec');
-            const bioEl = document.getElementById('psychBio');
-            const expEl = document.getElementById('psychExp');
-
-            if (nameEl) nameEl.textContent = appData.about.name;
-            if (specEl) specEl.textContent = appData.about.specialty;
-            if (bioEl) bioEl.textContent = appData.about.bio;
-            if (expEl) expEl.textContent = appData.about.experience + ' лет';
-        }
-
-        function updateContacts() {
-            const phoneLinks = document.querySelectorAll('[data-role="phone"]');
-            const tgLinks = document.querySelectorAll('[data-role="telegram"]');
-
-            phoneLinks.forEach(el => {
-                el.href = 'tel:+' + appData.contacts.phone;
-                el.textContent = '+' + appData.contacts.phone;
-            });
-
-            tgLinks.forEach(el => {
-                el.href = 'https://t.me/' + appData.contacts.telegram;
-                el.textContent = '@' + appData.contacts.telegram;
-            });
-        }
-
-        function renderCustomSections() {
-            const container = document.getElementById('customSectionsContainer');
-            if (!container) return;
-
-            container.innerHTML = '';
-
-            if (Object.keys(customSections).length === 0) {
-                return; // Не показываем пустой контейнер
-            }
-
-            Object.entries(customSections).forEach(([id, section]) => {
-                const sectionEl = document.createElement('section');
-                sectionEl.className = 'custom-section';
-                sectionEl.id = 'section-' + id;
-
-                let content = `<div class="container"><h2>${escapeHtml(section.title)}</h2>`;
-
-                if (section.type === 'text') {
-                    content += `<div class="section-text">${section.content || ''}</div>`;
-                } else if (section.type === 'cards') {
-                    content += `<div class="cards-grid">`;
-                    if (section.items) {
-                        Object.entries(section.items).forEach(([, item]) => {
-                            content += `<div class="card"><h3>${escapeHtml(item.title)}</h3><p>${escapeHtml(item.description || '')}</p></div>`;
-                        });
-                    }
-                    content += `</div>`;
-                } else if (section.type === 'blog') {
-                    content += `<div class="blog-grid">`;
-                    if (section.items) {
-                        Object.entries(section.items).forEach(([, item]) => {
-                            content += `<article class="blog-card"><h3>${escapeHtml(item.title)}</h3><p class="blog-date">${item.date || ''}</p><p>${escapeHtml(item.content || '')}</p></article>`;
-                        });
-                    }
-                    content += `</div>`;
-                }
-
-                content += `</div>`;
-                sectionEl.innerHTML = content;
-                container.appendChild(sectionEl);
-            });
-        }
-
-        function renderReviews() {
-            const reviewsContainer = document.getElementById('reviewsContainer');
-            if (!reviewsContainer) return;
-
-            reviewsContainer.innerHTML = '';
-
-            const reviews = Object.values(reviewsData).slice(-6);
-            if (reviews.length === 0) {
-                reviewsContainer.innerHTML = '<p style="text-align: center; padding: 40px; color: #999;">Отзывов пока нет. станьте первой!</p>';
-                return;
-            }
-
-            reviews.forEach(review => {
-                const reviewEl = document.createElement('div');
-                reviewEl.className = 'review-card';
-                reviewEl.innerHTML = `
-                    <div class="review-rating">${'⭐'.repeat(review.rating)}</div>
-                    <p class="review-text">"${escapeHtml(review.text)}"</p>
-                    <p class="review-author">— ${escapeHtml(review.author)}</p>
-                `;
-                reviewsContainer.appendChild(reviewEl);
-            });
-        }
-
-        function setupEventListeners() {
-            document.getElementById('closeBookingModal')?.addEventListener('click', closeBookingModal);
-            document.getElementById('bookingForm')?.addEventListener('submit', submitBooking);
-            document.getElementById('reviewBtn')?.addEventListener('click', openReviewModal);
-            document.getElementById('closeReviewModal')?.addEventListener('click', closeReviewModal);
-            document.getElementById('reviewForm')?.addEventListener('submit', submitReview);
-            
-            // Обработчик формы записи на консультацию
-            document.getElementById('consultationBookingForm')?.addEventListener('submit', submitConsultationBooking);
-
-            // Модал закрывается при клике вне его
-            document.getElementById('bookingModal')?.addEventListener('click', (e) => {
-                const modal = document.getElementById('bookingModal');
-                if (e.target.id === 'bookingModal' || modal.classList.contains('positioned')) {
-                    closeBookingModal();
-                }
-            });
-
-            document.getElementById('reviewModal')?.addEventListener('click', (e) => {
-                if (e.target.id === 'reviewModal') closeReviewModal();
-            });
-            
-            document.getElementById('noSlotsModal')?.addEventListener('click', (e) => {
-                if (e.target.id === 'noSlotsModal') closeNoSlotsModal();
-            });
-            
-            document.getElementById('consultationSlotModal')?.addEventListener('click', (e) => {
-                if (e.target.id === 'consultationSlotModal') document.getElementById('consultationSlotModal').classList.remove('open');
-            });
-            
-            document.getElementById('consultationBookingModal')?.addEventListener('click', (e) => {
-                if (e.target.id === 'consultationBookingModal') closeConsultationBookingModal();
-            });
-            
-            document.getElementById('bookingSuccessModal')?.addEventListener('click', (e) => {
-                if (e.target.id === 'bookingSuccessModal') closeBookingSuccessModal();
-            });
-        }
-
-        function openBookingModal() {
-            document.getElementById('bookingModal').classList.add('open');
-            
-            // Заполняем список услуг
-            const serviceSelect = document.getElementById('bookingServiceSelect');
-            if (serviceSelect) {
-                serviceSelect.innerHTML = '<option value="">Выберите услугу</option>';
-                Object.values(servicesData).forEach(service => {
-                    const option = document.createElement('option');
-                    option.value = service.id;
-                    option.textContent = `${service.title} - ${service.price} ₽`;
-                    serviceSelect.appendChild(option);
-                });
-            }
+      }
+      
+      // Обновляем информацию об авторе
+      if(content.author){
+        const authorNameEl = document.querySelector('.author-info h2');
+        if(authorNameEl && content.author.name) authorNameEl.textContent = content.author.name;
+        
+        // Обновляем список
+        const authorListEl = document.querySelector('.author-info ul');
+        if(authorListEl && content.author.items && content.author.items.length > 0){
+          authorListEl.innerHTML = content.author.items.map(item => `<li>${escapeHtml(item)}</li>`).join('');
         }
         
-        window.updateBookingService = function(serviceId) {
-            if (!serviceId) return;
-            
-            const service = servicesData[serviceId];
-            if (service) {
-                document.getElementById('bookingServiceId').value = service.title;
-                document.getElementById('bookingServicePrice').value = service.price;
-                document.getElementById('bookingServiceName').textContent = service.title;
-                document.getElementById('bookingServicePriceText').textContent = service.price + ' ₽';
-                document.getElementById('bookingServiceInfo').style.display = 'block';
-            }
-        };
-
-        function closeBookingModal() {
-            const modal = document.getElementById('bookingModal');
-            modal.classList.remove('open');
-            modal.classList.remove('positioned');
-            
-            // Сброс позиционирования
-            const modalInner = modal.querySelector('.modal-inner');
-            if (modalInner) {
-                modalInner.style.position = '';
-                modalInner.style.top = '';
-                modalInner.style.left = '';
-                modalInner.style.maxWidth = '';
-            }
-            
-            // Сброс состояния формы
-            document.getElementById('bookingServiceId').value = '';
-            document.getElementById('bookingServicePrice').value = '';
-            document.getElementById('bookingServiceInfo').style.display = 'none';
-            
-            const serviceSelect = document.getElementById('bookingServiceSelect');
-            if (serviceSelect) {
-                serviceSelect.disabled = false;
-                serviceSelect.value = '';
-            }
-            
-            const serviceSelectGroup = document.getElementById('serviceSelectGroup');
-            if (serviceSelectGroup) {
-                serviceSelectGroup.style.display = 'block';
-            }
+        // Обновляем подсказку
+        const authorHintEl = document.querySelector('.author-hint');
+        if(authorHintEl && content.author.hint){
+          authorHintEl.innerHTML = content.author.hint.replace(/\n/g, '<br>');
         }
-
-        window.openBookingModalWithService = function(serviceId, serviceTitle, price, event) {
-            // Предотвращаем стандартное поведение
-            if (event) {
-                event.preventDefault();
-                event.stopPropagation();
-            }
-            
-            // Заполняем данные об услуге
-            document.getElementById('bookingServiceId').value = serviceTitle;
-            document.getElementById('bookingServicePrice').value = price;
-            document.getElementById('bookingServiceName').textContent = serviceTitle;
-            document.getElementById('bookingServicePriceText').textContent = price + ' ₽';
-            document.getElementById('bookingServiceInfo').style.display = 'block';
-            
-            const modal = document.getElementById('bookingModal');
-            
-            // Если передано событие, позиционируем окно рядом с кнопкой
-            if (event && event.target) {
-                const btn = event.target.closest('button') || event.target;
-                const rect = btn.getBoundingClientRect();
-                
-                // Добавляем класс для позиционирования рядом с кнопкой
-                modal.classList.add('positioned');
-                
-                // Устанавливаем позицию
-                const modalInner = modal.querySelector('.modal-inner');
-                if (modalInner) {
-                    modalInner.style.position = 'absolute';
-                    modalInner.style.top = (rect.bottom + 10) + 'px';
-                    modalInner.style.left = Math.max(10, rect.left) + 'px';
-                    modalInner.style.maxWidth = '400px';
-                }
-            } else {
-                // Стандартное центрированное позиционирование
-                modal.classList.remove('positioned');
-                const modalInner = modal.querySelector('.modal-inner');
-                if (modalInner) {
-                    modalInner.style.position = '';
-                    modalInner.style.top = '';
-                    modalInner.style.left = '';
-                    modalInner.style.maxWidth = '';
-                }
-            }
-            
-            modal.classList.add('open');
-        };
-
-        async function submitBooking(e) {
-            e.preventDefault();
-            const formData = new FormData(e.target);
-            const booking = {
-                id: 'booking_' + Date.now(),
-                name: formData.get('name'),
-                phone: formData.get('phone'),
-                date: formData.get('date'),
-                time: formData.get('time'),
-                service: formData.get('service') || 'Общая консультация',
-                servicePrice: parseInt(formData.get('servicePrice')) || 0,
-                message: formData.get('message') || '',
-                timestamp: new Date().toISOString()
-            };
-
-            await update(ref(db), { ['bookings/' + booking.id]: booking });
-            showNotification('✓ Заявка отправлена! Я свяжусь с вами в ближайшее время.', 'success');
-            closeBookingModal();
-            document.getElementById('bookingServiceId').value = '';
-            document.getElementById('bookingServicePrice').value = '';
-            document.getElementById('bookingServiceInfo').style.display = 'none';
-            e.target.reset();
+      }
+      
+      // Обновляем социальные ссылки
+      if(content.socials){
+        const tgLink = document.querySelector('.social-pill.tg');
+        const waLink = document.querySelector('.social-pill.wa');
+        if(tgLink && content.socials.telegram) tgLink.href = content.socials.telegram;
+        if(waLink && content.socials.whatsapp) waLink.href = content.socials.whatsapp;
+      }
+      
+      // Обновляем Hero секцию
+      if(content.hero){
+        const badgeEl = document.getElementById('heroBadge');
+        const titleEl = document.getElementById('heroTitle');
+        const subtitleEl = document.getElementById('heroSubtitle');
+        if(badgeEl && content.hero.badge) badgeEl.textContent = content.hero.badge;
+        if(titleEl && content.hero.title) {
+          const subTitle = content.hero.titleSub || 'через сеть';
+          titleEl.innerHTML = escapeHtml(content.hero.title) + '<br><em>' + escapeHtml(subTitle) + '</em>';
         }
-
-        function openReviewModal() {
-            document.getElementById('reviewModal').classList.add('open');
-        }
-
-        function closeReviewModal() {
-            document.getElementById('reviewModal').classList.remove('open');
-        }
-
-        async function submitReview(e) {
-            e.preventDefault();
-            const formData = new FormData(e.target);
-            const review = {
-                id: 'review_' + Date.now(),
-                author: formData.get('author'),
-                rating: parseInt(formData.get('rating')),
-                text: formData.get('text'),
-                timestamp: new Date().toISOString()
-            };
-
-            await update(ref(db), { ['reviews/' + review.id]: review });
-            showNotification('✓ Спасибо за отзыв!', 'success');
-            closeReviewModal();
-            e.target.reset();
-        }
-
-        // АДМИН-ПАНЕЛЬ
-        window.openAdminPanel = function() {
-            if (!isAdmin) {
-                const pwd = prompt('🔐 Пароль администратора:');
-                if (pwd === 'psykolog2024') {
-                    isAdmin = true;
-                    showAdminButton();
-                } else if (pwd !== null) {
-                    showNotification('❌ Неверный пароль', 'error');
-                    return;
-                }
-            }
-
-            document.getElementById('adminPanel').classList.add('open');
-            renderAdminPanel();
-        };
-
-        window.closeAdminPanel = function() {
-            document.getElementById('adminPanel').classList.remove('open');
-        };
-
-        function renderAdminPanel() {
-            updateTabIndicators();
-            renderAboutEditor();
-            renderServicesEditor();
-            renderReviewsEditor();
-            renderBookingsEditor();
-        }
-
-        function updateTabIndicators() {
-            const bookingBtn = document.querySelector('.admin-tab-btn:nth-child(2)');
-            const reviewBtn = document.querySelector('.admin-tab-btn:nth-child(5)');
-            
-            if (bookingBtn) {
-                const count = Object.keys(bookingsData).length;
-                bookingBtn.dataset.count = count;
-                bookingBtn.textContent = 'Заявки' + (count > 0 ? ' (' + count + ')' : '');
-            }
-            
-            if (reviewBtn) {
-                const count = Object.keys(reviewsData).length;
-                reviewBtn.dataset.count = count;
-                reviewBtn.textContent = 'Отзывы' + (count > 0 ? ' (' + count + ')' : '');
-            }
-        }
-
-        function renderAboutEditor() {
-            const editor = document.getElementById('adminAboutTab');
-            editor.innerHTML = `
-                <h3>Редактирование профиля психолога</h3>
-                <div class="admin-form">
-                    <label>Имя и фамилия:</label>
-                    <input type="text" id="adminName" value="${appData.about.name}" />
-
-                    <label>Специальность:</label>
-                    <input type="text" id="adminSpec" value="${appData.about.specialty}" />
-
-                    <label>Краткая биография:</label>
-                    <textarea id="adminBio">${appData.about.bio}</textarea>
-
-                    <label>Опыт работы (лет):</label>
-                    <input type="number" id="adminExp" value="${appData.about.experience}" />
-
-                    <label>Номер телефона:</label>
-                    <input type="text" id="adminPhone" value="${appData.contacts.phone}" />
-
-                    <label>Telegram (без @):</label>
-                    <input type="text" id="adminTg" value="${appData.contacts.telegram}" />
-
-                    <button class="admin-btn-save" onclick="saveAboutData()">
-                        <i class="fas fa-save"></i> Сохранить профиль
-                    </button>
-                </div>
-            `;
-        }
-
-        window.saveAboutData = async function() {
-            appData.about = {
-                name: document.getElementById('adminName').value,
-                specialty: document.getElementById('adminSpec').value,
-                bio: document.getElementById('adminBio').value,
-                experience: parseInt(document.getElementById('adminExp').value) || 10
-            };
-
-            appData.contacts = {
-                phone: document.getElementById('adminPhone').value,
-                telegram: document.getElementById('adminTg').value
-            };
-
-            await update(ref(db), { psycholoog: appData });
-            showNotification('✓ Профиль сохранён!', 'success');
-        };
-
-        window.addNewService = function() {
-            const title = prompt('📝 Название услуги (например: "Консультация"):');
-            if (!title) return;
-
-            const priceStr = prompt('💰 Стоимость (число):');
-            const price = parseInt(priceStr) || 0;
-            if (!price) {
-                showNotification('❌ Укажите корректную стоимость', 'error');
-                return;
-            }
-
-            const id = 'service_' + Date.now();
-            servicesData[id] = {
-                id,
-                title,
-                price,
-                description: 'Описание услуги'
-            };
-
-            updateServices();
-        };
-
-        // ФУНКЦИЯ ЗАПИСИ НА КОНСУЛЬТАЦИЮ
-        window.openConsultationBooking = function() {
-            // Получаем доступные слоты (не занятые)
-            const availableSlots = Object.entries(consultationSlots).filter(([id, slot]) => !slot.booked);
-            
-            if (availableSlots.length === 0) {
-                // Нет доступных слотов - показываем сообщение
-                showNoSlotsMessage();
-            } else {
-                // Есть слоты - открываем модальное окно выбора
-                openConsultationSlotModal(availableSlots);
-            }
-        };
-
-        // Показать сообщение о отсутствии слотов
-        function showNoSlotsMessage() {
-            const modal = document.getElementById('noSlotsModal');
-            if (modal) {
-                modal.classList.add('open');
-            }
-        }
-
-        // Закрыть модальное окно "нет слотов"
-        window.closeNoSlotsModal = function() {
-            const modal = document.getElementById('noSlotsModal');
-            if (modal) {
-                modal.classList.remove('open');
-            }
-        };
-
-        // Открыть модальное окно выбора слота консультации
-        function openConsultationSlotModal(availableSlots) {
-            const modal = document.getElementById('consultationSlotModal');
-            const slotsContainer = document.getElementById('availableSlotsList');
-            
-            if (!modal || !slotsContainer) return;
-            
-            // Сортируем слоты по дате и времени
-            availableSlots.sort((a, b) => {
-                const dateA = new Date(a[1].date + 'T' + a[1].time);
-                const dateB = new Date(b[1].date + 'T' + b[1].time);
-                return dateA - dateB;
-            });
-            
-            // Генерируем HTML для слотов
-            let html = '';
-            availableSlots.forEach(([id, slot]) => {
-                const dateObj = new Date(slot.date);
-                const dateStr = dateObj.toLocaleDateString('ru-RU', { day: 'numeric', month: 'long' });
-                html += `
-                    <div class="slot-item" onclick="selectConsultationSlot('${id}', '${slot.date}', '${slot.time}')">
-                        <div class="slot-date">${dateStr}</div>
-                        <div class="slot-time">${slot.time}</div>
-                    </div>
-                `;
-            });
-            
-            slotsContainer.innerHTML = html;
-            modal.classList.add('open');
-        }
-
-        // Выбрать слот консультации
-        window.selectConsultationSlot = function(slotId, date, time) {
-            // Сохраняем позицию прокрутки
-            const scrollPos = window.scrollY || window.pageYOffset;
-            document.getElementById('consultationSlotModal').classList.remove('open');
-            // Восстанавливаем позицию после закрытия модала
-            setTimeout(() => window.scrollTo(0, scrollPos), 50);
-            openConsultationBookingForm(slotId, date, time);
-        };
-
-        // Открыть форму записи на консультацию с выбранным слотом
-        function openConsultationBookingForm(slotId, date, time) {
-            // Сохраняем позицию прокрутки
-            const scrollPos = window.scrollY || window.pageYOffset;
-            const modal = document.getElementById('consultationBookingModal');
-            if (!modal) return;
-            
-            document.getElementById('consultationSlotId').value = slotId;
-            document.getElementById('consultationSelectedDate').textContent = new Date(date).toLocaleDateString('ru-RU', { day: 'numeric', month: 'long', year: 'numeric' });
-            document.getElementById('consultationSelectedTime').textContent = time;
-            
-            modal.classList.add('open');
-            // Восстанавливаем позицию прокрутки
-            setTimeout(() => window.scrollTo(0, scrollPos), 50);
-        }
-
-        // Закрыть форму записи на консультацию
-        window.closeConsultationBookingModal = function() {
-            const modal = document.getElementById('consultationBookingModal');
-            if (modal) {
-                modal.classList.remove('open');
-            }
-            document.getElementById('consultationBookingForm')?.reset();
-        };
-
-        // Отправить заявку на консультацию
-        async function submitConsultationBooking(e) {
-            e.preventDefault();
-            const slotId = document.getElementById('consultationSlotId').value;
-            const formData = new FormData(e.target);
-            
-            const booking = {
-                id: 'consultation_' + Date.now(),
-                slotId: slotId,
-                name: formData.get('name'),
-                phone: formData.get('phone'),
-                date: consultationSlots[slotId]?.date,
-                time: consultationSlots[slotId]?.time,
-                type: 'Консультация (30 мин)',
-                message: formData.get('message') || '',
-                timestamp: new Date().toISOString()
-            };
-
-            // Сохраняем бронирование и помечаем слот как занятый
-            await update(ref(db), {
-                ['bookings/' + booking.id]: booking,
-                ['consultationSlots/' + slotId + '/booked']: true,
-                ['consultationSlots/' + slotId + '/bookingId']: booking.id
-            });
-            
-            closeConsultationBookingModal();
-            showBookingSuccessMessage();
-            e.target.reset();
-        }
-
-        // Показать сообщение об успешной записи
-        function showBookingSuccessMessage() {
-            const modal = document.getElementById('bookingSuccessModal');
-            if (modal) {
-                modal.classList.add('open');
-            }
-        }
-
-        // Закрыть модальное окно успешной записи
-        window.closeBookingSuccessModal = function() {
-            const modal = document.getElementById('bookingSuccessModal');
-            if (modal) {
-                modal.classList.remove('open');
-            }
-        };
-
-        window.editService = function(id) {
-            const service = servicesData[id];
-            if (!service) return;
-
-            let html = `
-                <div class="admin-form">
-                    <h4>Редактирование услуги: ${escapeHtml(service.title)}</h4>
-
-                    <label>Название услуги:</label>
-                    <input type="text" id="serviceTitle_${id}" value="${escapeHtml(service.title)}" />
-
-                    <label>Описание:</label>
-                    <textarea id="serviceDesc_${id}" style="height: 120px;">${escapeHtml(service.description || '')}</textarea>
-
-                    <label>Стоимость (₽):</label>
-                    <input type="number" id="servicePrice_${id}" value="${service.price}" />
-
-                    <div class="button-group">
-                        <button type="button" class="admin-btn-save" onclick="saveServiceEdits('${id}')">
-                            <i class="fas fa-save"></i> Сохранить
-                        </button>
-                        <button type="button" class="admin-btn-cancel" onclick="renderServicesEditor()">Отмена</button>
-                    </div>
-                </div>
-            `;
-
-            document.getElementById('adminServicesTab').innerHTML = html;
-        };
-
-
-
-        window.saveSectionEdits = async function(sectionId) {
-            const section = customSections[sectionId];
-            section.title = document.getElementById(`sectionTitle_${sectionId}`)?.value || section.title;
-
-            if (section.type === 'text') {
-                section.content = document.getElementById(`sectionContent_${sectionId}`)?.value || '';
-            } else {
-                document.querySelectorAll('.item-title').forEach(el => {
-                    const itemId = el.dataset.itemId;
-                    if (!section.items[itemId]) return;
-                    
-                    section.items[itemId].title = el.value;
-                    const descEl = document.querySelector(`.item-desc[data-item-id="${itemId}"]`);
-                    const descValue = descEl?.value || '';
-                    
-                    // Используем content для blog, description для cards
-                    if (section.type === 'blog') {
-                        section.items[itemId].content = descValue;
-                    } else {
-                        section.items[itemId].description = descValue;
-                    }
-                    
-                    const dateEl = document.querySelector(`.item-date[data-item-id="${itemId}"]`);
-                    if (dateEl) section.items[itemId].date = dateEl.value;
-                });
-            }
-
-            await update(ref(db), { customSections });
-            showNotification('✓ Изменения сохранены', 'success');
-            renderSectionsEditor();
-        };
-
-        window.deleteSection = async function(sectionId) {
-            if (confirm('Вы уверены? Этот раздел будет удалён безвозвратно.')) {
-                delete customSections[sectionId];
-                await update(ref(db), { customSections });
-                renderSectionsEditor();
-            }
-        };
-
-        async function updateCustomSections() {
-            await update(ref(db), { customSections });
-            renderCustomSections();
-            renderSectionsEditor();
-        }
-
-        function renderReviewsEditor() {
-            const editor = document.getElementById('adminReviewsTab');
-            const count = Object.keys(reviewsData).length;
-            
-            let html = `<h3>Управление отзывами <span style="color: #C197D2; font-size: 14px;">(${count})</span></h3><div class="reviews-list">`;
-
-            if (Object.keys(reviewsData).length === 0) {
-                html += '<p style="padding: 20px; text-align: center; color: #999;">Отзывов ещё нет</p>';
-            } else {
-                Object.entries(reviewsData).forEach(([id, review]) => {
-                    html += `
-                        <div class="review-item-admin">
-                            <div class="review-info">
-                                <strong>${escapeHtml(review.author)}</strong>
-                                <small>${'⭐'.repeat(review.rating)}</small>
-                            </div>
-                            <p>"${escapeHtml(review.text.substring(0, 100))}..."</p>
-                            <button class="btn-delete" onclick="deleteReviewAdmin('${id}')">Удалить отзыв</button>
-                        </div>
-                    `;
-                });
-            }
-
-            html += '</div>';
-            editor.innerHTML = html;
-        }
-
-        function renderBookingsEditor() {
-            const editor = document.getElementById('adminBookingsTab');
-            const count = Object.keys(bookingsData).length;
-            
-            let html = `<h3>Заявки на консультацию <span style="color: var(--color-primary); font-size: 14px;">(${count})</span></h3><div class="bookings-list">`;
-
-            if (Object.keys(bookingsData).length === 0) {
-                html += '<div class="empty-state"><i class="fas fa-inbox"></i><p>Заявок пока нет</p></div>';
-            } else {
-                // Сортируем по дате (новые сверху)
-                const bookings = Object.entries(bookingsData).sort((a, b) =>
-                    new Date(b[1].timestamp || 0) - new Date(a[1].timestamp || 0)
-                );
-
-                bookings.forEach(([id, booking]) => {
-                    const bookingTimestamp = booking.timestamp || booking.ts || booking.createdAt || Date.now();
-                    const date = new Date(bookingTimestamp);
-                    const dateStr = date.toLocaleDateString('ru-RU', { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' });
-                    
-                    // Проверяем и подставляем значения по умолчанию
-                    // Поддерживаем разные варианты названий полей (из index.html и 2.html)
-                    const clientName = booking.name || booking.clientName || booking.client || 'Имя не указано';
-                    const clientPhone = booking.phone || booking.clientPhone || booking.contact || booking.tel || 'Телефон не указан';
-                    const serviceName = booking.service || booking.serviceName || booking.serviceTitle || booking.title || 'Услуга не указана';
-                    const servicePrice = booking.servicePrice || booking.price || booking.cost || 0;
-                    const bookingDate = booking.date || booking.bookingDate || booking.appointmentDate || 'Дата не указана';
-                    const bookingTime = booking.time || booking.bookingTime || booking.appointmentTime || '';
-                    const clientMessage = booking.message || booking.clientMessage || booking.note || booking.notes || booking.comment || '';
-                    
-                    // Форматируем телефон для WhatsApp
-                    const phoneClean = String(clientPhone).replace(/\D/g, '');
-                    
-                    html += `
-                        <div class="booking-item-admin">
-                            <div class="booking-header">
-                                <div class="booking-client">
-                                    <i class="fas fa-user-circle"></i>
-                                    <strong>${escapeHtml(clientName)}</strong>
-                                </div>
-                                <span class="booking-date">${dateStr}</span>
-                            </div>
-                            <div class="booking-details">
-                                <div class="detail-row">
-                                    <span class="detail-label"><i class="fas fa-spa"></i> Услуга:</span>
-                                    <span class="detail-value service-name">${escapeHtml(serviceName)}</span>
-                                </div>
-                                ${servicePrice ? `
-                                <div class="detail-row">
-                                    <span class="detail-label"><i class="fas fa-tag"></i> Стоимость:</span>
-                                    <span class="detail-value price-tag">${servicePrice} ₽</span>
-                                </div>` : ''}
-                                <div class="detail-row">
-                                    <span class="detail-label"><i class="fas fa-phone"></i> Телефон:</span>
-                                    <a href="tel:${clientPhone}" class="detail-value phone-link">${clientPhone}</a>
-                                </div>
-                                <div class="detail-row">
-                                    <span class="detail-label"><i class="fas fa-calendar-alt"></i> Дата приёма:</span>
-                                    <span class="detail-value">${bookingDate} в ${bookingTime}</span>
-                                </div>
-                                ${clientMessage ? `
-                                <div class="detail-row message-row">
-                                    <span class="detail-label"><i class="fas fa-comment"></i> Сообщение:</span>
-                                    <span class="detail-value message-text">${escapeHtml(clientMessage)}</span>
-                                </div>` : ''}
-                            </div>
-                            <div class="booking-actions">
-                                <a href="https://wa.me/${phoneClean}" target="_blank" class="btn-admin btn-whatsapp">
-                                    <i class="fab fa-whatsapp"></i> Написать в WhatsApp
-                                </a>
-                                <button class="btn-admin btn-delete-booking" onclick="deleteBookingAdmin('${id}')">
-                                    <i class="fas fa-trash-alt"></i> Удалить
-                                </button>
-                            </div>
-                        </div>
-                    `;
-                });
-            }
-
-            html += '</div>';
-            editor.innerHTML = html;
-        }
-
-        window.deleteReviewAdmin = async function(id) {
-            if (confirm('Удалить отзыв?')) {
-                await remove(ref(db, 'reviews/' + id));
-                renderReviewsEditor();
-            }
-        };
-
-        window.deleteBookingAdmin = async function(id) {
-            if (confirm('Удалить заявку?')) {
-                await remove(ref(db, 'bookings/' + id));
-                renderBookingsEditor();
-            }
-        };
-
-        function escapeHtml(text) {
-            const div = document.createElement('div');
-            div.textContent = text;
-            return div.innerHTML;
-        }
-
-        // УПРАВЛЕНИЕ УСЛУГАМИ
-        window.addNewService = function() {
-            const title = prompt('📝 Название услуги (например: "Консультация"):');
-            if (!title) return;
-
-            const priceStr = prompt('💰 Стоимость (число):');
-            const price = parseInt(priceStr) || 0;
-            if (!price) {
-                showNotification('❌ Укажите корректную стоимость', 'error');
-                return;
-            }
-
-            const id = 'service_' + Date.now();
-            servicesData[id] = {
-                id,
-                title,
-                price,
-                description: 'Описание услуги'
-            };
-
-            updateServices();
-        };
-
-        // УПРАВЛЕНИЕ СЛОТАМИ КОНСУЛЬТАЦИЙ (АДМИН)
-        window.renderConsultationSlotsEditor = function() {
-            const editor = document.getElementById('adminConsultationSlotsTab');
-            if (!editor) return;
-
-            const slots = Object.entries(consultationSlots).sort((a, b) => {
-                const dateA = new Date(a[1].date + 'T' + a[1].time);
-                const dateB = new Date(b[1].date + 'T' + b[1].time);
-                return dateA - dateB;
-            });
-
-            let html = `
-                <h3>Управление слотами консультации</h3>
-                <p style="margin-bottom: 16px; color: #666;">Добавьте доступные даты и время для 30-минутных консультаций с клиентами.</p>
-                
-                <!-- Форма добавления слота -->
-                <div class="slot-add-form">
-                    <input type="date" id="newSlotDate" placeholder="Дата" />
-                    <input type="time" id="newSlotTime" placeholder="Время" />
-                    <button class="admin-btn-add" onclick="addConsultationSlot()" style="margin: 0;">
-                        <i class="fas fa-plus"></i> Добавить
-                    </button>
-                </div>
-                
-                <div class="slots-list">
-            `;
-
-            if (slots.length === 0) {
-                html += '<p style="color: #999; text-align: center; padding: 40px;">Нет доступных слотов. Добавьте первый слот для консультации.</p>';
-            } else {
-                slots.forEach(([id, slot]) => {
-                    const dateObj = new Date(slot.date);
-                    const dateStr = dateObj.toLocaleDateString('ru-RU', { day: 'numeric', month: 'long', year: 'numeric' });
-                    const statusClass = slot.booked ? 'slot-booked' : 'slot-available';
-                    const statusText = slot.booked ? 'Занят' : 'Свободен';
-                    
-                    html += `
-                        <div class="slot-item-admin ${statusClass}">
-                            <div class="slot-info">
-                                <span class="slot-date">${dateStr}</span>
-                                <span class="slot-time">${slot.time}</span>
-                                <span class="slot-status">${statusText}</span>
-                                ${slot.booked && slot.bookingId ? `<span class="slot-client">Бронь: ${slot.bookingId.slice(-6)}</span>` : ''}
-                            </div>
-                            <div class="slot-actions">
-                                <button class="btn-delete" onclick="deleteConsultationSlot('${id}')">Удалить</button>
-                            </div>
-                        </div>
-                    `;
-                });
-            }
-
-            html += '</div>';
-            editor.innerHTML = html;
-        };
-
-        window.addConsultationSlot = async function() {
-            const dateInput = document.getElementById('newSlotDate');
-            const timeInput = document.getElementById('newSlotTime');
-            
-            const date = dateInput?.value;
-            const time = timeInput?.value;
-            
-            if (!date || !time) {
-                showNotification('Выберите дату и время', 'error');
-                return;
-            }
-
-            const slotDate = new Date(date);
-            const today = new Date();
-            today.setHours(0, 0, 0, 0);
-            
-            if (slotDate < today) {
-                showNotification('Нельзя добавить слот в прошлом', 'error');
-                return;
-            }
-
-            const id = 'slot_' + Date.now();
-            consultationSlots[id] = {
-                id,
-                date,
-                time,
-                booked: false,
-                createdAt: new Date().toISOString()
-            };
-
-            await update(ref(db), { ['consultationSlots/' + id]: consultationSlots[id] });
-            showNotification('Слот добавлен', 'success');
-            
-            if (dateInput) dateInput.value = '';
-            if (timeInput) timeInput.value = '';
-            renderConsultationSlotsEditor();
-        };
-
-        window.deleteConsultationSlot = async function(id) {
-            if (confirm('Удалить слот?')) {
-                await remove(ref(db, 'consultationSlots/' + id));
-                renderConsultationSlotsEditor();
-            }
-        };
-
-        // Показать уведомление (замена alert)
-        function showNotification(message, type = 'info') {
-            const container = document.getElementById('notificationContainer');
-            if (!container) return;
-            
-            const notification = document.createElement('div');
-            notification.className = `notification ${type}`;
-            notification.textContent = message;
-            
-            container.appendChild(notification);
-            
-            setTimeout(() => {
-                notification.classList.add('show');
-            }, 10);
-            
-            setTimeout(() => {
-                notification.classList.remove('show');
-                setTimeout(() => notification.remove(), 300);
-            }, 3000);
-        }
-
-        window.editService = function(id) {
-            const service = servicesData[id];
-            if (!service) return;
-
-            let html = `
-                <div class="admin-form">
-                    <h4>Редактирование услуги: ${escapeHtml(service.title)}</h4>
-
-                    <label>Название услуги:</label>
-                    <input type="text" id="serviceTitle_${id}" value="${escapeHtml(service.title)}" />
-
-                    <label>Описание:</label>
-                    <textarea id="serviceDesc_${id}" style="height: 120px;">${escapeHtml(service.description || '')}</textarea>
-
-                    <label>Стоимость (₽):</label>
-                    <input type="number" id="servicePrice_${id}" value="${service.price}" />
-
-                    <div class="button-group">
-                        <button type="button" class="admin-btn-save" onclick="saveServiceEdits('${id}')">
-                            <i class="fas fa-save"></i> Сохранить
-                        </button>
-                        <button type="button" class="admin-btn-cancel" onclick="renderServicesEditor()">Отмена</button>
-                    </div>
-                </div>
-            `;
-
-            document.getElementById('adminServicesTab').innerHTML = html;
-        };
-
-        window.saveServiceEdits = async function(serviceId) {
-            const service = servicesData[serviceId];
-            service.title = document.getElementById(`serviceTitle_${serviceId}`)?.value || service.title;
-            service.description = document.getElementById(`serviceDesc_${serviceId}`)?.value || '';
-            service.price = parseInt(document.getElementById(`servicePrice_${serviceId}`)?.value) || 0;
-
-            await update(ref(db), { services: servicesData });
-            showNotification('✓ Услуга обновлена', 'success');
-            renderServicesEditor();
-            renderServices();
-        };
-
-        window.deleteService = async function(serviceId) {
-            if (confirm('Удалить услугу?')) {
-                delete servicesData[serviceId];
-                await update(ref(db), { services: servicesData });
-                renderServicesEditor();
-            }
-        };
-
-        async function updateServices() {
-            await update(ref(db), { services: servicesData });
-            renderServices();
-            renderServicesEditor();
-        }
-
-        function renderServicesEditor() {
-            const editor = document.getElementById('adminServicesTab');
-
-            let html = `
-                <h3>Управление услугами</h3>
-                <button class="admin-btn-add" onclick="addNewService()">
-                    <i class="fas fa-plus"></i> Добавить новую услугу
-                </button>
-                <div class="services-list">
-            `;
-
-            Object.entries(servicesData).forEach(([id, service]) => {
-                html += `
-                    <div class="service-item">
-                        <div class="service-header">
-                            <h4>${escapeHtml(service.title)}</h4>
-                            <strong class="service-price">${service.price} ₽</strong>
-                        </div>
-                        <p class="service-desc">${escapeHtml(service.description || '')}</p>
-                        <div class="service-buttons">
-                            <button class="btn-edit" onclick="editService('${id}')">Редактировать</button>
-                            <button class="btn-delete" onclick="deleteService('${id}')">Удалить</button>
-                        </div>
-                    </div>
-                `;
-            });
-
-            html += `</div>`;
-            editor.innerHTML = html;
-        }
-
-        function renderServices() {
-            const container = document.getElementById('servicesContainer');
-            if (!container) return;
-            
-            container.innerHTML = '';
-            
-            Object.entries(servicesData).forEach(([id, service]) => {
-                const card = document.createElement('div');
-                card.className = 'service-card';
-                card.innerHTML = `
-                    <i class="fas fa-comments"></i>
-                    <h3>${escapeHtml(service.title)}</h3>
-                    <p>${escapeHtml(service.description || '')}</p>
-                    <p class="price">${service.price} ₽</p>
-                    <button class="btn btn-primary" onclick="openBookingModalWithService('${id}', '${escapeHtml(service.title)}', ${service.price}, event)">
-                        <i class="fas fa-calendar-check"></i> Записаться
-                    </button>
-                `;
-                container.appendChild(card);
-            });
-        }  
-
-        // Установка минимальной даты
-        function setupDatePicker() {
-            const dateInput = document.getElementById('bookingDateInput');
-            if (dateInput) {
-                const today = new Date();
-                const year = today.getFullYear();
-                const month = String(today.getMonth() + 1).padStart(2, '0');
-                const day = String(today.getDate()).padStart(2, '0');
-                dateInput.min = `${year}-${month}-${day}`;
-            }
-        }
-
-        // Инициализация при загрузке
-        document.addEventListener('DOMContentLoaded', () => {
-            initApp();
-            setupDatePicker();
-        });
-
-        // АНИМАЦИЯ ОГЛОЩЕНИЯ СЕКЦИЙ
-        const observerOptions = { threshold: 0.2, rootMargin: '0px 0px -100px 0px' };
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
-                }
-            });
-        }, observerOptions);
-
-        // Инициализация при загрузке
-        document.addEventListener('DOMContentLoaded', () => {
-            setupDatePicker();
-            document.querySelectorAll('section').forEach(section => observer.observe(section));
-        });
-
-        // ПЛАВНЫЙ СКРОЛЛ
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function(e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) target.scrollIntoView({ behavior: 'smooth' });
-            });
-        });
-
-        // КАРУСЕЛЬ ДЛЯ "ДЛЯ КОГО" (восстановлено)
-        document.addEventListener('DOMContentLoaded', function() {
-            const carouselWrapper = document.querySelector('.carousel-image-wrapper');
-            if (!carouselWrapper) return;
-
-            const images = Array.from(carouselWrapper.querySelectorAll('.carousel-image'));
-            const prevBtn = document.querySelector('.carousel-btn.prev');
-            const nextBtn = document.querySelector('.carousel-btn.next');
-            const dotsContainer = document.querySelector('.carousel-dots');
-            let current = 0;
-            let intervalId = null;
-
-            function goTo(index) {
-                images.forEach((img, i) => img.classList.toggle('active', i === index));
-                const dots = Array.from(dotsContainer.children);
-                dots.forEach((d, i) => d.classList.toggle('active', i === index));
-                current = index;
-            }
-
-            function next() { goTo((current + 1) % images.length); }
-            function prev() { goTo((current - 1 + images.length) % images.length); }
-
-            // Создаем точки
-            images.forEach((_, i) => {
-                const btn = document.createElement('button');
-                btn.addEventListener('click', () => { goTo(i); resetAuto(); });
-                if (i === 0) btn.classList.add('active');
-                dotsContainer.appendChild(btn);
-            });
-
-            nextBtn?.addEventListener('click', () => { next(); resetAuto(); });
-            prevBtn?.addEventListener('click', () => { prev(); resetAuto(); });
-
-            function startAuto() { intervalId = setInterval(next, 4000); }
-            function stopAuto() { clearInterval(intervalId); intervalId = null; }
-            function resetAuto() { stopAuto(); startAuto(); }
-
-            carouselWrapper.addEventListener('mouseenter', stopAuto);
-            carouselWrapper.addEventListener('mouseleave', startAuto);
-
-            // Инициализация
-            goTo(0);
-            startAuto();
-        });
-    </script>
-
-    <!-- HEADER/НАВИГАЦИЯ -->
-    <header class="header white-bg sticky-header">
-        <div class="header-inner">
-            <div class="logo-brand">
-                <i class="fas fa-lotus"></i>
-                <span>Психолог</span>
-            </div>
-            <nav class="header-nav">
-                <a href="#about">Обо мне</a>
-                <a href="#services">Услуги</a>
-                <a href="#reviews">Отзывы</a>
-                <a href="#contact">Контакты</a>
-            </nav>
-            <div class="header-actions">
-                <button id="bookingBtn" class="btn btn-primary" onclick="document.querySelector('#services').scrollIntoView({behavior: 'smooth'})">Записаться</button>
-                <button id="adminBtn" class="admin-toggle" onclick="openAdminPanel()" style="display: none;" title="Админ">
-                    <i class="fas fa-cog"></i>
-                    <span id="adminNotification" class="admin-notification" style="display: none;">0</span>
-                </button>
-            </div>
+        if(subtitleEl && content.hero.subtitle) subtitleEl.textContent = content.hero.subtitle;
+      }
+    });
+  }
+  
+  // Запускаем загрузку контента
+  loadSiteContent();
+
+  // рендер карточек тарифов на странице на основании services
+  function renderServicesClient(data){
+    const container = document.getElementById('pricingGrid');
+    if(!container) return;
+    const items = Object.entries(data || {});
+    if(items.length===0){ container.innerHTML = '<div style="color:#666;padding:20px;">Услуг пока нет</div>'; return; }
+    container.innerHTML = items.map(([id,s])=>{
+      const features = (s.description||'').split('\n').filter(Boolean).map(f=>`<li>${escapeHtml(f)}</li>`).join('') || '<li>Описание скоро появится</li>';
+      const featured = s.featured ? 'featured' : '';
+      const price = s.price || '—';
+      const label = s.label || '';
+      return `
+        <div class="pricing-card ${featured}" data-service-id="${escapeHtml(id)}">
+          <div>
+            ${ label ? `<div class="pricing-label">${escapeHtml(label)}</div>` : '' }
+            <h3>${escapeHtml(s.title || 'Услуга')}</h3>
+            <ul>${features}</ul>
+            <div class="pricing-price">${escapeHtml(price)}<span>/ курс</span></div>
+          </div>
+          <button class="btn btn-dark btn-sm select-service" data-id="${escapeHtml(id)}" data-title="${escapeHtml(s.title||'')}" data-price="${escapeHtml(price)}">Выбрать</button>
         </div>
-    </header>
+      `;
+    }).join('');
 
-    <!-- HERO/ГЛАВНАЯ -->
-    <section class="hero-section">
-        <!-- Карусель на весь фон секции -->
-        <div class="hero-carousel full-bg">
-            <div class="carousel-main large">
-                <button class="carousel-btn prev" aria-label="Предыдущее">‹</button>
-                <div class="carousel-image-wrapper hero-wrapper full-bg-wrapper">
-                    <img src="images/1.png" alt="Слайд 1" class="carousel-image active">
-                    <img src="images/2.png" alt="Слайд 2" class="carousel-image">
-                    <img src="images/3.png" alt="Слайд 3" class="carousel-image">
-                    <img src="images/4.png" alt="Слайд 4" class="carousel-image">
-                </div>
-                <button class="carousel-btn next" aria-label="Следующее">›</button>
-            </div>
-            <div class="carousel-dots hero-dots" aria-hidden="false"></div>
+    // навесим обработчик на кнопки выбора — показываем всплывающий bookingBox рядом с кнопкой
+    container.querySelectorAll('.select-service').forEach(btn=> btn.addEventListener('click', (e)=>{
+      e.preventDefault(); e.stopPropagation();
+      const id = btn.dataset.id; const title = btn.dataset.title; const price = btn.dataset.price;
+      const bm = document.getElementById('bookingModal');
+      const box = document.getElementById('bookingBox');
+      if(!bm || !box) return;
+      // show overlay
+      bm.style.display = 'block';
+      // fill data
+      const serviceTitleEl = document.getElementById('bookingServiceTitle');
+      const servicePriceEl = document.getElementById('bookingServicePrice');
+      if(serviceTitleEl) serviceTitleEl.textContent = title || '';
+      if(servicePriceEl) servicePriceEl.textContent = price || '';
+      const hidden = bm.querySelector('input[name="serviceId"]'); if(hidden) hidden.value = id || '';
+
+      // Показываем модальное окно внутри блока pricingGrid, если он есть
+      box.style.display = 'block';
+      box.style.visibility = 'hidden';
+      const modalW = box.offsetWidth || 340;
+      const modalH = box.offsetHeight || 220;
+      const pricingEl = document.getElementById('pricingGrid') || document.getElementById('pricing');
+      const scrollX = window.scrollX || window.pageXOffset;
+      const scrollY = window.scrollY || window.pageYOffset;
+      if (pricingEl) {
+        // Переносим bookingBox внутрь pricingGrid, чтобы он отображался в нужном блоке
+        if (box.parentElement !== pricingEl) {
+          pricingEl.appendChild(box);
+          box.dataset.moved = 'true';
+        }
+        box.style.position = 'relative';
+        box.style.left = '';
+        box.style.top = '';
+        box.style.zIndex = 'auto';
+        box.style.visibility = 'visible';
+        bm.style.display = 'none';
+        // прокручиваем секцию тарифов в видимую область
+        pricingEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      } else {
+        // fallback: центрируем в viewport
+        box.style.position = 'relative';
+        box.style.left = '';
+        box.style.top = '';
+        box.style.zIndex = '9999';
+        bm.style.display = 'flex';
+        bm.style.alignItems = 'center';
+        bm.style.justifyContent = 'center';
+        box.style.visibility = 'visible';
+      }
+      // focus
+      const first = box.querySelector('input[name="firstName"]'); if(first) first.focus();
+    }));
+  }
+
+  // подписка на services для клиентской части
+  onValue(ref(db,'services'), snap=>{
+    services = snap.val() || {};
+    renderServicesClient(services);
+  });
+
+  // подписка на контакты для отображения на странице (настройки психолога)
+  onValue(ref(db,'psycholoog/contacts'), snap=>{
+    const c = snap.val() || {};
+    document.querySelectorAll('.social-pill.tg').forEach(a=>{ if(c.telegram) a.href = 'https://t.me/' + c.telegram; });
+    document.querySelectorAll('.social-pill.wa').forEach(a=>{ if(c.phone){ const w = phoneToWa(c.phone); a.href = 'https://wa.me/' + w; } });
+  });
+
+  // рендер отзывов для публичной страницы (только одобренные)
+  function renderReviewsClient(data){
+    const container = document.getElementById('reviewsGrid');
+    if(!container) return;
+    const items = Object.entries(data || {}).filter(([id,r])=> r.approved).sort((a,b)=> b[1].ts - a[1].ts);
+    const parent = container.closest('.testimonials-content');
+    if(items.length===0){ container.innerHTML = ''; if(parent) parent.classList.remove('has-reviews'); return; }
+    container.innerHTML = items.map(([id,r])=>{
+      return `<div class="testi-card">
+          <div class="testi-img" style="background:linear-gradient(135deg,#f0dbd7,#e8d5d0);">👩</div>
+          <div class="testi-body">
+            <div class="testi-stars">${'★★★★★'}</div>
+            <p>${escapeHtml(r.text)}</p>
+            <div class="testi-name">— ${escapeHtml(r.firstName||'')} ${escapeHtml(r.lastName||'')}</div>
+          </div>
+        </div>`;
+    }).join('');
+    if(parent) parent.classList.add('has-reviews');
+  }
+
+  // подписка на отзывы для публичной части
+  onValue(ref(db,'reviews'), snap=>{
+    const all = snap.val() || {};
+    renderReviewsClient(all);
+  });
+
+  // управление модальным окном оставления отзыва
+  const leaveBtn = document.getElementById('leaveReviewBtn');
+  const leaveModal = document.getElementById('leaveReviewModal');
+  const leaveForm = document.getElementById('leaveReviewForm');
+  const closeReviewModalBtn = document.getElementById('closeReviewModalBtn');
+  if(leaveBtn && leaveModal){ leaveBtn.addEventListener('click', ()=> leaveModal.style.display='flex'); }
+  if(closeReviewModalBtn){ closeReviewModalBtn.addEventListener('click', ()=> leaveModal.style.display='none'); }
+  if(leaveForm){
+    leaveForm.addEventListener('submit', async (e)=>{
+      e.preventDefault();
+      const fd = new FormData(leaveForm);
+      const firstName = (fd.get('firstName')||'').toString().trim();
+      const lastName = (fd.get('lastName')||'').toString().trim();
+      const text = (fd.get('text')||'').toString().trim();
+      if(!firstName || !lastName || !text){ document.getElementById('leaveReviewStatus').textContent = 'Заполните все поля'; return; }
+      const id = 'rev_' + Date.now();
+      const payload = { firstName, lastName, text, ts: Date.now(), approved: false };
+      try{ await set(ref(db,'reviews/'+id), payload); document.getElementById('leaveReviewStatus').textContent = 'Спасибо! Отзыв отправлен на модерацию.'; leaveForm.reset(); }
+      catch(e){ console.error(e); document.getElementById('leaveReviewStatus').textContent = 'Ошибка отправки'; }
+      setTimeout(()=>{ document.getElementById('leaveReviewStatus').textContent = ''; leaveModal.style.display='none'; }, 2500);
+    });
+  }
+
+  // Booking modal handlers
+  const bookingModalEl = document.getElementById('bookingModal');
+  const bookingForm = document.getElementById('bookingForm');
+  const closeBookingModalBtn = document.getElementById('closeBookingModalBtn');
+  
+  // Закрытие по клику на кнопку
+  if(closeBookingModalBtn) closeBookingModalBtn.addEventListener('click', ()=> {
+    bookingModalEl.style.display='none';
+    const box = document.getElementById('bookingBox'); if(box){ box.style.display='none'; box.style.left=''; box.style.top=''; }
+  });
+
+  // Закрытие по клику на фон (вне блока)
+  if(bookingModalEl) {
+    bookingModalEl.addEventListener('click', (e) => {
+      if (e.target === bookingModalEl) {
+        bookingModalEl.style.display='none';
+        const box = document.getElementById('bookingBox'); if(box){ box.style.display='none'; box.style.left=''; box.style.top=''; }
+      }
+    });
+  }
+  if(bookingForm){
+    bookingForm.addEventListener('submit', async (e)=>{
+      e.preventDefault();
+      const fd = new FormData(bookingForm);
+      const firstName = (fd.get('firstName')||'').toString().trim();
+      const lastName = (fd.get('lastName')||'').toString().trim();
+      const phone = (fd.get('phone')||'').toString().trim();
+      const note = (fd.get('note')||'').toString().trim();
+      const serviceId = (fd.get('serviceId')||'').toString().trim();
+      const serviceTitle = document.getElementById('bookingServiceTitle') ? document.getElementById('bookingServiceTitle').textContent : '';
+      if(!firstName || !lastName || !phone || !note){ document.getElementById('bookingStatus').textContent = 'Заполните все поля'; return; }
+      const payload = { firstName, lastName, phone, note, serviceId, serviceTitle, ts: Date.now() };
+      try{
+        const newRef = push(ref(db,'bookings'));
+        await set(newRef, payload);
+        document.getElementById('bookingStatus').textContent = 'Заявка отправлена';
+        bookingForm.reset();
+        showNotification('Заявка отправлена');
+      }catch(err){ console.error(err); showNotification('Ошибка отправки'); document.getElementById('bookingStatus').textContent = 'Ошибка'; }
+      setTimeout(()=>{ 
+        document.getElementById('bookingStatus').textContent = ''; 
+        bookingModalEl.style.display='none';
+        const box = document.getElementById('bookingBox'); if(box){ box.style.display='none'; box.style.left=''; box.style.top=''; }
+      }, 1200);
+    });
+  }
+
+  // простая нотификация
+  function showNotification(msg, timeout=3000){
+    let el = document.createElement('div');
+    el.textContent = msg; el.style.cssText = 'position:fixed;right:20px;bottom:20px;background:#111;color:#fff;padding:10px 14px;border-radius:10px;box-shadow:0 6px 24px rgba(0,0,0,0.2);z-index:9999;';
+    document.body.appendChild(el);
+    setTimeout(()=> el.remove(), timeout);
+  }
+
+  // форма контактов
+  const contactForm = document.getElementById('contactForm');
+  if(contactForm){
+    contactForm.addEventListener('submit', async (e)=>{
+      e.preventDefault();
+      const fd = new FormData(contactForm);
+      const payload = {
+        name: (fd.get('name')||'').toString(),
+        phone: (fd.get('phone')||'').toString(),
+        message: (fd.get('message')||'').toString(),
+        ts: Date.now()
+      };
+      try{
+        const newRef = push(ref(db, 'contacts'));
+        await set(newRef, payload);
+        document.getElementById('contactStatus').textContent = 'Отправлено — спасибо!';
+        contactForm.reset();
+        showNotification('Заявка отправлена');
+      }catch(err){
+        console.error(err);
+        showNotification('Ошибка отправки, попробуйте позже');
+      }
+      setTimeout(()=>{ document.getElementById('contactStatus').textContent = ''; }, 3500);
+    });
+  }
+
+  // админ-панель (по ключу admin=psykolog2024 или #admin)
+  function isAdmin(){ const p = new URLSearchParams(location.search); return p.get('admin')==='psykolog2024' || location.hash==='#admin'; }
+
+  if(isAdmin()){
+    const adminBtn = document.createElement('button');
+    adminBtn.textContent = 'Admin';
+    adminBtn.className = 'site-admin-btn';
+    // Find the nav-cta button and insert Admin button after it in the nav
+    const navCta = document.querySelector('.nav-cta');
+    if(navCta && navCta.parentNode) {
+      navCta.parentNode.insertBefore(adminBtn, navCta.nextSibling);
+    } else {
+      document.body.appendChild(adminBtn);
+    }
+
+    const panel = document.createElement('div');
+    panel.id = 'admin-panel';
+    panel.className = 'admin-panel';
+    panel.innerHTML = `
+      <div class="admin-header">
+        <h3>🔧 Админ-панель</h3>
+        <button id="adminClose" class="admin-close"><span>✕</span></button>
+      </div>
+      <div class="admin-tabs">
+        <button class="admin-tab active" data-tab="content">Контент</button>
+        <button class="admin-tab" data-tab="contacts">Контакты</button>
+        <button class="admin-tab" data-tab="bookings">Записи</button>
+        <button class="admin-tab" data-tab="services">Услуги</button>
+        <button class="admin-tab" data-tab="reviews">Отзывы</button>
+        <button class="admin-tab" data-tab="sections">Разделы</button>
+      </div>
+      <div id="adminContent" style="padding:20px;">Загрузка...</div>
+    `;
+    document.body.appendChild(panel);
+
+    adminBtn.addEventListener('click', ()=>{ panel.classList.toggle('open'); });
+    panel.querySelector('#adminClose').addEventListener('click', ()=> panel.classList.remove('open'));
+
+    // local caches
+    let contacts = {}, bookings = {}, services = {}, reviews = {}, customSections = {};
+
+    // helper to sanitize phone for wa link
+    function phoneToWa(phone){ if(!phone) return null; const digits = phone.replace(/[^+0-9]/g,''); let d = digits.replace(/[^0-9]/g,''); if(d.startsWith('8') && d.length===11) d = '7'+d.slice(1); return d; }
+
+    // renderers
+    function renderContacts(){
+      const el = document.getElementById('adminContent');
+      // render contact settings editor (phone, telegram)
+      el.innerHTML = `<div style="font-weight:700;margin-bottom:8px">Настройки контактов</div>
+        <div style="display:grid;gap:8px;margin-bottom:12px;">
+          <input id="sitePhone" placeholder="Телефон для связи" style="padding:8px;border:1px solid #eee;border-radius:8px;">
+          <input id="siteTelegram" placeholder="Telegram (ник)" style="padding:8px;border:1px solid #eee;border-radius:8px;">
+          <div style="display:flex;gap:8px;"><button id="saveContactsBtn" style="background:#0f766e;color:#fff;padding:8px 12px;border-radius:8px;border:none">Сохранить</button><button id="loadContactsBtn" style="background:transparent;border:1px solid #ddd;padding:8px 12px;border-radius:8px;">Загрузить</button></div>
         </div>
+        <div style="font-weight:700;margin:10px 0 8px">Входящие заявки</div>
+        <div id="inboxList"></div>`;
 
-        <!-- Текст поверх карусели, слева -->
-        <div class="hero-content hero-left">
-            <h1 class="hero-title">Путь к себе и к гармоничным отношениям</h1>
-            <p class="hero-subtitle">Для женщин, которые хотят разобраться в себе и наладить жизнь</p>
-            <button class="btn btn-large btn-primary" onclick="document.querySelector('#services').scrollIntoView({behavior: 'smooth'})">
-                <i class="fas fa-calendar-alt"></i> Записаться на консультацию
+      // load current saved contacts
+      const settingsRef = ref(db,'psycholoog/contacts');
+      onValue(settingsRef, snap=>{
+        const s = snap.val() || {};
+        document.getElementById('sitePhone').value = s.phone||'';
+        document.getElementById('siteTelegram').value = s.telegram||'';
+      }, { onlyOnce: true });
+
+      document.getElementById('saveContactsBtn').addEventListener('click', async ()=>{
+        const phone = document.getElementById('sitePhone').value.trim();
+        const telegram = document.getElementById('siteTelegram').value.trim();
+        try{ await set(ref(db,'psycholoog/contacts'), { phone, telegram }); showNotification('Контакты сохранены'); }catch(e){ console.error(e); showNotification('Ошибка'); }
+      });
+
+      // render incoming submissions
+      const inbox = document.getElementById('inboxList');
+      const items = Object.entries(contacts).sort((a,b)=> b[1].ts - a[1].ts);
+      if(items.length===0){ inbox.innerHTML = '<div style="color:#666;padding:10px;">Нет заявок</div>'; return; }
+      inbox.innerHTML = items.map(([id,item])=>{
+        const time = item.ts ? new Date(item.ts).toLocaleString('ru-RU') : '';
+        const wa = phoneToWa(item.phone);
+        const waLink = wa ? `<a href="https://wa.me/${wa}" target="_blank" style="margin-left:8px;color:#0f766e;font-weight:700;text-decoration:none;">WhatsApp</a>` : '';
+        return `<div style="border-bottom:1px solid #eee;padding:8px 0;">
+          <div style="font-weight:700">${escapeHtml(item.name||'—')}</div>
+          <div style="color:#666;font-size:13px">${escapeHtml(item.phone||'—')} ${waLink}</div>
+          <div style="margin-top:6px;color:#333;font-size:13px">${escapeHtml(item.message||'')}</div>
+          <div style="margin-top:8px;color:#999;font-size:12px">${time} <button data-id="${id}" class="admin-delete" style="float:right;background:#ff6b6b;border:none;color:#fff;padding:6px 8px;border-radius:8px;cursor:pointer;">Удалить</button></div>
+        </div>`;
+      }).join('');
+
+      inbox.querySelectorAll('.admin-delete').forEach(btn=> btn.addEventListener('click', async ()=>{
+        const id = btn.getAttribute('data-id'); if(!confirm('Удалить запись?')) return; try{ await remove(ref(db,'contacts/'+id)); showNotification('Удалено'); }catch(e){ console.error(e); showNotification('Ошибка'); }
+      }));
+    }
+
+    function renderBookings(){
+      const el = document.getElementById('adminContent');
+      const items = Object.entries(bookings).sort((a,b)=> b[1].ts - a[1].ts);
+      if(items.length===0){ 
+        el.innerHTML = '<div style="display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px 20px;color:#666;text-align:center;"><i class="fas fa-inbox" style="font-size:48px;margin-bottom:16px;color:#e0e0e0;"></i><p>Заявок пока нет</p></div>'; 
+        return; 
+      }
+      el.innerHTML = items.map(([id,item], idx)=>{
+        const wa = phoneToWa(item.phone||item.contact);
+        const waLink = wa ? `<a href="https://wa.me/${wa}" target="_blank" class="btn-whatsapp" style="background:#25D366;color:white;padding:8px 16px;border-radius:10px;text-decoration:none;font-weight:600;display:inline-flex;align-items:center;gap:6px;">
+          <i class="fab fa-whatsapp"></i> WhatsApp
+        </a>` : '';
+        
+        // Поддерживаем разные варианты полей
+        const clientName = item.name || item.clientName || item.client || 'Имя не указано';
+        const clientPhone = item.phone || item.clientPhone || item.contact || item.tel || 'Телефон не указан';
+        const serviceName = item.service || item.serviceName || item.serviceTitle || item.title || 'Услуга не указана';
+        const servicePrice = item.servicePrice || item.price || item.cost || 0;
+        const bookingDate = item.date || item.bookingDate || item.appointmentDate || 'Дата не указана';
+        const bookingTime = item.time || item.bookingTime || item.appointmentTime || '';
+        const clientMessage = item.message || item.clientMessage || item.note || item.notes || item.comment || '';
+        const bookingTimestamp = item.ts || item.timestamp || item.createdAt || Date.now();
+        
+        return `<div style="background:linear-gradient(145deg,#ffffff 0%,#f8f9fa 100%);padding:20px;border-radius:16px;border:1px solid #e0e0e0;box-shadow:0 2px 8px rgba(0,0,0,0.06);margin-bottom:16px;transition:all 0.3s ease;">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;padding-bottom:16px;border-bottom:2px solid #f0f0f0;">
+            <div style="display:flex;align-items:center;gap:10px;">
+              <i class="fas fa-user-circle" style="font-size:24px;color:#1E3A5F;"></i>
+              <strong style="font-size:16px;color:#1A1A2E;">${escapeHtml(clientName)}</strong>
+            </div>
+            <span style="background:linear-gradient(135deg,#1E3A5F,#2E4A6F);color:white;font-size:11px;font-weight:600;padding:6px 12px;border-radius:20px;white-space:nowrap;">${new Date(bookingTimestamp).toLocaleDateString('ru-RU', { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' })}</span>
+          </div>
+          
+          <div style="display:flex;flex-direction:column;gap:10px;margin:16px 0;">
+            <div style="display:flex;align-items:flex-start;gap:8px;flex-wrap:wrap;">
+              <span style="display:flex;align-items:center;gap:6px;color:#7A7A8C;font-size:12px;font-weight:500;min-width:110px;">
+                <i class="fas fa-spa" style="color:#1E3A5F;font-size:12px;"></i> Услуга:
+              </span>
+              <span style="color:#1E3A5F;font-weight:600;font-size:13px;">${escapeHtml(serviceName)}</span>
+            </div>
+            
+            ${servicePrice ? `
+            <div style="display:flex;align-items:flex-start;gap:8px;flex-wrap:wrap;">
+              <span style="display:flex;align-items:center;gap:6px;color:#7A7A8C;font-size:12px;font-weight:500;min-width:110px;">
+                <i class="fas fa-tag" style="color:#1E3A5F;font-size:12px;"></i> Стоимость:
+              </span>
+              <span style="background:linear-gradient(135deg,#C9A962,#D4B97A);color:white;padding:4px 12px;border-radius:12px;font-weight:600;font-size:12px;">${servicePrice} ₽</span>
+            </div>` : ''}
+            
+            <div style="display:flex;align-items:flex-start;gap:8px;flex-wrap:wrap;">
+              <span style="display:flex;align-items:center;gap:6px;color:#7A7A8C;font-size:12px;font-weight:500;min-width:110px;">
+                <i class="fas fa-phone" style="color:#1E3A5F;font-size:12px;"></i> Телефон:
+              </span>
+              <a href="tel:${clientPhone}" style="color:#1E3A5F;text-decoration:none;font-weight:600;transition:all 0.3s ease;">${clientPhone}</a>
+            </div>
+            
+            ${bookingDate ? `
+            <div style="display:flex;align-items:flex-start;gap:8px;flex-wrap:wrap;">
+              <span style="display:flex;align-items:center;gap:6px;color:#7A7A8C;font-size:12px;font-weight:500;min-width:110px;">
+                <i class="fas fa-calendar-alt" style="color:#1E3A5F;font-size:12px;"></i> Дата приёма:
+              </span>
+              <span style="color:#1A1A2E;font-size:13px;">${bookingDate}${bookingTime ? ' в ' + bookingTime : ''}</span>
+            </div>` : ''}
+            
+            ${clientMessage ? `
+            <div style="display:flex;align-items:flex-start;gap:8px;flex-wrap:wrap;background:#F7F5F0;padding:12px;border-radius:10px;margin-top:4px;">
+              <span style="display:flex;align-items:center;gap:6px;color:#7A7A8C;font-size:12px;font-weight:500;min-width:110px;">
+                <i class="fas fa-comment" style="color:#1E3A5F;font-size:12px;"></i> Сообщение:
+              </span>
+              <span style="color:#4A4A5C;font-style:italic;line-height:1.5;">${escapeHtml(clientMessage)}</span>
+            </div>` : ''}
+          </div>
+          
+          <div style="display:flex;gap:10px;margin-top:16px;padding-top:16px;border-top:1px solid #f0f0f0;">
+            ${waLink}
+            <button data-id="${id}" class="admin-delete" style="flex:1;background:linear-gradient(135deg,#ff6b6b,#ee5a5a);color:white;padding:12px 16px;border-radius:10px;border:none;font-weight:600;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:6px;transition:all 0.3s ease;">
+              <i class="fas fa-trash-alt"></i> Удалить
             </button>
-        </div>
-    </section>
+          </div>
+        </div>`;
+      }).join('');
+      el.querySelectorAll('.admin-delete').forEach(btn=> btn.addEventListener('click', async ()=>{
+        const id = btn.getAttribute('data-id'); if(!confirm('Удалить заявку?')) return; try{ await remove(ref(db,'bookings/'+id)); showNotification('Удалено'); }catch(e){ console.error(e); showNotification('Ошибка'); }
+      }));
+    }
 
-    <!-- ОБОМНЕ -->
-    <section id="about" class="section">
-        <div class="container">
-            <h2 class="section-title">Обо мне</h2>
-            <div class="about-grid">
-                <div class="about-image">
-                    <div class="image-placeholder">
-                        <i class="fas fa-user-circle"></i>
-                    </div>
-                </div>
-                <div class="about-content">
-                    <h3 id="psychName">Елена Волкова</h3>
-                    <p class="specialty" id="psychSpec">Клинический психолог</p>
-                    <p id="psychBio">Помогаю женщинам отыскать гармонию внутри себя</p>
-                    <ul class="about-list">
-                        <li><strong id="psychExp">10 лет</strong> опыта работы</li>
-                        <li>Сертифицированный специалист</li>
-                        <li>Индивидуальный подход к каждой клиентке</li>
-                        <li>Консультации онлайн и очно</li>
-                    </ul>
-                </div>
+    function renderServices(){
+      const el = document.getElementById('adminContent');
+        const items = Object.entries(services).sort((a,b)=> (a[1].title||'').localeCompare(b[1].title||''));
+        if(items.length===0){ el.innerHTML = '<div style="display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px 20px;color:#666;text-align:center;"><i class="fas fa-box-open" style="font-size:48px;margin-bottom:16px;color:#e0e0e0;"></i><p>Нет услуг</p></div>'; }
+        // top bar with add button
+        el.innerHTML = `<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;"><div style="font-weight:700;font-size:18px;">Услуги</div><button id="addServiceBtn" style="background:linear-gradient(135deg,#1E3A5F,#2E4A6F);color:#fff;padding:10px 16px;border-radius:10px;border:none;cursor:pointer;font-weight:600;display:inline-flex;align-items:center;gap:8px;transition:all 0.3s ease;"><i class="fas fa-plus"></i> Добавить услугу</button></div>`;
+        el.innerHTML += (items.length===0) ? '' : items.map(([id,item])=>{
+        const servicePrice = item.price || item.cost || item.servicePrice || 0;
+        return `<div style="background:linear-gradient(145deg,#ffffff 0%,#f8f9fa 100%);padding:20px;border-radius:16px;border:1px solid #e0e0e0;box-shadow:0 2px 8px rgba(0,0,0,0.06);margin-bottom:16px;transition:all 0.3s ease;">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;padding-bottom:12px;border-bottom:2px solid #f0f0f0;">
+            <div style="display:flex;align-items:center;gap:10px;">
+              <i class="fas fa-spa" style="font-size:20px;color:#1E3A5F;"></i>
+              <div style="font-weight:700;font-size:16px;color:#1A1A2E;">${escapeHtml(item.title||'—')}</div>
             </div>
-        </div>
-    </section>
-
-    <!-- УСЛУГИ -->
-    
-    <!-- Секция "Для кого" удалена — карусель перемещена в верхний герой -->
-
-    <section id="services" class="section light-bg">
-        <div class="container">
-            <h2 class="section-title">Услуги</h2>
-            <div class="services-grid" id="servicesContainer">
-                <!-- Услуги будут загружены из Firebase -->
+            <div style="display:flex;gap:8px;">
+              <button data-id="${id}" class="admin-edit-service" style="background:linear-gradient(135deg,#4A90D9,#357ABD);color:white;padding:8px 14px;border-radius:10px;border:none;cursor:pointer;font-weight:600;font-size:12px;display:inline-flex;align-items:center;gap:6px;transition:all 0.3s ease;">
+                <i class="fas fa-edit"></i> Редактировать
+              </button>
+              <button data-id="${id}" class="admin-delete" style="background:linear-gradient(135deg,#ff6b6b,#ee5a5a);color:white;padding:8px 14px;border-radius:10px;border:none;cursor:pointer;font-weight:600;font-size:12px;display:inline-flex;align-items:center;gap:6px;transition:all 0.3s ease;">
+                <i class="fas fa-trash-alt"></i> Удалить
+              </button>
             </div>
-        </div>
-    </section>
+          </div>
+          <div style="color:#666;font-size:14px;margin-top:8px;line-height:1.5;">${escapeHtml(item.description||'')}</div>
+          ${servicePrice ? `<div style="margin-top:12px;display:inline-block;background:linear-gradient(135deg,#C9A962,#D4B97A);color:white;padding:6px 14px;border-radius:12px;font-weight:600;font-size:13px;"><i class="fas fa-tag" style="margin-right:6px;"></i>${servicePrice} ₽</div>` : ''}
+        </div>`;
+      }).join('');
 
-    <!-- ОТЗЫВЫ -->
-    <section id="reviews" class="section">
-        <div class="container">
-            <h2 class="section-title">Что говорят клиентки</h2>
-            <div class="reviews-grid" id="reviewsContainer">
-                <div class="review-card">
-                    <div class="review-rating">⭐⭐⭐⭐⭐</div>
-                    <p>"Наконец-то нашла хорошего психолога! Елена очень понимающая и помогла мне разобраться с давними проблемами."</p>
-                    <p class="review-author">— Анна, 31</p>
-                </div>
-                <div class="review-card">
-                    <div class="review-rating">⭐⭐⭐⭐⭐</div>
-                    <p>"Спасибо за то, что помогли мне стать более уверенной в себе. Это был отличный опыт работы."</p>
-                    <p class="review-author">— Мария, 28</p>
-                </div>
-                <div class="review-card">
-                    <div class="review-rating">⭐⭐⭐⭐⭐</div>
-                    <p>"Благодарна за работу над отношениями. Многое стало на места, и я чувствую себя намного лучше."</p>
-                    <p class="review-author">— Екатерина, 35</p>
-                </div>
+      // edit handlers
+      el.querySelectorAll('.admin-edit-service').forEach(btn=> btn.addEventListener('click', ()=>{
+        const id = btn.getAttribute('data-id'); const s = services[id];
+        const formHtml = `<div style="padding:8px 0;background:#fafafa;border-radius:8px;margin-top:8px;">
+            <input id="svc_title_${id}" value="${escapeHtml(s.title||'')}" style="width:100%;padding:8px;margin-bottom:6px;border:1px solid #ddd;border-radius:6px;">
+            <input id="svc_price_${id}" value="${escapeHtml(s.price||'')}" style="width:100%;padding:8px;margin-bottom:6px;border:1px solid #ddd;border-radius:6px;">
+            <textarea id="svc_desc_${id}" style="width:100%;padding:8px;border:1px solid #ddd;border-radius:6px;">${escapeHtml(s.description||'')}</textarea>
+            <div style="display:flex;gap:8px;margin-top:8px;"><button id="svc_save_${id}" style="background:#0f766e;color:#fff;padding:8px 10px;border-radius:8px;border:none;">Сохранить</button><button id="svc_cancel_${id}" style="background:transparent;border:1px solid #ccc;padding:8px 10px;border-radius:8px;">Отмена</button></div>
+          </div>`;
+        btn.parentElement.parentElement.insertAdjacentHTML('afterend', formHtml);
+        document.getElementById(`svc_save_${id}`).addEventListener('click', async ()=>{
+          const updated = { title: document.getElementById(`svc_title_${id}`).value, price: document.getElementById(`svc_price_${id}`).value, description: document.getElementById(`svc_desc_${id}`).value };
+          try{ await update(ref(db,'services/'+id), updated); showNotification('Услуга обновлена'); }catch(e){ console.error(e); showNotification('Ошибка'); }
+        });
+        document.getElementById(`svc_cancel_${id}`).addEventListener('click', ()=>{ renderServices(); });
+      }));
+
+      el.querySelectorAll('.admin-delete').forEach(btn=> btn.addEventListener('click', async ()=>{
+        const id = btn.getAttribute('data-id'); if(!confirm('Удалить услугу?')) return; try{ await remove(ref(db,'services/'+id)); showNotification('Удалено'); }catch(e){ console.error(e); showNotification('Ошибка'); }
+      }));
+
+      // attach add button
+      const addBtn = document.getElementById('addServiceBtn'); if(addBtn) addBtn.addEventListener('click', ()=> showAddServiceForm());
+    }
+
+    function renderReviews(){
+      const el = document.getElementById('adminContent');
+      const items = Object.entries(reviews).sort((a,b)=> b[1].ts - a[1].ts);
+      if(items.length===0){ el.innerHTML = '<div style="color:#666;padding:10px;">Нет отзывов</div>'; return; }
+        el.innerHTML = items.map(([id,item])=>{
+          const approved = item.approved ? true : false;
+          const approveBtn = approved ? '' : `<button data-id-approve="${id}" class="admin-approve" style="margin-right:8px;background:#0f766e;border:none;color:#fff;padding:6px 8px;border-radius:8px;cursor:pointer;">Одобрить</button>`;
+          return `<div style="border-bottom:1px solid #eee;padding:8px 0;">
+            <div style="font-weight:700">${escapeHtml(item.firstName||item.author||item.name||'—')} ${escapeHtml(item.lastName||'')}</div>
+            <div style="color:#666;font-size:13px;margin-top:6px">${escapeHtml(item.text||item.message||'')}</div>
+            <div style="margin-top:8px;color:#999;font-size:12px">${item.ts?new Date(item.ts).toLocaleString('ru-RU'):''}
+              <span style="float:right">
+                ${approveBtn}
+                <button data-id="${id}" class="admin-delete" style="background:#ff6b6b;border:none;color:#fff;padding:6px 8px;border-radius:8px;cursor:pointer;">Удалить</button>
+              </span>
             </div>
-            <div style="text-align: center; margin-top: 40px;">
-                <button id="reviewBtn" class="btn btn-outline">Оставить свой отзыв</button>
-            </div>
+          </div>`;
+        }).join('');
+        el.querySelectorAll('.admin-delete').forEach(btn=> btn.addEventListener('click', async ()=>{
+          const id = btn.getAttribute('data-id'); if(!confirm('Удалить отзыв?')) return; try{ await remove(ref(db,'reviews/'+id)); showNotification('Удалено'); }catch(e){ console.error(e); showNotification('Ошибка'); }
+        }));
+        el.querySelectorAll('.admin-approve').forEach(btn=> btn.addEventListener('click', async ()=>{
+          const id = btn.getAttribute('data-id-approve'); try{ await update(ref(db,'reviews/'+id), { approved: true }); showNotification('Отзыв одобрен'); }catch(e){ console.error(e); showNotification('Ошибка'); }
+        }));
+    }
+
+    function renderSections(){
+      const el = document.getElementById('adminContent');
+      const items = Object.entries(customSections).sort((a,b)=> (a[1].title||'').localeCompare(b[1].title||''));
+      if(items.length===0){ el.innerHTML = '<div style="color:#666;padding:10px;">Нет разделов</div>'; return; }
+      el.innerHTML = items.map(([id,item])=>{
+        return `<div style="border-bottom:1px solid #eee;padding:8px 0;">
+          <div style="display:flex;justify-content:space-between;align-items:center;"><div style="font-weight:700">${escapeHtml(item.title||'—')}</div><div><button data-id="${id}" class="admin-edit-section" style="margin-right:8px;">Редактировать</button><button data-id="${id}" class="admin-delete" style="background:#ff6b6b;border:none;color:#fff;padding:6px 8px;border-radius:8px;cursor:pointer;">Удалить</button></div></div>
+          <div style="color:#666;font-size:13px;margin-top:6px">${escapeHtml(item.type||'')}</div>
+        </div>`;
+      }).join('');
+
+      el.querySelectorAll('.admin-edit-section').forEach(btn=> btn.addEventListener('click', ()=>{
+        const id = btn.getAttribute('data-id'); const s = customSections[id] || {};
+        const formHtml = `<div style="padding:8px 0;background:#fafafa;border-radius:8px;margin-top:8px;">
+            <input id="sec_title_${id}" value="${escapeHtml(s.title||'')}" style="width:100%;padding:8px;margin-bottom:6px;border:1px solid #ddd;border-radius:6px;">
+            <textarea id="sec_content_${id}" style="width:100%;padding:8px;border:1px solid #ddd;border-radius:6px;">${escapeHtml(s.content||'')}</textarea>
+            <div style="display:flex;gap:8px;margin-top:8px;"><button id="sec_save_${id}" style="background:#0f766e;color:#fff;padding:8px 10px;border-radius:8px;border:none;">Сохранить</button><button id="sec_cancel_${id}" style="background:transparent;border:1px solid #ccc;padding:8px 10px;border-radius:8px;">Отмена</button></div>
+          </div>`;
+        btn.parentElement.parentElement.insertAdjacentHTML('afterend', formHtml);
+        document.getElementById(`sec_save_${id}`).addEventListener('click', async ()=>{
+          const updated = { title: document.getElementById(`sec_title_${id}`).value, content: document.getElementById(`sec_content_${id}`).value, type: s.type || 'text' };
+          try{ await update(ref(db,'customSections/'+id), updated); showNotification('Сохранено'); }catch(e){ console.error(e); showNotification('Ошибка'); }
+        });
+        document.getElementById(`sec_cancel_${id}`).addEventListener('click', ()=>{ renderSections(); });
+      }));
+
+      el.querySelectorAll('.admin-delete').forEach(btn=> btn.addEventListener('click', async ()=>{
+        const id = btn.getAttribute('data-id'); if(!confirm('Удалить раздел?')) return; try{ await remove(ref(db,'customSections/'+id)); showNotification('Удалено'); }catch(e){ console.error(e); showNotification('Ошибка'); }
+      }));
+    }
+
+    // helper: показать форму добавления услуги
+    function showAddServiceForm(){
+      const el = document.getElementById('adminContent');
+      el.innerHTML = `
+        <div style="font-weight:700;margin-bottom:8px">Новая услуга</div>
+        <div style="display:grid;gap:8px;">
+          <input id="newTitle" placeholder="Название" style="padding:8px;border:1px solid #eee;border-radius:8px;">
+          <input id="newPrice" placeholder="Цена" style="padding:8px;border:1px solid #eee;border-radius:8px;">
+          <input id="newLabel" placeholder="Метка (Базовый/Популярный)" style="padding:8px;border:1px solid #eee;border-radius:8px;">
+          <textarea id="newDesc" placeholder="Фичи, по одной в строке" rows="4" style="padding:8px;border:1px solid #eee;border-radius:8px;"></textarea>
+          <div style="display:flex;gap:8px;">
+            <button id="saveNewService" style="background:#0f766e;color:#fff;padding:8px 12px;border-radius:8px;border:none;">Сохранить</button>
+            <button id="cancelNewService" style="background:transparent;border:1px solid #ddd;padding:8px 12px;border-radius:8px;">Отмена</button>
+          </div>
         </div>
-    </section>
+      `;
+      document.getElementById('cancelNewService').addEventListener('click', ()=> renderServices());
+      document.getElementById('saveNewService').addEventListener('click', async ()=>{
+        const title = document.getElementById('newTitle').value.trim();
+        const price = document.getElementById('newPrice').value.trim();
+        const label = document.getElementById('newLabel').value.trim();
+        const desc = document.getElementById('newDesc').value.trim();
+        if(!title){ alert('Введите название'); return; }
+        const id = 'service_' + Date.now();
+        const payload = { title, price, label, description: desc, ts: Date.now() };
+        try{ await set(ref(db,'services/'+id), payload); showNotification('Услуга добавлена'); renderServices(); }catch(e){ console.error(e); showNotification('Ошибка'); }
+      });
+    }
 
-    <!-- ДИНАМИЧЕСКИЕ РАЗДЕЛЫ -->
-    <div id="customSectionsContainer"></div>
+    // tab switching
+    panel.querySelectorAll('.admin-tab').forEach(btn=> btn.addEventListener('click', (e)=>{
+      panel.querySelectorAll('.admin-tab').forEach(b=> b.classList.remove('active')); btn.classList.add('active'); const tab = btn.getAttribute('data-tab');
+      if(tab==='content') renderContent();
+      if(tab==='contacts') renderContacts();
+      if(tab==='bookings') renderBookings();
+      if(tab==='services') renderServices();
+      if(tab==='reviews') renderReviews();
+      if(tab==='sections') renderSections();
+    }));
 
-    <!-- ЗАПИСЬ -->
-    <section id="booking" class="section light-bg">
-        <div class="container">
-            <h2 class="section-title">Запись на консультацию</h2>
-            <p style="text-align: center; margin-bottom: 40px; color: #666;">Выберите удобную для вас дату и время</p>
-            <button class="btn btn-primary" onclick="openConsultationBooking()">
-                <i class="fas fa-calendar-check"></i> Записаться на консультацию
+    // add-service btn (wired when services tab renders)
+
+    // render/edit site content (hero etc)
+    async function renderContent(){
+      const el = document.getElementById('adminContent');
+      
+      // Значения по умолчанию
+      let hero = { badge: 'Онлайн-программа · 5 недель', title: 'Путь к счастью', titleSub: 'через сеть', subtitle: 'Программа для женщин...' };
+      let author = { name: 'Валерия Павлидис', specialty: 'Системный семейный терапевт', items: ['об опыте (кол-во лет практики?)', 'текст', 'текст'], hint: 'для тех кому трудно сделать первый шаг\n— заполните форму и я свяжусь с Вами сама' };
+      let nav = { logoName: 'Валерия Паилидис' };
+      let socials = { telegram: 'https://t.me/psychologist_nick', whatsapp: '#' };
+      
+      // Пытаемся загрузить данные
+      try {
+        const heroSnap = await get(ref(db,'siteContent/hero'));
+        const authorSnap = await get(ref(db,'siteContent/author'));
+        const navSnap = await get(ref(db,'siteContent/nav'));
+        const socialsSnap = await get(ref(db,'siteContent/socials'));
+        if(heroSnap.exists()) hero = heroSnap.val();
+        if(authorSnap.exists()) author = authorSnap.val();
+        if(navSnap.exists()) nav = navSnap.val();
+        if(socialsSnap.exists()) socials = socialsSnap.val();
+      } catch(e) { console.log('Используются значения по умолчанию'); }
+      
+      el.innerHTML = `
+        <div style="display:flex;flex-direction:column;gap:20px;">
+          
+          <!-- Логотип -->
+          <div style="background:linear-gradient(145deg,#ffffff 0%,#f8f9fa 100%);padding:20px;border-radius:16px;border:1px solid #e0e0e0;">
+            <div style="font-weight:600;font-size:16px;margin-bottom:12px;color:#1E3A5F;"><i class="fas fa-heading" style="margin-right:8px;"></i>Логотип (имя в шапке)</div>
+            <input id="navLogoInp" value="${escapeHtml(nav.logoName||'')}" style="width:100%;padding:10px;border:1px solid #ddd;border-radius:8px;margin-bottom:10px;">
+            <button id="saveNav" style="background:linear-gradient(135deg,#1E3A5F,#2E4A6F);color:#fff;padding:10px 16px;border-radius:10px;border:none;font-weight:600;cursor:pointer;display:inline-flex;align-items:center;gap:6px;">
+              <i class="fas fa-save"></i> Сохранить логотип
             </button>
+          </div>
+          
+          <!-- Hero секция -->
+          <div style="background:linear-gradient(145deg,#ffffff 0%,#f8f9fa 100%);padding:20px;border-radius:16px;border:1px solid #e0e0e0;">
+            <div style="font-weight:600;font-size:16px;margin-bottom:12px;color:#1E3A5F;"><i class="fas fa-home" style="margin-right:8px;"></i>Главная секция (Hero)</div>
+            <label style="font-size:13px;color:#666;margin-bottom:4px;display:block;">Бейдж (короткий текст)</label>
+            <input id="heroBadgeInp" value="${escapeHtml(hero.badge||'')}" style="width:100%;padding:10px;border:1px solid #ddd;border-radius:8px;margin-bottom:10px;">
+            <label style="font-size:13px;color:#666;margin-bottom:4px;display:block;">Заголовок (первая строка)</label>
+            <input id="heroTitleInp" value="${escapeHtml(hero.title||'')}" style="width:100%;padding:10px;border:1px solid #ddd;border-radius:8px;margin-bottom:10px;">
+            <label style="font-size:13px;color:#666;margin-bottom:4px;display:block;">Подзаголовок (вторая строка, курсив)</label>
+            <input id="heroTitleSubInp" value="${escapeHtml(hero.titleSub||'')}" style="width:100%;padding:10px;border:1px solid #ddd;border-radius:8px;margin-bottom:10px;">
+            <label style="font-size:13px;color:#666;margin-bottom:4px;display:block;">Описание под заголовком</label>
+            <textarea id="heroSubInp" style="width:100%;padding:10px;border:1px solid #ddd;border-radius:8px;margin-bottom:10px;min-height:60px;">${escapeHtml(hero.subtitle||'')}</textarea>
+            <button id="saveHero" style="background:linear-gradient(135deg,#1E3A5F,#2E4A6F);color:#fff;padding:10px 16px;border-radius:10px;border:none;font-weight:600;cursor:pointer;display:inline-flex;align-items:center;gap:6px;">
+              <i class="fas fa-save"></i> Сохранить Hero
+            </button>
+          </div>
+          
+          <!-- Информация об авторе -->
+          <div style="background:linear-gradient(145deg,#ffffff 0%,#f8f9fa 100%);padding:20px;border-radius:16px;border:1px solid #e0e0e0;">
+            <div style="font-weight:600;font-size:16px;margin-bottom:12px;color:#1E3A5F;"><i class="fas fa-user" style="margin-right:8px;"></i>Информация об авторе</div>
+            <label style="font-size:13px;color:#666;margin-bottom:4px;display:block;">Имя и фамилия</label>
+            <input id="authorNameInp" value="${escapeHtml(author.name||'')}" style="width:100%;padding:10px;border:1px solid #ddd;border-radius:8px;margin-bottom:10px;">
+            <label style="font-size:13px;color:#666;margin-bottom:4px;display:block;">Специальность</label>
+            <input id="authorSpecInp" value="${escapeHtml(author.specialty||'')}" style="width:100%;padding:10px;border:1px solid #ddd;border-radius:8px;margin-bottom:10px;">
+            <label style="font-size:13px;color:#666;margin-bottom:4px;display:block;">Пункты (через запятую)</label>
+            <textarea id="authorItemsInp" style="width:100%;padding:10px;border:1px solid #ddd;border-radius:8px;margin-bottom:10px;min-height:60px;">${escapeHtml((author.items||[]).join(', '))}</textarea>
+            <label style="font-size:13px;color:#666;margin-bottom:4px;display:block;">Подсказка внизу</label>
+            <textarea id="authorHintInp" style="width:100%;padding:10px;border:1px solid #ddd;border-radius:8px;margin-bottom:10px;min-height:40px;">${escapeHtml(author.hint||'')}</textarea>
+            <button id="saveAuthor" style="background:linear-gradient(135deg,#1E3A5F,#2E4A6F);color:#fff;padding:10px 16px;border-radius:10px;border:none;font-weight:600;cursor:pointer;display:inline-flex;align-items:center;gap:6px;">
+              <i class="fas fa-save"></i> Сохранить автора
+            </button>
+          </div>
+          
+          <!-- Социальные ссылки -->
+          <div style="background:linear-gradient(145deg,#ffffff 0%,#f8f9fa 100%);padding:20px;border-radius:16px;border:1px solid #e0e0e0;">
+            <div style="font-weight:600;font-size:16px;margin-bottom:12px;color:#1E3A5F;"><i class="fas fa-share-alt" style="margin-right:8px;"></i>Социальные ссылки</div>
+            <label style="font-size:13px;color:#666;margin-bottom:4px;display:block;"><i class="fab fa-telegram" style="color:#0088cc;margin-right:6px;"></i>Telegram ссылка</label>
+            <input id="socialTgInp" value="${escapeHtml(socials.telegram||'')}" style="width:100%;padding:10px;border:1px solid #ddd;border-radius:8px;margin-bottom:10px;">
+            <label style="font-size:13px;color:#666;margin-bottom:4px;display:block;"><i class="fab fa-whatsapp" style="color:#25D366;margin-right:6px;"></i>WhatsApp ссылка</label>
+            <input id="socialWaInp" value="${escapeHtml(socials.whatsapp||'')}" style="width:100%;padding:10px;border:1px solid #ddd;border-radius:8px;margin-bottom:10px;">
+            <button id="saveSocials" style="background:linear-gradient(135deg,#1E3A5F,#2E4A6F);color:#fff;padding:10px 16px;border-radius:10px;border:none;font-weight:600;cursor:pointer;display:inline-flex;align-items:center;gap:6px;">
+              <i class="fas fa-save"></i> Сохранить ссылки
+            </button>
+          </div>
+          
         </div>
-    </section>
-
-    <!-- КОНТАКТЫ -->
-    <section id="contact" class="section">
-        <div class="container">
-            <h2 class="section-title">Свяжитесь со мной</h2>
-            <div class="contacts-info">
-                <div class="contact-block">
-                    <i class="fas fa-phone"></i>
-                    <p>Телефон:</p>
-                    <a href="tel:+79990000000" data-role="phone">+79990000000</a>
-                </div>
-                <div class="contact-block">
-                    <i class="fas fa-paper-plane"></i>
-                    <p>Telegram:</p>
-                    <a href="https://t.me/psychologist_nick" data-role="telegram" target="_blank">@psychologist_nick</a>
-                </div>
-                <div class="contact-block">
-                    <i class="fas fa-clock"></i>
-                    <p>Режим работы:</p>
-                    <p>Пн-Пт: 10:00 - 18:00</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- МОДАЛ ЗАПИСЬ -->
-    <div id="bookingModal" class="modal">
-        <div class="modal-inner">
-            <button id="closeBookingModal" class="modal-close"><i class="fas fa-times"></i></button>
-            <h3>Запись на консультацию</h3>
-            <div id="bookingServiceInfo" style="display: none; background: var(--color-light); padding: 16px; border-radius: 8px; margin-bottom: 20px; border-left: 4px solid var(--color-primary);">
-                <p><strong>Услуга:</strong> <span id="bookingServiceName"></span></p>
-                <p><strong>Стоимость:</strong> <span id="bookingServicePriceText"></span></p>
-            </div>
-            <form id="bookingForm">
-                <input type="hidden" id="bookingServiceId" name="service" value="" />
-                <input type="hidden" id="bookingServicePrice" name="servicePrice" value="" />
-                <div class="form-group" id="serviceSelectGroup">
-                    <label>Услуга</label>
-                    <select id="bookingServiceSelect" name="serviceSelect" onchange="updateBookingService(this.value)">
-                        <option value="">Выберите услугу</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label>Ваше имя *</label>
-                    <input type="text" name="name" required />
-                </div>
-                <div class="form-group">
-                    <label>Телефон *</label>
-                    <input type="tel" name="phone" required />
-                </div>
-                <div class="form-group">
-                    <label>Предпочитаемая дата *</label>
-                    <input type="date" id="bookingDateInput" name="date" required />
-                </div>
-                <div class="form-group">
-                    <label>Время</label>
-                    <select name="time">
-                        <option>10:00 - 11:00</option>
-                        <option>11:00 - 12:00</option>
-                        <option>14:00 - 15:00</option>
-                        <option>15:00 - 16:00</option>
-                        <option>16:00 - 17:00</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label>Расскажите о вашей ситуации (опционально)</label>
-                    <textarea name="message" placeholder="Это поможет мне лучше подготовиться..."></textarea>
-                </div>
-                <button type="submit" class="btn btn-primary btn-block">
-                    <i class="fas fa-check"></i> Отправить заявку
-                </button>
-            </form>
-        </div>
-    </div>
-
-    <!-- МОДАЛ ОТЗЫВ -->
-    <div id="reviewModal" class="modal">
-        <div class="modal-inner">
-            <button id="closeReviewModal" class="modal-close"><i class="fas fa-times"></i></button>
-            <h3>Оставить отзыв</h3>
-            <form id="reviewForm">
-                <div class="form-group">
-                    <label>Ваше имя *</label>
-                    <input type="text" name="author" required />
-                </div>
-                <div class="form-group">
-                    <label>Оценка *</label>
-                    <select name="rating" required>
-                        <option value="5">⭐⭐⭐⭐⭐ Отлично!</option>
-                        <option value="4">⭐⭐⭐⭐ Хорошо</option>
-                        <option value="3">⭐⭐⭐ Нормально</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label>Ваш отзыв *</label>
-                    <textarea name="text" placeholder="Поделитесь впечатлениями..." required></textarea>
-                </div>
-                <button type="submit" class="btn btn-primary btn-block">Опубликовать отзыв</button>
-            </form>
-        </div>
-    </div>
-
-    <!-- МОДАЛ: НЕТ ДОСТУПНЫХ СЛОТОВ -->
-    <div id="noSlotsModal" class="modal">
-        <div class="modal-inner" style="text-align: center; max-width: 400px;">
-            <button class="modal-close" onclick="closeNoSlotsModal()"><i class="fas fa-times"></i></button>
-            <div style="font-size: 48px; margin-bottom: 16px;">📅</div>
-            <h3>Запись на консультацию</h3>
-            <p style="color: #666; margin: 20px 0;">В ближайшее время записей нету.</p>
-            <p style="color: #999; font-size: 14px; margin-bottom: 24px;">Пожалуйста, проверьте позже или свяжитесь со мной напрямую.</p>
-            <button class="btn btn-primary" onclick="closeNoSlotsModal()">Понятно</button>
-        </div>
-    </div>
-
-    <!-- МОДАЛ: ВЫБОР СЛОТА КОНСУЛЬТАЦИИ -->
-    <div id="consultationSlotModal" class="modal">
-        <div class="modal-inner" style="max-width: 500px;">
-            <button class="modal-close" onclick="document.getElementById('consultationSlotModal').classList.remove('open')"><i class="fas fa-times"></i></button>
-            <h3>Выберите удобное время</h3>
-            <p style="color: #666; margin-bottom: 20px;">Доступные слоты для 30-минутной консультации:</p>
-            <div id="availableSlotsList" class="slots-list-modal">
-                <!-- Слоты загружаются динамически -->
-            </div>
-        </div>
-    </div>
-
-    <!-- МОДАЛ: ФОРМА ЗАПИСИ НА КОНСУЛЬТАЦИЮ -->
-    <div id="consultationBookingModal" class="modal">
-        <div class="modal-inner">
-            <button class="modal-close" onclick="closeConsultationBookingModal()"><i class="fas fa-times"></i></button>
-            <h3>Запись на консультацию</h3>
-            <div style="background: var(--color-light); padding: 16px; border-radius: 8px; margin-bottom: 20px; border-left: 4px solid var(--color-primary);">
-                <p><strong>📅 Дата:</strong> <span id="consultationSelectedDate"></span></p>
-                <p><strong>⏰ Время:</strong> <span id="consultationSelectedTime"></span></p>
-                <p style="margin-bottom: 0; color: #666; font-size: 14px;">Продолжительность: 30 минут</p>
-            </div>
-            <form id="consultationBookingForm">
-                <input type="hidden" id="consultationSlotId" value="" />
-                <div class="form-group">
-                    <label>Ваше имя *</label>
-                    <input type="text" name="name" required />
-                </div>
-                <div class="form-group">
-                    <label>Телефон *</label>
-                    <input type="tel" name="phone" required />
-                </div>
-                <div class="form-group">
-                    <label>Расскажите о вашей ситуации (опционально)</label>
-                    <textarea name="message" placeholder="Это поможет мне лучше подготовиться к разговору..."></textarea>
-                </div>
-                <button type="submit" class="btn btn-primary btn-block">
-                    <i class="fas fa-check"></i> Подтвердить запись
-                </button>
-            </form>
-        </div>
-    </div>
-
-    <!-- МОДАЛ: УСПЕШНАЯ ЗАПИСЬ -->
-    <div id="bookingSuccessModal" class="modal">
-        <div class="modal-inner" style="text-align: center; max-width: 400px;">
-            <button class="modal-close" onclick="closeBookingSuccessModal()"><i class="fas fa-times"></i></button>
-            <div style="font-size: 48px; margin-bottom: 16px;">✅</div>
-            <h3>Запись подтверждена!</h3>
-            <p style="color: #666; margin: 20px 0;">Я свяжусь с вами в ближайшее время для подтверждения консультации.</p>
-            <button class="btn btn-primary" onclick="closeBookingSuccessModal()">Отлично</button>
-        </div>
-    </div>
-
-    <!-- КОНТЕЙНЕР ДЛЯ УВЕДОМЛЕНИЙ -->
-    <div id="notificationContainer" class="notification-container"></div>
-
-    <!-- АДМИН-ПАНЕЛЬ -->
-    <div id="adminPanel" class="admin-panel">
-        <div class="admin-header">
-            <h2>🔧 Панель администратора</h2>
-            <button onclick="closeAdminPanel()" class="admin-close"><i class="fas fa-times"></i></button>
-        </div>
-
-        <div class="admin-tabs">
-            <button class="admin-tab-btn active" onclick="switchAdminTab(event, 'adminAboutTab')">Профиль</button>
-            <button class="admin-tab-btn" onclick="switchAdminTab(event, 'adminBookingsTab')">Заявки</button>
-            <button class="admin-tab-btn" onclick="switchAdminTab(event, 'adminServicesTab')">Услуги</button>
-            <button class="admin-tab-btn" onclick="switchAdminTab(event, 'adminConsultationSlotsTab')">Консультации</button>
-            <button class="admin-tab-btn" onclick="switchAdminTab(event, 'adminReviewsTab')">Отзывы</button>
-        </div>
-
-        <div class="admin-content">
-            <div id="adminAboutTab" class="admin-tab visible"></div>
-            <div id="adminBookingsTab" class="admin-tab"></div>
-            <div id="adminServicesTab" class="admin-tab"></div>
-            <div id="adminConsultationSlotsTab" class="admin-tab"></div>
-            <div id="adminReviewsTab" class="admin-tab"></div>
-        </div>
-    </div>
-
-    <script>
-        window.switchAdminTab = function(event, tabId) {
-            document.querySelectorAll('.admin-tab').forEach(t => t.classList.remove('visible'));
-            document.querySelectorAll('.admin-tab-btn').forEach(b => b.classList.remove('active'));
-            
-            event.target.classList.add('active');
-            document.getElementById(tabId).classList.add('visible');
-            
-            if (tabId === 'adminAboutTab') renderAboutEditor();
-            else if (tabId === 'adminBookingsTab') renderBookingsEditor();
-            else if (tabId === 'adminServicesTab') renderServicesEditor();
-            else if (tabId === 'adminConsultationSlotsTab') renderConsultationSlotsEditor();
-            else if (tabId === 'adminReviewsTab') renderReviewsEditor();
+      `;
+      
+      // Обработчики сохранения
+      document.getElementById('saveNav').addEventListener('click', async ()=>{
+        try{ await set(ref(db,'siteContent/nav'), { logoName: document.getElementById('navLogoInp').value }); showNotification('Логотип сохранён'); }catch(e){ console.error(e); showNotification('Ошибка'); }
+      });
+      
+      document.getElementById('saveHero').addEventListener('click', async ()=>{
+        const payload = { 
+          badge: document.getElementById('heroBadgeInp').value, 
+          title: document.getElementById('heroTitleInp').value,
+          titleSub: document.getElementById('heroTitleSubInp').value,
+          subtitle: document.getElementById('heroSubInp').value 
         };
-    </script>
+        try{ await set(ref(db,'siteContent/hero'), payload); showNotification('Hero сохранён'); }catch(e){ console.error(e); showNotification('Ошибка'); }
+      });
+      
+      document.getElementById('saveAuthor').addEventListener('click', async ()=>{
+        const itemsStr = document.getElementById('authorItemsInp').value;
+        const items = itemsStr.split(',').map(s => s.trim()).filter(s => s);
+        const payload = { 
+          name: document.getElementById('authorNameInp').value, 
+          specialty: document.getElementById('authorSpecInp').value,
+          items: items,
+          hint: document.getElementById('authorHintInp').value
+        };
+        try{ await set(ref(db,'siteContent/author'), payload); showNotification('Автор сохранён'); }catch(e){ console.error(e); showNotification('Ошибка'); }
+      });
+      
+      document.getElementById('saveSocials').addEventListener('click', async ()=>{
+        const payload = { telegram: document.getElementById('socialTgInp').value, whatsapp: document.getElementById('socialWaInp').value };
+        try{ await set(ref(db,'siteContent/socials'), payload); showNotification('Ссылки сохранены'); }catch(e){ console.error(e); showNotification('Ошибка'); }
+      });
+    }
 
-    <!-- ПЛАВАЮЩИЕ КНОПКИ -->
-    <div class="floating-buttons">
-        <a href="https://wa.me/79990000000" class="float-btn whatsapp" title="WhatsApp">
-            <i class="fab fa-whatsapp"></i>
-        </a>
-        <a href="https://t.me/psychologist_nick" class="float-btn telegram" title="Telegram">
-            <i class="fab fa-telegram"></i>
-        </a>
-    </div>
+    // subscribe db paths
+    onValue(ref(db,'contacts'), snap=>{ contacts = snap.val() || {}; const active = panel.style.display!=='none'; if(active) renderContacts(); });
+    onValue(ref(db,'bookings'), snap=>{ bookings = snap.val() || {}; const active = panel.style.display!=='none'; if(active) renderBookings(); });
+    onValue(ref(db,'services'), snap=>{ services = snap.val() || {}; const active = panel.style.display!=='none'; if(active) renderServices(); });
+    onValue(ref(db,'reviews'), snap=>{ reviews = snap.val() || {}; const active = panel.style.display!=='none'; if(active) renderReviews(); });
+    onValue(ref(db,'customSections'), snap=>{ customSections = snap.val() || {}; const active = panel.style.display!=='none'; if(active) renderSections(); });
 
-    <!-- FOOTER -->
-    <footer class="footer">
-        <div class="container">
-            <p>&copy; 2025 Психолог для женщин. Все права защищены.</p>
-        </div>
-    </footer>
+  }
+
+  function escapeHtml(text){ const d = document.createElement('div'); d.textContent = text; return d.innerHTML; }
+
+</script>
 </body>
 </html>
