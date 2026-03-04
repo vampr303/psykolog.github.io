@@ -657,6 +657,22 @@ body {
     visibility: visible;
 }
 
+/* Позиционирование модального окна рядом с кнопкой */
+.modal.positioned {
+    position: absolute;
+    width: auto;
+    height: auto;
+    background: transparent;
+    backdrop-filter: none;
+    align-items: flex-start;
+    justify-content: flex-start;
+    pointer-events: none;
+}
+
+.modal.positioned .modal-inner {
+    pointer-events: auto;
+}
+
 .modal-inner {
     background: white;
     border-radius: 16px;
@@ -1251,102 +1267,216 @@ body {
 .bookings-list {
     display: flex;
     flex-direction: column;
-    gap: 14px;
+    gap: 16px;
 }
 
+/* Пустое состояние */
+.empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 20px;
+    color: var(--color-text-muted);
+    text-align: center;
+}
+
+.empty-state i {
+    font-size: 48px;
+    margin-bottom: 16px;
+    color: var(--color-border);
+}
+
+.empty-state p {
+    font-size: 14px;
+}
+
+/* Карточка записи */
 .booking-item-admin {
-    background: linear-gradient(135deg, rgba(193, 151, 210, 0.08), rgba(232, 213, 242, 0.12));
-    padding: 16px;
-    border-radius: 10px;
-    border: 1px solid rgba(193, 151, 210, 0.2);
+    background: linear-gradient(145deg, #ffffff 0%, #f8f9fa 100%);
+    padding: 20px;
+    border-radius: 16px;
+    border: 1px solid var(--color-border);
+    box-shadow: 0 2px 8px rgba(30, 58, 95, 0.06);
     transition: all 0.3s ease;
 }
 
 .booking-item-admin:hover {
-    border-color: var(--color-primary);
-    box-shadow: 0 4px 12px rgba(193, 151, 210, 0.15);
-    transform: translateY(-1px);
+    border-color: var(--color-primary-light);
+    box-shadow: 0 8px 24px rgba(30, 58, 95, 0.12);
+    transform: translateY(-2px);
 }
 
+/* Заголовок карточки */
 .booking-header {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin-bottom: 12px;
-    padding-bottom: 12px;
-    border-bottom: 1px solid rgba(193, 151, 210, 0.2);
+    margin-bottom: 16px;
+    padding-bottom: 16px;
+    border-bottom: 2px solid var(--color-border-light);
+}
+
+.booking-client {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.booking-client i {
+    font-size: 24px;
+    color: var(--color-primary);
 }
 
 .booking-header strong {
     color: var(--color-text);
-    font-size: 14px;
+    font-size: 16px;
+    font-weight: 600;
 }
 
 .booking-date {
-    color: var(--color-primary);
+    background: linear-gradient(135deg, var(--color-primary), var(--color-primary-light));
+    color: white;
     font-size: 11px;
+    font-weight: 600;
+    padding: 6px 12px;
+    border-radius: 20px;
+    white-space: nowrap;
+}
+
+/* Детали записи */
+.booking-details {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin: 16px 0;
+}
+
+.detail-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.detail-label {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--color-text-muted);
+    font-size: 12px;
+    font-weight: 500;
+    min-width: 110px;
+}
+
+.detail-label i {
+    color: var(--color-primary);
+    font-size: 12px;
+    width: 16px;
+    text-align: center;
+}
+
+.detail-value {
+    color: var(--color-text);
+    font-size: 13px;
+    font-weight: 500;
+}
+
+.detail-value.service-name {
+    color: var(--color-primary);
     font-weight: 600;
 }
 
-.booking-details {
-    margin: 12px 0;
-}
-
-.booking-details p {
-    color: var(--color-text);
+.detail-value.price-tag {
+    background: linear-gradient(135deg, var(--color-secondary), var(--color-gold));
+    color: white;
+    padding: 4px 12px;
+    border-radius: 12px;
+    font-weight: 600;
     font-size: 12px;
-    margin: 8px 0;
-    line-height: 1.6;
 }
 
-.booking-details strong {
-    color: var(--color-text);
-}
-
-.booking-details a {
+.detail-value.phone-link {
     color: var(--color-primary);
     text-decoration: none;
     font-weight: 600;
-    transition: color 0.3s ease;
+    transition: all 0.3s ease;
 }
 
-.booking-details a:hover {
+.detail-value.phone-link:hover {
     color: var(--color-accent);
+    text-decoration: underline;
 }
 
+.message-row {
+    background: var(--color-bg-warm);
+    padding: 12px;
+    border-radius: 10px;
+    margin-top: 4px;
+}
+
+.message-text {
+    color: var(--color-text-light);
+    font-style: italic;
+    line-height: 1.5;
+}
+
+/* Кнопки действий */
 .booking-actions {
     display: flex;
-    gap: 8px;
-    margin-top: 12px;
+    gap: 10px;
+    margin-top: 16px;
+    padding-top: 16px;
+    border-top: 1px solid var(--color-border-light);
 }
 
-.btn-contact {
+.btn-admin {
     flex: 1;
-    padding: 8px 12px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 12px 16px;
     border: none;
-    border-radius: 6px;
-    font-size: 12px;
+    border-radius: 10px;
+    font-size: 13px;
     font-weight: 600;
     cursor: pointer;
     text-decoration: none;
-    display: inline-block;
-    text-align: center;
     transition: all 0.3s ease;
-    background: #25D366;
+    font-family: var(--font-sans);
+}
+
+.btn-whatsapp {
+    background: linear-gradient(135deg, #25D366, #20C355);
     color: white;
+    box-shadow: 0 4px 12px rgba(37, 211, 102, 0.3);
 }
 
-.btn-contact:hover {
-    background: #20C355;
-    transform: scale(1.03);
+.btn-whatsapp:hover {
+    background: linear-gradient(135deg, #20C355, #1aad4a);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(37, 211, 102, 0.4);
 }
 
-.btn-contact.whatsapp {
-    background: #25D366;
+.btn-whatsapp i {
+    font-size: 16px;
 }
 
-.btn-contact.whatsapp:hover {
-    background: #20C355;
+.btn-delete-booking {
+    background: linear-gradient(135deg, #ff6b6b, #ee5a5a);
+    color: white;
+    box-shadow: 0 4px 12px rgba(238, 90, 90, 0.25);
+}
+
+.btn-delete-booking:hover {
+    background: linear-gradient(135deg, #ee5a5a, #dc4848);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(238, 90, 90, 0.35);
+}
+
+.btn-delete-booking i {
+    font-size: 14px;
 }
 
 /* FLOATING BUTTONS */
