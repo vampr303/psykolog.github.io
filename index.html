@@ -84,6 +84,117 @@ nav.scrolled { padding: 10px 48px; box-shadow: 0 2px 20px rgba(0,0,0,0.06); }
 
 
 /* ══════════════════════════════
+   COOKIE CONSENT MODAL
+══════════════════════════════ */
+.consent-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(28, 26, 23, 0.6);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity .35s, visibility .35s;
+}
+.consent-overlay.active {
+  opacity: 1;
+  visibility: visible;
+}
+.consent-modal {
+  background: var(--bg);
+  border-radius: 20px;
+  padding: 40px 48px;
+  max-width: 480px;
+  width: 90%;
+  text-align: center;
+  box-shadow: var(--shadow-lg);
+  transform: translateY(20px) scale(0.95);
+  transition: transform .35s;
+}
+.consent-overlay.active .consent-modal {
+  transform: translateY(0) scale(1);
+}
+.consent-icon {
+  width: 64px;
+  height: 64px;
+  background: var(--rose-light);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 24px;
+  font-size: 28px;
+  color: var(--rose);
+}
+.consent-modal h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: 24px;
+  font-weight: 600;
+  margin-bottom: 16px;
+  color: var(--text);
+}
+.consent-modal p {
+  font-size: 14px;
+  line-height: 1.7;
+  color: var(--muted);
+  margin-bottom: 28px;
+}
+.consent-modal .consent-rules {
+  text-align: left;
+  background: var(--card);
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 28px;
+}
+.consent-modal .consent-rules li {
+  font-size: 13px;
+  color: var(--text);
+  margin-bottom: 10px;
+  padding-left: 24px;
+  position: relative;
+  list-style: none;
+}
+.consent-modal .consent-rules li:last-child {
+  margin-bottom: 0;
+}
+.consent-modal .consent-rules li::before {
+  content: '✓';
+  position: absolute;
+  left: 0;
+  color: var(--rose);
+  font-weight: 700;
+}
+.consent-buttons {
+  display: flex;
+  gap: 12px;
+}
+.consent-buttons .btn {
+  flex: 1;
+}
+.consent-btn-accept {
+  background: var(--btn-dark);
+  color: #fff;
+  padding: 14px 28px;
+}
+.consent-btn-accept:hover {
+  background: #000;
+}
+.consent-btn-decline {
+  background: transparent;
+  color: var(--muted);
+  border: 1px solid var(--border);
+  padding: 14px 28px;
+}
+.consent-btn-decline:hover {
+  border-color: var(--muted);
+  color: var(--text);
+}
+
+/* ══════════════════════════════
    BUTTONS
 ══════════════════════════════ */
 .btn {
@@ -128,7 +239,10 @@ nav.scrolled { padding: 10px 48px; box-shadow: 0 2px 20px rgba(0,0,0,0.06); }
 ══════════════════════════════ */
 .hero-wrap {
   position: relative;
-  width: 100%; height: 100vh; min-height: 600px; max-height: 600px;
+  width: 100%; height: 0;
+  padding-bottom: 56.25%; /* 16:9 aspect ratio */
+  min-height: 400px;
+  max-height: 600px;
   overflow: hidden;
 }
 
@@ -145,6 +259,17 @@ nav.scrolled { padding: 10px 48px; box-shadow: 0 2px 20px rgba(0,0,0,0.06); }
 .carousel-slide.active { opacity: 1; }
 
 .carousel-slide img { width:100%; height:100%; object-fit:cover; display:block; }
+
+/* Hero content animation - only shows on first slide */
+.hero-content {
+  opacity: 0;
+  transform: translateY(-50%) translateY(30px);
+  transition: opacity 0.8s cubic-bezier(.4,0,.2,1), transform 0.8s cubic-bezier(.4,0,.2,1);
+}
+.hero-content.visible {
+  opacity: 1;
+  transform: translateY(-50%) translateY(0);
+}
 
 /* beautiful gradient slides using CSS art */
 .slide-1 {
@@ -193,9 +318,9 @@ nav.scrolled { padding: 10px 48px; box-shadow: 0 2px 20px rgba(0,0,0,0.06); }
 
 /* hero content */
 .hero-content {
-  position: relative; z-index: 10;
-  height: 100%;
-  display: flex; flex-direction: column; justify-content: center;
+  position: absolute; z-index: 10;
+  top: 50%; transform: translateY(-50%);
+  left: 0; right: 0;
   padding: 0 48px;
   max-width: 780px;
 }
@@ -280,7 +405,7 @@ nav.scrolled { padding: 10px 48px; box-shadow: 0 2px 20px rgba(0,0,0,0.06); }
 
 /* scroll hint */
 .scroll-hint {
-  position: absolute; bottom: 38px; left: 50%; transform: translateX(-50%);
+  position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%);
   z-index: 20;
   display: flex; flex-direction: column; align-items: center; gap: 6px;
   color: rgba(255,255,255,0.5); font-size: 10px; letter-spacing: 0.12em;
@@ -403,7 +528,9 @@ nav.scrolled { padding: 10px 48px; box-shadow: 0 2px 20px rgba(0,0,0,0.06); }
 }
 .module-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-lg); }
 .module-card.two-panel { grid-template-columns: 1fr 1fr; }
-.module-card-body {}
+.module-card-body {
+  
+}
 .module-tag {
   display: inline-flex; align-items: center; gap: 6px;
   background: var(--rose-light);
@@ -570,6 +697,10 @@ nav.scrolled { padding: 10px 48px; box-shadow: 0 2px 20px rgba(0,0,0,0.06); }
   background: linear-gradient(135deg, var(--rose-light), var(--warm-light));
   border-radius: 18px; padding: 20px 24px; margin-bottom: 14px;
   box-shadow: 0 2px 14px rgba(196,133,122,0.12);
+  display: none; /* Скрыт по умолчанию, показывается когда есть выделенный вопрос */
+}
+.faq-highlight.has-content {
+  display: block;
 }
 .faq-list { display: flex; flex-direction: column; }
 .faq-item { border-top: 1px solid var(--border); padding: 18px 0; }
@@ -804,6 +935,27 @@ footer a:hover { color: var(--rose); }
 </style>
 </head>
 <body>
+
+<!-- ══ COOKIE CONSENT MODAL ══ -->
+<div id="consentOverlay" class="consent-overlay">
+  <div class="consent-modal">
+    <div class="consent-icon">
+      <i class="fas fa-shield-halved"></i>
+    </div>
+    <h2>Конфиденциальность</h2>
+    <p>Перед посещением сайта ознакомьтесь с правилами обработки персональных данных.</p>
+    <ul class="consent-rules">
+      <li>Ваши данные хранятся в зашифрованном виде</li>
+      <li>Мы не передаём информацию третьим лицам</li>
+      <li>Вы можете запросить удаление данных в любое время</li>
+      <li>Сайт использует cookies для улучшения работы</li>
+    </ul>
+    <div class="consent-buttons">
+      <button id="consentDecline" class="btn consent-btn-decline">Отклонить</button>
+      <button id="consentAccept" class="btn consent-btn-accept">Принять</button>
+    </div>
+  </div>
+</div>
 
 <!-- ══ NAV ══ -->
 <nav id="main-nav">
@@ -1075,42 +1227,15 @@ footer a:hover { color: var(--rose); }
         <h2>Важные вопросы</h2>
 
         <div class="faq-highlight" id="faq-h">
-          <div class="faq-q" onclick="toggleFaqEl('faq-h')">
-            <span>Вы гарантируете результат?</span>
-            <span class="faq-icon">+</span>
-          </div>
-          <div class="faq-a">Я не обещаю, что вы выйдете замуж. Я обещаю, что вы начнёте лучше понимать себя, сделаете осознанные выборы и перестанете бояться свиданий. Это уже огромный результат, который меняет всё.</div>
+          <!-- Загружается из Firebase -->
         </div>
 
         <div class="faq-list">
-          <div class="faq-item">
-            <div class="faq-q" onclick="toggleFaq(this)">
-              <span>Подойдёт ли курс, если я никогда не была на свидании из приложений?</span>
-              <span class="faq-icon">+</span>
-            </div>
-            <div class="faq-a">Да, абсолютно. Курс строится на базовых принципах коммуникации и самопознания — они работают вне зависимости от опыта.</div>
-          </div>
-          <div class="faq-item">
-            <div class="faq-q" onclick="toggleFaq(this)">
-              <span>Сколько времени в неделю нужно?</span>
+          <!-- Загружается из Firebase -->
+        </div>
               <span class="faq-icon">+</span>
             </div>
             <div class="faq-a">Около 3–4 часов в неделю: видео, задания и при желании — участие в групповых разборах.</div>
-          </div>
-          <div class="faq-item">
-            <div class="faq-q" onclick="toggleFaq(this)">
-              <span>Я живу не в России — это важно?</span>
-              <span class="faq-icon">+</span>
-            </div>
-            <div class="faq-a">Совсем не важно. Всё проходит онлайн, участницы из разных стран.</div>
-          </div>
-          <div class="faq-item">
-            <div class="faq-q" onclick="toggleFaq(this)">
-              <span>Когда ближайший поток?</span>
-              <span class="faq-icon">+</span>
-            </div>
-            <div class="faq-a">Запишитесь сейчас, и я сообщу вам о ближайшем старте первой.</div>
-          </div>
         </div>
       </div>
     </div>
@@ -1207,19 +1332,93 @@ footer a:hover { color: var(--rose); }
 </footer>
 
 <script>
-// ── CAROUSEL ──
+// ══ CAROUSEL ══
 let current = 0;
-const slides = document.querySelectorAll('.carousel-slide');
-const dots = document.querySelectorAll('.dot');
+let slides = [];
+let dots = [];
 let timer;
+let slidesData = []; // Data from Firebase
+
+// Initialize carousel after Firebase loads
+function initCarousel() {
+  slides = document.querySelectorAll('.carousel-slide');
+  dots = document.querySelectorAll('.dot');
+  
+  // Show hero content on first slide only
+  const heroContent = document.querySelector('.hero-content');
+  if (heroContent) {
+    heroContent.classList.add('visible');
+  }
+  
+  // Start auto-rotation
+  timer = setInterval(nextSlide, 5000);
+}
 
 function goToSlide(n) {
+  if (slides.length === 0) return;
+  
+  const heroContent = document.querySelector('.hero-content');
+  
   slides[current].classList.remove('active');
   dots[current].classList.remove('active');
   current = (n + slides.length) % slides.length;
   slides[current].classList.add('active');
   dots[current].classList.add('active');
+  
+  // Show/hide hero content based on slide
+  if (heroContent) {
+    if (current === 0) {
+      heroContent.classList.add('visible');
+    } else {
+      heroContent.classList.remove('visible');
+    }
+  }
+  
   resetTimer();
+}
+
+function nextSlide() { goToSlide(current + 1); }
+function prevSlide() { goToSlide(current - 1); }
+function resetTimer() {
+  clearInterval(timer);
+  timer = setInterval(nextSlide, 5000);
+}
+
+// Render slides from Firebase data
+function renderSlidesFromFirebase(slidesArray) {
+  const slidesContainer = document.querySelector('.carousel-slides');
+  const dotsContainer = document.querySelector('.carousel-dots');
+  
+  if (!slidesContainer || !dotsContainer) return;
+  
+  // Clear existing
+  slidesContainer.innerHTML = '';
+  dotsContainer.innerHTML = '';
+  
+  slidesArray.forEach((slide, index) => {
+    // Create slide
+    const slideDiv = document.createElement('div');
+    slideDiv.className = 'carousel-slide' + (index === 0 ? ' active' : '');
+    slideDiv.innerHTML = `<img src="${slide.imageUrl}" alt="slide-${index + 1}">`;
+    slidesContainer.appendChild(slideDiv);
+    
+    // Create dot
+    const dot = document.createElement('div');
+    dot.className = 'dot' + (index === 0 ? ' active' : '');
+    dot.onclick = () => goToSlide(index);
+    dotsContainer.appendChild(dot);
+  });
+  
+  // Reinitialize carousel
+  slides = document.querySelectorAll('.carousel-slide');
+  dots = document.querySelectorAll('.dot');
+  current = 0;
+  
+  // Show hero content only on first slide
+  const heroContent = document.querySelector('.hero-content');
+  if (heroContent) {
+    heroContent.classList.add('visible');
+  }
 }
 function nextSlide() { goToSlide(current + 1); }
 function prevSlide() { goToSlide(current - 1); }
@@ -1259,6 +1458,7 @@ document.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
   import { getDatabase, ref, push, onValue, remove, set, update, get } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+  import { getStorage, ref as storageRef, uploadBytes, getDownloadURL, deleteObject } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-storage.js";
 
   const firebaseConfig = {
     apiKey: "AIzaSyC57bRYXu4-9QS1egYAYeSzLg2U8jtYdfI",
@@ -1272,6 +1472,7 @@ document.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
 
   const app = initializeApp(firebaseConfig);
   const db = getDatabase(app);
+  const storage = getStorage(app);
 
   // helper to sanitize phone for wa link (доступен глобально)
   function phoneToWa(phone){ if(!phone) return null; const digits = phone.replace(/[^+0-9]/g,''); let d = digits.replace(/[^0-9]/g,''); if(d.startsWith('8') && d.length===11) d = '7'+d.slice(1); return d; }
@@ -1279,6 +1480,7 @@ document.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
   // клиентская кэш-переменная для services и render
   let services = {};
   let blogPosts = {}; // кэш для статей блога
+  let faqData = {}; // кэш для FAQ
 
   // Загрузка и отображение контента с сайта
   function loadSiteContent(){
@@ -1323,6 +1525,11 @@ document.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
         if(waLink && content.socials.whatsapp) waLink.href = content.socials.whatsapp;
       }
       
+      // Обновляем FAQ
+      if(content.faq){
+        renderFaqClient(content.faq);
+      }
+      
       // Обновляем Hero секцию
       if(content.hero){
         const badgeEl = document.getElementById('heroBadge');
@@ -1340,6 +1547,104 @@ document.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
   
   // Запускаем загрузку контента
   loadSiteContent();
+
+  // Подписка на FAQ из Firebase
+  onValue(ref(db, 'faq'), (snap) => {
+    faqData = snap.val() || {};
+    
+    // Если FAQ пустой, инициализируем данными по умолчанию
+    if (Object.keys(faqData).length === 0) {
+      const defaultFaq = {
+        'faq_1': {
+          question: 'Вы гарантируете результат?',
+          answer: 'Я не обещаю, что вы выйдете замуж. Я обещаю, что вы начнёте лучше понимать себя, сделаете осознанные выборы и перестанете бояться свиданий. Это уже огромный результат, который меняет всё.',
+          order: 1,
+          isHighlight: true
+        },
+        'faq_2': {
+          question: 'Подойдёт ли курс, если я никогда не была на свидании из приложений?',
+          answer: 'Да, абсолютно. Курс строится на базовых принципах коммуникации и самопознания — они работают вне зависимости от опыта.',
+          order: 2,
+          isHighlight: false
+        },
+        'faq_3': {
+          question: 'Сколько времени в неделю нужно?',
+          answer: 'Около 3–4 часов в неделю: видео, задания и при желании — участие в групповых разборах.',
+          order: 3,
+          isHighlight: false
+        },
+        'faq_4': {
+          question: 'Я живу не в России — это важно?',
+          answer: 'Совсем не важно. Всё проходит онлайн, участницы из разных стран.',
+          order: 4,
+          isHighlight: false
+        },
+        'faq_5': {
+          question: 'Когда ближайший поток?',
+          answer: 'Запишитесь сейчас, и я сообщу вам о ближайшем старте первой.',
+          order: 5,
+          isHighlight: false
+        }
+      };
+      
+      // Сохраняем данные по умолчанию в Firebase
+      set(ref(db, 'faq'), defaultFaq).then(() => {
+        console.log('FAQ initialized with default data');
+      }).catch(e => console.error('Error initializing FAQ:', e));
+      
+      // Используем данные по умолчанию для рендеринга
+      faqData = defaultFaq;
+    }
+    
+    renderFaqClient(faqData);
+  }, { onlyOnce: false });
+
+  // Функция рендеринга FAQ на странице
+  function renderFaqClient(data) {
+    const highlightContainer = document.querySelector('.faq-highlight');
+    const listContainer = document.querySelector('.faq-list');
+    
+    if (!highlightContainer && !listContainer) return;
+    
+    const items = Object.entries(data || {}).sort((a, b) => (a[1].order || 0) - (b[1].order || 0));
+    
+    if (items.length === 0) return;
+    
+    // Находим выделенный вопрос (только один - первый по порядку)
+    const highlightItem = items.find(([id, item]) => item.isHighlight);
+    
+    // Рендерим выделенный вопрос в специальном блоке
+    if (highlightItem && highlightContainer) {
+      const [id, item] = highlightItem;
+      highlightContainer.innerHTML = `
+        <div class="faq-q" onclick="toggleFaqEl('faq-h')">
+          <span>${escapeHtml(item.question || '')}</span>
+          <span class="faq-icon">+</span>
+        </div>
+        <div class="faq-a">${escapeHtml(item.answer || '')}</div>
+      `;
+      // Показываем контейнер
+      highlightContainer.classList.add('has-content');
+    } else if (highlightContainer) {
+      // Скрываем если нет выделенного
+      highlightContainer.classList.remove('has-content');
+    }
+    
+    // Рендерим ВСЕ вопросы в списке (НЕ включая выделенный - он уже в блоке выше)
+    if (listContainer) {
+      const regularItems = items.filter(([id, item]) => !item.isHighlight);
+      listContainer.innerHTML = regularItems.map(([id, item]) => {
+        return `
+        <div class="faq-item">
+          <div class="faq-q" onclick="toggleFaq(this)">
+            <span>${escapeHtml(item.question || '')}</span>
+            <span class="faq-icon">+</span>
+          </div>
+          <div class="faq-a">${escapeHtml(item.answer || '')}</div>
+        </div>
+      `}).join('');
+    }
+  }
 
   // рендер карточек тарифов на странице на основании services
   function renderServicesClient(data){
@@ -1423,6 +1728,39 @@ document.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
   onValue(ref(db,'services'), snap=>{
     services = snap.val() || {};
     renderServicesClient(services);
+  });
+  
+  // подписка на слайды для главного слайдера
+  onValue(ref(db,'slides'), snap=>{
+    const slidesObj = snap.val() || {};
+    // Convert object to array
+    const slidesArray = Object.entries(slidesObj).map(([id, data]) => ({id, ...data}));
+    // Sort by order
+    slidesArray.sort((a, b) => (a.order || 0) - (b.order || 0));
+    
+    if (slidesArray.length > 0) {
+      renderSlidesFromFirebase(slidesArray);
+    } else {
+      // Initialize carousel with default slides from HTML
+      initCarousel();
+    }
+  });
+  
+  // Инициализация слайдов по умолчанию, если база пустая
+  get(ref(db,'slides')).then(snap => {
+    if (!snap.exists()) {
+      // Добавляем слайды по умолчанию с локальными изображениями
+      const defaultSlides = [
+        { imageUrl: 'images/1.png', order: 1 },
+        { imageUrl: 'images/2.png', order: 2 },
+        { imageUrl: 'images/3.png', order: 3 },
+        { imageUrl: 'images/4.png', order: 4 }
+      ];
+      defaultSlides.forEach((slide, idx) => {
+        const newRef = push(ref(db, 'slides'));
+        set(newRef, { ...slide, createdAt: Date.now() });
+      });
+    }
   });
 
   // подписка на контакты для отображения на странице (настройки психолога)
@@ -1667,7 +2005,7 @@ document.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
   function isAdmin(){ const p = new URLSearchParams(location.search); return p.get('admin')==='psykolog2024' || location.hash==='#admin'; }
 
   // Глобальные переменные для админ-панели (должны быть доступны до их использования)
-  let adminContacts = {}, adminBookings = {}, adminServices = {}, adminReviews = {}, adminCustomSections = {};
+  let adminContacts = {}, adminBookings = {}, adminServices = {}, adminReviews = {}, adminCustomSections = {}, adminFaqData = {};
 
   if(isAdmin()){
     const adminBtn = document.createElement('button');
@@ -1702,6 +2040,8 @@ document.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
         <button class="admin-tab" data-tab="reviews">Отзывы<span id="reviewsTabBadge" class="admin-tab-notification hidden"></span></button>
         <button class="admin-tab" data-tab="blog">Блог</button>
         <button class="admin-tab" data-tab="sections">Разделы</button>
+        <button class="admin-tab" data-tab="faq">FAQ</button>
+        <button class="admin-tab" data-tab="slides">Слайдер</button>
       </div>
       <div id="adminContent" style="padding:20px;">Загрузка...</div>
     `;
@@ -1711,7 +2051,7 @@ document.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
     panel.querySelector('#adminClose').addEventListener('click', ()=> panel.classList.remove('open'));
 
     // local caches - синхронизируем с глобальными переменными
-    let contacts = adminContacts, bookings = adminBookings, services = adminServices, reviews = adminReviews, customSections = adminCustomSections;
+    let contacts = adminContacts, bookings = adminBookings, services = adminServices, reviews = adminReviews, customSections = adminCustomSections, faqData = adminFaqData;
 
     // renderers
     function renderContacts(){
@@ -2145,6 +2485,100 @@ document.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
       }));
     }
 
+    // FAQ - функция рендеринга редактора вопросов
+    function renderFaq(){
+      const el = document.getElementById('adminContent');
+      const items = Object.entries(faqData).sort((a,b)=> (a[1].order||0) - (b[1].order||0));
+      
+      el.innerHTML = `
+        <div style="margin-bottom:16px;display:flex;justify-content:space-between;align-items:center;">
+          <div style="font-weight:700;font-size:16px;">Вопросы и ответы (FAQ)</div>
+          <button id="addFaqBtn" style="background:#0f766e;color:#fff;padding:8px 16px;border-radius:8px;border:none;cursor:pointer;">+ Добавить вопрос</button>
+        </div>
+        <div id="faqList"></div>
+      `;
+      
+      const listEl = document.getElementById('faqList');
+      
+      if(items.length===0){
+        listEl.innerHTML = '<div style="color:#666;padding:20px;text-align:center;">Вопросов пока нет. Нажмите "Добавить вопрос"</div>';
+      } else {
+        listEl.innerHTML = items.map(([id,item])=>{
+          const isHighlight = item.isHighlight ? 'checked' : '';
+          return `<div class="faq-admin-item" style="border:1px solid #eee;padding:16px;border-radius:12px;margin-bottom:12px;background:#fff;">
+            <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px;">
+              <div style="flex:1;padding-right:12px;">
+                <div style="font-weight:600;margin-bottom:4px;">Вопрос:</div>
+                <input class="faq-question-input" data-id="${id}" value="${escapeHtml(item.question||'')}" style="width:100%;padding:8px;border:1px solid #ddd;border-radius:6px;margin-bottom:8px;">
+                <div style="font-weight:600;margin-bottom:4px;">Ответ:</div>
+                <textarea class="faq-answer-input" data-id="${id}" style="width:100%;padding:8px;border:1px solid #ddd;border-radius:6px;min-height:80px;">${escapeHtml(item.answer||'')}</textarea>
+              </div>
+              <div style="display:flex;flex-direction:column;gap:8px;">
+                <label style="display:flex;align-items:center;gap:6px;font-size:13px;">
+                  <input type="checkbox" class="faq-highlight-check" data-id="${id}" ${isHighlight}> Выделенный
+                </label>
+                <button class="faq-delete-btn" data-id="${id}" style="background:#ff6b6b;border:none;color:#fff;padding:8px 12px;border-radius:6px;cursor:pointer;">Удалить</button>
+              </div>
+            </div>
+            <div style="display:flex;justify-content:flex-end;">
+              <button class="faq-save-btn" data-id="${id}" style="background:#0f766e;color:#fff;padding:8px 16px;border-radius:6px;border:none;cursor:pointer;">Сохранить</button>
+            </div>
+          </div>`;
+        }).join('');
+      }
+      
+      // Обработчики
+      document.getElementById('addFaqBtn').addEventListener('click', async ()=>{
+        const newId = 'faq_' + Date.now();
+        // Находим максимальный order и добавляем 1
+        const maxOrder = items.length > 0 ? Math.max(...items.map(([, i]) => i.order || 0)) : 0;
+        const newItem = { question: 'Новый вопрос', answer: 'Ответ на вопрос', order: maxOrder + 1, isHighlight: false };
+        try{
+          await set(ref(db, 'faq/' + newId), newItem);
+          showNotification('Вопрос добавлен');
+          renderFaq();
+        }catch(e){ console.error(e); showNotification('Ошибка'); }
+      });
+      
+      listEl.querySelectorAll('.faq-save-btn').forEach(btn=>{
+        btn.addEventListener('click', async ()=>{
+          const id = btn.getAttribute('data-id');
+          const question = listEl.querySelector('.faq-question-input[data-id="'+id+'"]').value;
+          const answer = listEl.querySelector('.faq-answer-input[data-id="'+id+'"]').value;
+          const isHighlight = listEl.querySelector('.faq-highlight-check[data-id="'+id+'"]').checked;
+          try{
+            await update(ref(db, 'faq/' + id), { question, answer, isHighlight });
+            // Обновляем локальный кэш
+            if (faqData[id]) {
+              faqData[id] = { ...faqData[id], question, answer, isHighlight };
+            }
+            // Синхронизируем с глобальной переменной
+            adminFaqData = { ...faqData };
+            // Перерендерим страницу
+            renderFaqClient(faqData);
+            showNotification('Сохранено');
+          }catch(e){ console.error(e); showNotification('Ошибка'); }
+        });
+      });
+      
+      listEl.querySelectorAll('.faq-delete-btn').forEach(btn=>{
+        btn.addEventListener('click', async ()=>{
+          const id = btn.getAttribute('data-id');
+          if(!confirm('Удалить этот вопрос?')) return;
+          try{
+            await remove(ref(db, 'faq/' + id));
+            // Удаляем из локального кэша
+            delete faqData[id];
+            // Синхронизируем с глобальной переменной
+            adminFaqData = { ...faqData };
+            // Перерендерим страницу
+            renderFaqClient(faqData);
+            showNotification('Удалено');
+          }catch(e){ console.error(e); showNotification('Ошибка'); }
+        });
+      });
+    }
+
     // helper: показать форму добавления услуги
     function showAddServiceForm(){
       const el = document.getElementById('adminContent');
@@ -2184,7 +2618,110 @@ document.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
       if(tab==='reviews') renderReviews();
       if(tab==='blog') renderBlog();
       if(tab==='sections') renderSections();
+      if(tab==='faq') renderFaq();
+      if(tab==='slides') renderSlides();
     }));
+
+    // ══ SLIDES - Управление слайдером ══
+    let adminSlides = {};
+    
+    function renderSlides(){
+      const el = document.getElementById('adminContent');
+      const slidesArr = Object.entries(adminSlides).map(([id, data]) => ({id, ...data})).sort((a,b) => (a.order||0) - (b.order||0));
+      
+      el.innerHTML = `
+        <div style="display:flex;flex-direction:column;gap:20px;">
+          <div style="background:linear-gradient(145deg,#ffffff 0%,#f8f9fa 100%);padding:20px;border-radius:16px;border:1px solid #e0e0e0;">
+            <div style="font-weight:600;font-size:16px;margin-bottom:12px;color:#1E3A5F;"><i class="fas fa-images" style="margin-right:8px;"></i>Управление слайдером</div>
+            <p style="font-size:13px;color:#666;margin-bottom:16px;">Добавьте или удалите слайды главного баннера. Первым слайдом будет отображаться текст с анимацией.</p>
+            
+            <div id="slidesList" style="display:flex;flex-direction:column;gap:12px;margin-bottom:16px;">
+              ${slidesArr.length === 0 ? '<p style="color:#999;font-size:13px;">Слайдов пока нет. Добавьте первый слайд.</p>' : ''}
+              ${slidesArr.map((slide, idx) => `
+                <div style="display:flex;align-items:center;gap:12px;background:#f8f9fa;padding:12px;border-radius:10px;border:1px solid #e0e0e0;">
+                  <div style="width:60px;height:40px;flex-shrink:0;border-radius:6px;overflow:hidden;background:#ddd;">
+                    <img src="${slide.imageUrl}" style="width:100%;height:100%;object-fit:cover;">
+                  </div>
+                  <div style="flex:1;">
+                    <div style="font-size:12px;color:#666;">Слайд ${idx + 1}${idx === 0 ? ' (с текстом)' : ''}</div>
+                    <div style="font-size:11px;color:#999;">${slide.imageUrl.substring(0, 40)}...</div>
+                  </div>
+                  <button class="delete-slide-btn" data-id="${slide.id}" style="background:#e74c3c;color:#fff;padding:6px 12px;border:none;border-radius:6px;cursor:pointer;font-size:11px;"><i class="fas fa-trash"></i> Удалить</button>
+                </div>
+              `).join('')}
+            </div>
+            
+            <div style="border-top:1px solid #e0e0e0;padding-top:16px;margin-top:8px;">
+              <div style="font-weight:600;font-size:14px;margin-bottom:12px;color:#1E3A5F;">Добавить новый слайд</div>
+              <input type="file" id="newSlideImage" accept="image/*" style="margin-bottom:10px;">
+              <button id="addSlideBtn" style="background:linear-gradient(135deg,#27ae60,#2ecc71);color:#fff;padding:10px 20px;border:none;border-radius:10px;cursor:pointer;font-weight:600;"><i class="fas fa-plus"></i> Добавить слайд</button>
+            </div>
+          </div>
+        </div>
+      `;
+      
+      // Delete handlers
+      el.querySelectorAll('.delete-slide-btn').forEach(btn => {
+        btn.addEventListener('click', async () => {
+          const id = btn.getAttribute('data-id');
+          if(confirm('Удалить этот слайд?')){
+            try{
+              await remove(ref(db, 'slides/' + id));
+              showNotification('Слайд удалён');
+            }catch(e){
+              console.error(e);
+              showNotification('Ошибка удаления');
+            }
+          }
+        });
+      });
+      
+      // Add new slide handler
+      document.getElementById('addSlideBtn').addEventListener('click', async () => {
+        const fileInput = document.getElementById('newSlideImage');
+        const file = fileInput.files[0];
+        
+        if(!file){
+          showNotification('Выберите изображение');
+          return;
+        }
+        
+        // Show loading
+        const btn = document.getElementById('addSlideBtn');
+        const originalText = btn.innerHTML;
+        btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Загрузка...';
+        btn.disabled = true;
+        
+        try{
+          // Upload to Firebase Storage
+          const fileName = 'slide_' + Date.now() + '_' + file.name;
+          const slideRef = storageRef(storage, 'slides/' + fileName);
+          await uploadBytes(slideRef, file);
+          const downloadURL = await getDownloadURL(slideRef);
+          
+          // Calculate order (last)
+          const slidesArr = Object.entries(adminSlides).map(([id, data]) => ({id, ...data}));
+          const maxOrder = slidesArr.reduce((max, s) => Math.max(max, s.order || 0), 0);
+          
+          // Save to database
+          const newSlideRef = push(ref(db, 'slides'));
+          await set(newSlideRef, {
+            imageUrl: downloadURL,
+            order: maxOrder + 1,
+            createdAt: Date.now()
+          });
+          
+          showNotification('Слайд добавлен');
+          fileInput.value = '';
+        }catch(e){
+          console.error(e);
+          showNotification('Ошибка загрузки: ' + e.message);
+        }finally{
+          btn.innerHTML = originalText;
+          btn.disabled = false;
+        }
+      });
+    }
 
     // add-service btn (wired when services tab renders)
 
@@ -2309,10 +2846,43 @@ document.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
     onValue(ref(db,'reviews'), snap=>{ reviews = snap.val() || {}; adminReviews = reviews; updateAdminNotifications(); const active = panel.style.display!=='none'; if(active) renderReviews(); });
     onValue(ref(db,'siteContent/blog'), snap=>{ blogPosts = snap.val() || {}; const active = panel.style.display!=='none'; if(active && document.querySelector('.admin-tab[data-tab="blog"]')?.classList.contains('active')) renderBlog(); });
     onValue(ref(db,'customSections'), snap=>{ customSections = snap.val() || {}; adminCustomSections = customSections; const active = panel.style.display!=='none'; if(active) renderSections(); });
+    onValue(ref(db,'faq'), snap=>{ faqData = snap.val() || {}; adminFaqData = faqData; const active = panel.style.display!=='none'; if(active && document.querySelector('.admin-tab[data-tab="faq"]')?.classList.contains('active')) renderFaq(); });
+    onValue(ref(db,'slides'), snap=>{ adminSlides = snap.val() || {}; const active = panel.style.display!=='none'; if(active && document.querySelector('.admin-tab[data-tab="slides"]')?.classList.contains('active')) renderSlides(); });
 
   }
 
   function escapeHtml(text){ const d = document.createElement('div'); d.textContent = text; return d.innerHTML; }
+
+  // ══ COOKIE CONSENT MODAL ══
+  (function() {
+    const consentOverlay = document.getElementById('consentOverlay');
+    const consentAccept = document.getElementById('consentAccept');
+    const consentDecline = document.getElementById('consentDecline');
+
+    if (!consentOverlay || !consentAccept || !consentDecline) return;
+
+    // Check if user has already made a choice
+    const consentGiven = localStorage.getItem('consentGiven');
+
+    if (!consentGiven) {
+      // Show modal with delay for smoother UX
+      setTimeout(() => {
+        consentOverlay.classList.add('active');
+      }, 800);
+    }
+
+    // Handle accept button
+    consentAccept.addEventListener('click', function() {
+      localStorage.setItem('consentGiven', 'accepted');
+      consentOverlay.classList.remove('active');
+    });
+
+    // Handle decline button
+    consentDecline.addEventListener('click', function() {
+      localStorage.setItem('consentGiven', 'declined');
+      consentOverlay.classList.remove('active');
+    });
+  })();
 
 </script>
 </body>
