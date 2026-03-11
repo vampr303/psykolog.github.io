@@ -965,6 +965,7 @@ footer a:hover { color: var(--rose); }
     <a href="#direction">Программа</a>
     <a href="#how">Как это будет</a>
     <a href="#pricing">Тарифы</a>
+    <a href="#blog">Блог</a>
     <a href="#faq">FAQ</a>
   </div>
   <a href="#pricing" class="nav-cta">Записаться</a>
@@ -975,21 +976,17 @@ footer a:hover { color: var(--rose); }
 
   <!-- Slides -->
   <div class="carousel-slides">
-    <div class="carousel-slide active">
+    <div class="carousel-slide active" data-slide="1">
       <img src="images/1.png" alt="slide-1">
       <div class="slide-shape" style="width:500px;height:500px;background:rgba(200,133,122,0.28);top:-100px;right:-100px;"></div>
     </div>
-    <div class="carousel-slide">
+    <div class="carousel-slide" data-slide="2">
       <img src="images/2.png" alt="slide-2">
       <div class="slide-shape" style="width:600px;height:400px;background:rgba(122,154,200,0.24);top:0;right:-50px;"></div>
     </div>
-    <div class="carousel-slide">
+    <div class="carousel-slide" data-slide="3">
       <img src="images/3.png" alt="slide-3">
       <div class="slide-shape" style="width:450px;height:450px;background:rgba(168,122,200,0.22);top:-80px;left:30%;"></div>
-    </div>
-    <div class="carousel-slide">
-      <img src="images/4.png" alt="slide-4">
-      <div class="slide-shape" style="width:500px;height:350px;background:rgba(200,168,122,0.22);top:50px;right:0;"></div>
     </div>
   </div>
 
@@ -1012,7 +1009,6 @@ footer a:hover { color: var(--rose); }
     <div class="dot active" onclick="goToSlide(0)"></div>
     <div class="dot" onclick="goToSlide(1)"></div>
     <div class="dot" onclick="goToSlide(2)"></div>
-    <div class="dot" onclick="goToSlide(3)"></div>
   </div>
 
   <!-- Arrows -->
@@ -1233,10 +1229,6 @@ footer a:hover { color: var(--rose); }
         <div class="faq-list">
           <!-- Загружается из Firebase -->
         </div>
-              <span class="faq-icon">+</span>
-            </div>
-            <div class="faq-a">Около 3–4 часов в неделю: видео, задания и при желании — участие в групповых разборах.</div>
-        </div>
       </div>
     </div>
   </div>
@@ -1310,7 +1302,7 @@ footer a:hover { color: var(--rose); }
 </section>
 
 <!-- Blog Section -->
-<section id="blogSection" style="padding:80px 20px;background:var(--bg);display:none;">
+<section id="blogSection" style="padding:80px 20px;background:var(--bg);">
   <div style="max-width:900px;margin:0 auto;">
     <div style="text-align:center;margin-bottom:60px;">
       <h2 style="font-family:'Playfair Display',serif;font-size:42px;margin-bottom:16px;color:var(--rose);">Блог</h2>
@@ -1359,17 +1351,34 @@ function goToSlide(n) {
   
   const heroContent = document.querySelector('.hero-content');
   
+  // Скрываем текст на текущем слайде
+  const currentText = slides[current]?.querySelector('.slide-text-overlay');
+  if (currentText) {
+    currentText.style.opacity = '0';
+    currentText.style.transition = 'opacity 0.3s';
+  }
+  
   slides[current].classList.remove('active');
   dots[current].classList.remove('active');
   current = (n + slides.length) % slides.length;
   slides[current].classList.add('active');
   dots[current].classList.add('active');
   
-  // Show/hide hero content based on slide
+  // Показываем текст на новом слайде
+  const newText = slides[current]?.querySelector('.slide-text-overlay');
+  if (newText) {
+    setTimeout(() => {
+      newText.style.opacity = '1';
+    }, 100);
+  }
+  
+  // Показываем/скрываем hero-content только на первом слайде
   if (heroContent) {
     if (current === 0) {
+      heroContent.style.display = 'block';
       heroContent.classList.add('visible');
     } else {
+      heroContent.style.display = 'none';
       heroContent.classList.remove('visible');
     }
   }
@@ -1386,38 +1395,67 @@ function resetTimer() {
 
 // Render slides from Firebase data
 function renderSlidesFromFirebase(slidesArray) {
-  const slidesContainer = document.querySelector('.carousel-slides');
-  const dotsContainer = document.querySelector('.carousel-dots');
-  
-  if (!slidesContainer || !dotsContainer) return;
-  
-  // Clear existing
-  slidesContainer.innerHTML = '';
-  dotsContainer.innerHTML = '';
-  
-  slidesArray.forEach((slide, index) => {
-    // Create slide
-    const slideDiv = document.createElement('div');
-    slideDiv.className = 'carousel-slide' + (index === 0 ? ' active' : '');
-    slideDiv.innerHTML = `<img src="${slide.imageUrl}" alt="slide-${index + 1}">`;
-    slidesContainer.appendChild(slideDiv);
+  try {
+    const slidesContainer = document.querySelector('.carousel-slides');
+    const dotsContainer = document.querySelector('.carousel-dots');
     
-    // Create dot
-    const dot = document.createElement('div');
-    dot.className = 'dot' + (index === 0 ? ' active' : '');
-    dot.onclick = () => goToSlide(index);
-    dotsContainer.appendChild(dot);
-  });
-  
-  // Reinitialize carousel
-  slides = document.querySelectorAll('.carousel-slide');
-  dots = document.querySelectorAll('.dot');
-  current = 0;
-  
-  // Show hero content only on first slide
-  const heroContent = document.querySelector('.hero-content');
-  if (heroContent) {
-    heroContent.classList.add('visible');
+    if (!slidesContainer || !dotsContainer) {
+      console.log('Carousel containers not found');
+      return;
+    }
+    
+    // Clear existing
+    slidesContainer.innerHTML = '';
+    dotsContainer.innerHTML = '';
+    
+    slidesArray.forEach((slide, index) => {
+      // Create slide
+      const slideDiv = document.createElement('div');
+      slideDiv.className = 'carousel-slide' + (index === 0 ? ' active' : '');
+      slideDiv.setAttribute('data-slide', index + 1);
+      
+      // Build slide content with optional text
+      let slideContent = `<img src="${slide.imageUrl}" alt="slide-${index + 1}">`;
+      
+      // Add text content if exists
+      if (slide.title || slide.subtitle || slide.badge) {
+        slideContent += `
+          <div class="slide-text-overlay" style="position:absolute;z-index:10;top:50%;left:48px;right:48px;transform:translateY(-50%);max-width:780px;">
+            ${slide.badge ? `<div class="hero-badge" style="margin-bottom:24px;">${escapeHtml(slide.badge)}</div>` : ''}
+            ${slide.title ? `<h1 style="font-family:'Playfair Display',serif;font-size:clamp(42px,6.5vw,80px);font-weight:700;line-height:1.05;letter-spacing:-0.02em;color:#fff;margin-bottom:22px;text-shadow:0 2px 30px rgba(0,0,0,0.3);">${escapeHtml(slide.title)}${slide.titleSub ? '<br><em style="font-style:italic;font-weight:400;color:rgba(255,220,210,0.95);">' + escapeHtml(slide.titleSub) + '</em>' : ''}</h1>` : ''}
+            ${slide.subtitle ? `<p style="font-size:15px;font-weight:400;color:rgba(255,255,255,0.75);max-width:420px;line-height:1.7;margin-bottom:36px;">${escapeHtml(slide.subtitle)}</p>` : ''}
+            <div class="hero-btns" style="display:flex;gap:14px;flex-wrap:wrap;">
+              ${slide.btn1Text ? `<a href="${slide.btn1Link || '#'}" class="btn btn-dark">${escapeHtml(slide.btn1Text)}</a>` : ''}
+              ${slide.btn2Text ? `<a href="${slide.btn2Link || '#'}" class="btn btn-outline-white">${escapeHtml(slide.btn2Text)}</a>` : ''}
+            </div>
+          </div>
+        `;
+      }
+      
+      slideDiv.innerHTML = slideContent;
+      slidesContainer.appendChild(slideDiv);
+      
+      // Create dot
+      const dot = document.createElement('div');
+      dot.className = 'dot' + (index === 0 ? ' active' : '');
+      dot.onclick = () => goToSlide(index);
+      dotsContainer.appendChild(dot);
+    });
+    
+    // Reinitialize carousel
+    slides = document.querySelectorAll('.carousel-slide');
+    dots = document.querySelectorAll('.dot');
+    current = 0;
+    
+    // Show hero content only on first slide if it has content
+    const heroContent = document.querySelector('.hero-content');
+    if (heroContent) {
+      heroContent.classList.add('visible');
+    }
+  } catch(e) {
+    console.error('Error rendering slides:', e);
+    // Fallback to default HTML
+    initCarousel();
   }
 }
 function nextSlide() { goToSlide(current + 1); }
@@ -1426,7 +1464,6 @@ function resetTimer() {
   clearInterval(timer);
   timer = setInterval(nextSlide, 5000);
 }
-timer = setInterval(nextSlide, 5000);
 
 // ── NAV SCROLL ──
 window.addEventListener('scroll', () => {
@@ -1733,28 +1770,105 @@ document.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
   // подписка на слайды для главного слайдера
   onValue(ref(db,'slides'), snap=>{
     const slidesObj = snap.val() || {};
-    // Convert object to array
     const slidesArray = Object.entries(slidesObj).map(([id, data]) => ({id, ...data}));
-    // Sort by order
+    
+    // Сортируем и берём первые 3 слайда
     slidesArray.sort((a, b) => (a.order || 0) - (b.order || 0));
     
     if (slidesArray.length > 0) {
-      renderSlidesFromFirebase(slidesArray);
-    } else {
-      // Initialize carousel with default slides from HTML
-      initCarousel();
+      // Применяем текст из Firebase к существующим слайдам
+      applySlideText(slidesArray);
     }
+    
+    // Инициализируем слайдер
+    initCarousel();
   });
+  
+  // Применяет текст из Firebase к слайдам
+  function applySlideText(slidesArray) {
+    const heroContent = document.querySelector('.hero-content');
+    const heroBadge = document.getElementById('heroBadge');
+    const heroTitle = document.getElementById('heroTitle');
+    const heroSubtitle = document.getElementById('heroSubtitle');
+    const heroBtns = document.querySelector('.hero-content .hero-btns');
+    
+    slidesArray.forEach((slideData, index) => {
+      // Для первого слайда используем оригинальный hero-content
+      if (index === 0 && slideData) {
+        if (slideData.badge || slideData.title || slideData.subtitle || slideData.btn1Text || slideData.btn2Text) {
+          // Обновляем оригинальный hero-content
+          if (heroBadge) heroBadge.textContent = slideData.badge || '';
+          if (heroTitle) {
+            heroTitle.innerHTML = (slideData.title || '') + (slideData.titleSub ? '<br><em>' + slideData.titleSub + '</em>' : '');
+          }
+          if (heroSubtitle) heroSubtitle.textContent = slideData.subtitle || '';
+          
+          // Обновляем кнопки
+          if (heroBtns) {
+            let btnsHTML = '';
+            if (slideData.btn1Text) {
+              btnsHTML += `<a href="${slideData.btn1Link || '#'}" class="btn btn-dark">${slideData.btn1Text}</a>`;
+            }
+            if (slideData.btn2Text) {
+              btnsHTML += `<a href="${slideData.btn2Link || '#'}" class="btn btn-outline-white">${slideData.btn2Text}</a>`;
+            }
+            heroBtns.innerHTML = btnsHTML;
+          }
+        }
+      }
+      
+      // Для остальных слайдов добавляем текст внутрь слайда
+      const slides = document.querySelectorAll('.carousel-slide');
+      const slide = slides[index];
+      if (!slide || index === 0) return;
+      
+      // Удаляем старый текст
+      const oldText = slide.querySelector('.slide-text-overlay');
+      if (oldText) oldText.remove();
+      
+      // Добавляем новый текст если есть
+      if (slideData.title || slideData.subtitle || slideData.badge) {
+        const textDiv = document.createElement('div');
+        textDiv.className = 'slide-text-overlay';
+        textDiv.style.cssText = 'position:absolute;z-index:10;top:50%;left:48px;right:48px;transform:translateY(-50%);max-width:780px;opacity:1;';
+        
+        let textHTML = '';
+        if (slideData.badge) {
+          textHTML += `<div class="hero-badge" style="margin-bottom:24px;">${escapeHtml(slideData.badge)}</div>`;
+        }
+        if (slideData.title) {
+          textHTML += `<h1 style="font-family:'Playfair Display',serif;font-size:clamp(42px,6.5vw,80px);font-weight:700;line-height:1.05;letter-spacing:-0.02em;color:#fff;margin-bottom:22px;text-shadow:0 2px 30px rgba(0,0,0,0.3);">${escapeHtml(slideData.title)}`;
+          if (slideData.titleSub) {
+            textHTML += `<br><em style="font-style:italic;font-weight:400;color:rgba(255,220,210,0.95);">${escapeHtml(slideData.titleSub)}</em>`;
+          }
+          textHTML += '</h1>';
+        }
+        if (slideData.subtitle) {
+          textHTML += `<p style="font-size:15px;font-weight:400;color:rgba(255,255,255,0.75);max-width:420px;line-height:1.7;margin-bottom:36px;">${escapeHtml(slideData.subtitle)}</p>`;
+        }
+        textHTML += '<div class="hero-btns" style="display:flex;gap:14px;flex-wrap:wrap;">';
+        if (slideData.btn1Text) {
+          textHTML += `<a href="${slideData.btn1Link || '#'}" class="btn btn-dark">${escapeHtml(slideData.btn1Text)}</a>`;
+        }
+        if (slideData.btn2Text) {
+          textHTML += `<a href="${slideData.btn2Link || '#'}" class="btn btn-outline-white">${escapeHtml(slideData.btn2Text)}</a>`;
+        }
+        textHTML += '</div>';
+        
+        textDiv.innerHTML = textHTML;
+        slide.appendChild(textDiv);
+      }
+    });
+  }
   
   // Инициализация слайдов по умолчанию, если база пустая
   get(ref(db,'slides')).then(snap => {
     if (!snap.exists()) {
       // Добавляем слайды по умолчанию с локальными изображениями
       const defaultSlides = [
-        { imageUrl: 'images/1.png', order: 1 },
-        { imageUrl: 'images/2.png', order: 2 },
-        { imageUrl: 'images/3.png', order: 3 },
-        { imageUrl: 'images/4.png', order: 4 }
+        { imageUrl: 'images/1.png', order: 1, badge: 'Онлайн-программа', title: 'Путь к счастью', titleSub: 'через сеть', subtitle: 'Программа для женщин, которые хотят найти настоящие отношения через онлайн‑знакомства — без разочарований и потери времени.', btn1Text: 'Узнать больше', btn1Link: '#pricing', btn2Text: 'Как это работает', btn2Link: '#pain' },
+        { imageUrl: 'images/2.png', order: 2, badge: '', title: '', titleSub: '', subtitle: '', btn1Text: '', btn1Link: '', btn2Text: '', btn2Link: '' },
+        { imageUrl: 'images/3.png', order: 3, badge: '', title: '', titleSub: '', subtitle: '', btn1Text: '', btn1Link: '', btn2Text: '', btn2Link: '' }
       ];
       defaultSlides.forEach((slide, idx) => {
         const newRef = push(ref(db, 'slides'));
@@ -1802,7 +1916,10 @@ document.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
     const section = document.getElementById('blogSection');
     if(!container || !section) return;
     const items = Object.entries(data || {}).filter(([id,p])=> p.published).sort((a,b)=> b[1].ts - a[1].ts);
-    if(items.length===0){ section.style.display='none'; return; }
+    if(items.length===0){ 
+      section.style.display='none'; 
+      return; 
+    }
     section.style.display='block';
     container.innerHTML = items.map(([id,post])=>{
       const date = post.ts ? new Date(post.ts).toLocaleDateString('ru-RU',{day:'numeric',month:'long',year:'numeric'}) : '';
@@ -2001,7 +2118,7 @@ document.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
     });
   }
 
-  // админ-панель (по ключу admin=psykolog2024 или #admin)
+  // админ-панель (по ключу admin=psykolg2024 или #admin)
   function isAdmin(){ const p = new URLSearchParams(location.search); return p.get('admin')==='psykolog2024' || location.hash==='#admin'; }
 
   // Глобальные переменные для админ-панели (должны быть доступны до их использования)
@@ -2034,6 +2151,7 @@ document.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
       </div>
       <div class="admin-tabs">
         <button class="admin-tab active" data-tab="content">Контент</button>
+        <button class="admin-tab" data-tab="slides">Слайды</button>
         <button class="admin-tab" data-tab="contacts">Контакты</button>
         <button class="admin-tab" data-tab="bookings">Записи<span id="bookingsTabBadge" class="admin-tab-notification hidden"></span></button>
         <button class="admin-tab" data-tab="services">Услуги</button>
@@ -2041,7 +2159,6 @@ document.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
         <button class="admin-tab" data-tab="blog">Блог</button>
         <button class="admin-tab" data-tab="sections">Разделы</button>
         <button class="admin-tab" data-tab="faq">FAQ</button>
-        <button class="admin-tab" data-tab="slides">Слайдер</button>
       </div>
       <div id="adminContent" style="padding:20px;">Загрузка...</div>
     `;
@@ -2612,6 +2729,7 @@ document.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
     panel.querySelectorAll('.admin-tab').forEach(btn=> btn.addEventListener('click', (e)=>{
       panel.querySelectorAll('.admin-tab').forEach(b=> b.classList.remove('active')); btn.classList.add('active'); const tab = btn.getAttribute('data-tab');
       if(tab==='content') renderContent();
+      if(tab==='slides') renderSlides();
       if(tab==='contacts') renderContacts();
       if(tab==='bookings') renderBookings();
       if(tab==='services') renderServices();
@@ -2619,7 +2737,6 @@ document.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
       if(tab==='blog') renderBlog();
       if(tab==='sections') renderSections();
       if(tab==='faq') renderFaq();
-      if(tab==='slides') renderSlides();
     }));
 
     // ══ SLIDES - Управление слайдером ══
@@ -2632,11 +2749,10 @@ document.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
       el.innerHTML = `
         <div style="display:flex;flex-direction:column;gap:20px;">
           <div style="background:linear-gradient(145deg,#ffffff 0%,#f8f9fa 100%);padding:20px;border-radius:16px;border:1px solid #e0e0e0;">
-            <div style="font-weight:600;font-size:16px;margin-bottom:12px;color:#1E3A5F;"><i class="fas fa-images" style="margin-right:8px;"></i>Управление слайдером</div>
-            <p style="font-size:13px;color:#666;margin-bottom:16px;">Добавьте или удалите слайды главного баннера. Первым слайдом будет отображаться текст с анимацией.</p>
+            <div style="font-weight:600;font-size:16px;margin-bottom:12px;color:#1E3A5F;"><i class="fas fa-images" style="margin-right:8px;"></i>Управление слайдером (3 слайда)</div>
+            <p style="font-size:13px;color:#666;margin-bottom:16px;">Редактируйте текст для каждого слайда. Первый слайд отображается с анимацией.</p>
             
             <div id="slidesList" style="display:flex;flex-direction:column;gap:12px;margin-bottom:16px;">
-              ${slidesArr.length === 0 ? '<p style="color:#999;font-size:13px;">Слайдов пока нет. Добавьте первый слайд.</p>' : ''}
               ${slidesArr.map((slide, idx) => `
                 <div style="display:flex;align-items:center;gap:12px;background:#f8f9fa;padding:12px;border-radius:10px;border:1px solid #e0e0e0;">
                   <div style="width:60px;height:40px;flex-shrink:0;border-radius:6px;overflow:hidden;background:#ddd;">
@@ -2644,81 +2760,134 @@ document.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
                   </div>
                   <div style="flex:1;">
                     <div style="font-size:12px;color:#666;">Слайд ${idx + 1}${idx === 0 ? ' (с текстом)' : ''}</div>
-                    <div style="font-size:11px;color:#999;">${slide.imageUrl.substring(0, 40)}...</div>
+                    <div style="font-size:11px;color:#999;">${slide.title || 'Без текста'}</div>
                   </div>
-                  <button class="delete-slide-btn" data-id="${slide.id}" style="background:#e74c3c;color:#fff;padding:6px 12px;border:none;border-radius:6px;cursor:pointer;font-size:11px;"><i class="fas fa-trash"></i> Удалить</button>
+                  <button class="edit-slide-btn" data-id="${slide.id}" style="background:#4A90D9;color:#fff;padding:6px 12px;border:none;border-radius:6px;cursor:pointer;font-size:11px;margin-right:6px;"><i class="fas fa-edit"></i> Редактировать</button>
                 </div>
               `).join('')}
-            </div>
-            
-            <div style="border-top:1px solid #e0e0e0;padding-top:16px;margin-top:8px;">
-              <div style="font-weight:600;font-size:14px;margin-bottom:12px;color:#1E3A5F;">Добавить новый слайд</div>
-              <input type="file" id="newSlideImage" accept="image/*" style="margin-bottom:10px;">
-              <button id="addSlideBtn" style="background:linear-gradient(135deg,#27ae60,#2ecc71);color:#fff;padding:10px 20px;border:none;border-radius:10px;cursor:pointer;font-weight:600;"><i class="fas fa-plus"></i> Добавить слайд</button>
             </div>
           </div>
         </div>
       `;
       
-      // Delete handlers
-      el.querySelectorAll('.delete-slide-btn').forEach(btn => {
-        btn.addEventListener('click', async () => {
+      // Edit handlers
+      el.querySelectorAll('.edit-slide-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
           const id = btn.getAttribute('data-id');
-          if(confirm('Удалить этот слайд?')){
-            try{
-              await remove(ref(db, 'slides/' + id));
-              showNotification('Слайд удалён');
-            }catch(e){
-              console.error(e);
-              showNotification('Ошибка удаления');
-            }
-          }
+          showSlideEditor(id);
         });
       });
+    }
+    
+    function showSlideEditor(slideId) {
+      const el = document.getElementById('adminContent');
+      const slide = adminSlides[slideId] || {};
       
-      // Add new slide handler
-      document.getElementById('addSlideBtn').addEventListener('click', async () => {
-        const fileInput = document.getElementById('newSlideImage');
-        const file = fileInput.files[0];
-        
-        if(!file){
-          showNotification('Выберите изображение');
-          return;
+      // Available sections on the site
+      const sections = [
+        { value: '#pricing', label: 'Тарифы (pricing)' },
+        { value: '#pain', label: 'Боли (pain)' },
+        { value: '#how', label: 'Как это работает (how)' },
+        { value: '#direction', label: 'Направление (direction)' },
+        { value: '#author', label: 'Об авторе (author)' },
+        { value: '#services', label: 'Услуги (services)' },
+        { value: '#reviews', label: 'Отзывы (reviews)' },
+        { value: '#blog', label: 'Блог (blog)' },
+        { value: '#faq', label: 'FAQ (faq)' },
+        { value: '#contacts', label: 'Контакты (contacts)' }
+      ];
+      
+      const createSelect = (id, currentValue) => {
+        let options = `<option value="">-- Выберите раздел --</option>`;
+        sections.forEach(s => {
+          const selected = s.value === currentValue ? ' selected' : '';
+          options += `<option value="${s.value}"${selected}>${s.label}</option>`;
+        });
+        // Add custom option
+        if (currentValue && !sections.find(s => s.value === currentValue)) {
+          options += `<option value="${currentValue}" selected>${currentValue}</option>`;
         }
+        return `<select id="${id}" class="admin-input" style="cursor:pointer;">${options}</select>`;
+      };
+      
+      el.innerHTML = `
+        <div style="display:flex;flex-direction:column;gap:16px;">
+          <div style="display:flex;align-items:center;justify-content:space-between;">
+            <button onclick="renderSlides()" style="background:transparent;border:none;color:#666;cursor:pointer;font-size:14px;"><i class="fas fa-arrow-left"></i> Назад к слайдам</button>
+            <div style="font-weight:600;font-size:16px;">Редактирование слайда</div>
+          </div>
+          
+          <div style="background:#f8f9fa;padding:16px;border-radius:12px;border:1px solid #e0e0e0;">
+            <div style="width:100%;height:120px;border-radius:8px;overflow:hidden;margin-bottom:16px;">
+              <img src="${slide.imageUrl}" style="width:100%;height:100%;object-fit:cover;">
+            </div>
+          </div>
+          
+          <div>
+            <label style="display:block;font-weight:600;font-size:13px;margin-bottom:6px;color:#333;">Бейдж (необязательно)</label>
+            <input id="slideBadge" value="${escapeHtml(slide.badge || '')}" placeholder="例如: Онлайн-программа · 5 недель" class="admin-input">
+          </div>
+          
+          <div>
+            <label style="display:block;font-weight:600;font-size:13px;margin-bottom:6px;color:#333;">Заголовок H1</label>
+            <input id="slideTitle" value="${escapeHtml(slide.title || '')}" placeholder="Путь к счастью" class="admin-input">
+          </div>
+          
+          <div>
+            <label style="display:block;font-weight:600;font-size:13px;margin-bottom:6px;color:#333;">Подзаголовок (курсив)</label>
+            <input id="slideTitleSub" value="${escapeHtml(slide.titleSub || '')}" placeholder="через сеть" class="admin-input">
+          </div>
+          
+          <div>
+            <label style="display:block;font-weight:600;font-size:13px;margin-bottom:6px;color:#333;">Описание</label>
+            <textarea id="slideSubtitle" class="admin-textarea" placeholder="Программа для женщин...">${escapeHtml(slide.subtitle || '')}</textarea>
+          </div>
+          
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+            <div>
+              <label style="display:block;font-weight:600;font-size:13px;margin-bottom:6px;color:#333;">Текст кнопки 1</label>
+              <input id="slideBtn1Text" value="${escapeHtml(slide.btn1Text || '')}" placeholder="Узнать больше" class="admin-input">
+            </div>
+            <div>
+              <label style="display:block;font-weight:600;font-size:13px;margin-bottom:6px;color:#333;">Ссылка кнопки 1</label>
+              ${createSelect('slideBtn1Link', slide.btn1Link || '')}
+            </div>
+          </div>
+          
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+            <div>
+              <label style="display:block;font-weight:600;font-size:13px;margin-bottom:6px;color:#333;">Текст кнопки 2</label>
+              <input id="slideBtn2Text" value="${escapeHtml(slide.btn2Text || '')}" placeholder="Как это работает" class="admin-input">
+            </div>
+            <div>
+              <label style="display:block;font-weight:600;font-size:13px;margin-bottom:6px;color:#333;">Ссылка кнопки 2</label>
+              ${createSelect('slideBtn2Link', slide.btn2Link || '')}
+            </div>
+          </div>
+          
+          <button id="saveSlideBtn" style="background:linear-gradient(135deg,#27ae60,#2ecc71);color:#fff;padding:12px 24px;border:none;border-radius:10px;cursor:pointer;font-weight:600;font-size:14px;margin-top:8px;"><i class="fas fa-save"></i> Сохранить</button>
+        </div>
+      `;
+      
+      document.getElementById('saveSlideBtn').addEventListener('click', async () => {
+        const updatedData = {
+          badge: document.getElementById('slideBadge').value,
+          title: document.getElementById('slideTitle').value,
+          titleSub: document.getElementById('slideTitleSub').value,
+          subtitle: document.getElementById('slideSubtitle').value,
+          btn1Text: document.getElementById('slideBtn1Text').value,
+          btn1Link: document.getElementById('slideBtn1Link').value,
+          btn2Text: document.getElementById('slideBtn2Text').value,
+          btn2Link: document.getElementById('slideBtn2Link').value
+        };
         
-        // Show loading
-        const btn = document.getElementById('addSlideBtn');
-        const originalText = btn.innerHTML;
-        btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Загрузка...';
-        btn.disabled = true;
-        
-        try{
-          // Upload to Firebase Storage
-          const fileName = 'slide_' + Date.now() + '_' + file.name;
-          const slideRef = storageRef(storage, 'slides/' + fileName);
-          await uploadBytes(slideRef, file);
-          const downloadURL = await getDownloadURL(slideRef);
-          
-          // Calculate order (last)
-          const slidesArr = Object.entries(adminSlides).map(([id, data]) => ({id, ...data}));
-          const maxOrder = slidesArr.reduce((max, s) => Math.max(max, s.order || 0), 0);
-          
-          // Save to database
-          const newSlideRef = push(ref(db, 'slides'));
-          await set(newSlideRef, {
-            imageUrl: downloadURL,
-            order: maxOrder + 1,
-            createdAt: Date.now()
-          });
-          
-          showNotification('Слайд добавлен');
-          fileInput.value = '';
-        }catch(e){
+        try {
+          await update(ref(db, 'slides/' + slideId), updatedData);
+          showNotification('Слайд сохранён');
+          renderSlides();
+        } catch(e) {
           console.error(e);
-          showNotification('Ошибка загрузки: ' + e.message);
-        }finally{
-          btn.innerHTML = originalText;
-          btn.disabled = false;
+          showNotification('Ошибка сохранения');
         }
       });
     }
