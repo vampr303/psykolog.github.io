@@ -453,6 +453,18 @@ nav.scrolled { padding: 10px 48px; box-shadow: 0 2px 20px rgba(0,0,0,0.06); }
   max-width: 75%;
   box-shadow: 0 2px 8px rgba(0,0,0,0.08);
 }
+
+/* простой круглый пузырь, текст по центру */
+.bubble-circle {
+  background: var(--card);
+  border-radius: 50%;
+  padding: 20px 24px;
+  max-width: 60%;
+  text-align: center;
+  font-size: 14px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  align-self: center;
+}
 .bubble-left {
   background: var(--card);
   border-bottom-left-radius: 0px;
@@ -1939,6 +1951,7 @@ document.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
       let bubbleClass = 'bubble-left';
       if(item.type === 'right') bubbleClass = 'bubble-right';
       if(item.type === 'center') bubbleClass = 'bubble-center';
+      if(item.type === 'circle') bubbleClass = 'bubble-circle';
       
       return `<div class="bubble ${bubbleClass}">${escapeHtml(item.text || '')}</div>`;
     }).join('');
@@ -2645,6 +2658,7 @@ document.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
         if(type === 'left') return 'Слева (серая)';
         if(type === 'right') return 'Справа (розовая)';
         if(type === 'center') return 'По центру (белая)';
+        if(type === 'circle') return 'Круглый (вопрос)';
         return type;
       };
       
@@ -2652,6 +2666,7 @@ document.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
         if(type === 'left') return '#8a8278';
         if(type === 'right') return '#c4857a';
         if(type === 'center') return '#1c1a17';
+        if(type === 'circle') return '#555';
         return '#666';
       };
       
@@ -2682,6 +2697,7 @@ document.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
                 <option value="left">Слева (серая)</option>
                 <option value="right">Справа (розовая)</option>
                 <option value="center">По центру (белая)</option>
+                <option value="circle">Круглый (общий вопрос)</option>
               </select>
               <textarea id="newPainText" class="admin-textarea" placeholder="Текст сообщения..." style="margin-bottom:10px;"></textarea>
               <button id="addPainBtn" style="background:linear-gradient(135deg,#27ae60,#2ecc71);color:#fff;padding:10px 20px;border:none;border-radius:10px;cursor:pointer;font-weight:600;"><i class="fas fa-plus"></i> Добавить сообщение</button>
@@ -2762,6 +2778,7 @@ document.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
               <option value="left" ${msg.type === 'left' ? 'selected' : ''}>Слева (серая)</option>
               <option value="right" ${msg.type === 'right' ? 'selected' : ''}>Справа (розовая)</option>
               <option value="center" ${msg.type === 'center' ? 'selected' : ''}>По центру (белая)</option>
+              <option value="circle" ${msg.type === 'circle' ? 'selected' : ''}>Круглый (общий вопрос)</option>
             </select>
           </div>
           
