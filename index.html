@@ -398,10 +398,21 @@ nav.scrolled { padding: 10px 48px; box-shadow: 0 2px 20px rgba(0,0,0,0.06); }
   border: 1px solid rgba(255,255,255,0.25);
   color: #fff; font-size: 18px;
   display: flex; align-items: center; justify-content: center;
-  cursor: pointer;
-  transition: background .2s, transform .2s;
 }
-.arrow-btn:hover { background: rgba(255,255,255,0.28); transform: scale(1.05); }
+
+/* Steps carousel */
+.steps-carousel {
+  border-radius: 50%;
+  overflow: hidden;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.15);
+}
+.steps-slides img {
+  animation: pulse 3s ease-in-out infinite;
+}
+@keyframes pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.9; transform: scale(1.02); }
+}
 
 /* scroll hint */
 .scroll-hint {
@@ -573,10 +584,16 @@ nav.scrolled { padding: 10px 48px; box-shadow: 0 2px 20px rgba(0,0,0,0.06); }
   flex-shrink: 0;
   display: flex; align-items: center; justify-content: center;
   font-size: 36px;
+  overflow: hidden;
+}
+.module-card-visual img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 /* ══════════════════════════════
-   HOW IT WORKS
+   HOW IT WORKS 
 ══════════════════════════════ */
 .how-content h2 {
   font-family: 'Playfair Display', serif;
@@ -1068,10 +1085,81 @@ footer a:hover { color: var(--rose); }
             Хочется просто нормальных отношений, без этого всего…
           </div>
         </div>
-        <div class="pain-divider">… ты и раскроешь раскрою тебе секрет…</div>
-        <p class="pain-closing">
-          Не все свидания ведут к любви,<br>зато все — к пониманию себя
+        <div class="pain-divider">… Я раскрою тебе секрет…</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══ QUOTE ══ -->
+<div class="quote-banner reveal visible">
+  <div class="container">
+    <h2>Не все свидания ведут к любви,<br>зато все — к пониманию себя</h2>
+  </div>
+</div>
+
+<div style="position: relative; width: 100%; overflow: hidden;">
+
+  <img src="images/7.png" alt="Описание" style="
+    position: absolute; 
+    z-index: 0;           /* Уходит на задний план */
+    border-radius: 20px;
+    
+    /* === РЕГУЛИРОВКИ ПОЗИЦИИ === */
+    top: 70px;             /* Отступ сверху (можно ставить минус, например -50px) */
+    left: 80%;            /* Сдвиг вправо. 1600px — это слишком много, лучше в % */
+    
+    /* === РАЗМЕРЫ === */
+    width: 300px; 
+    height: auto;
+    opacity: 0.7;         /* Прозрачность, если желтое поле слишком яркое (можно убрать) */
+    pointer-events: none; /* Текст можно будет выделять прямо сквозь картину (убираем хитбокс) */
+  ">
+
+  <section class="program-intro" style="position: relative; z-index: 1; background: transparent; padding: 60px 0;">
+    <div class="container" style="max-width: 900px; margin: 0 auto; text-align: center; font-family: sans-serif;">
+      
+      <div class="reveal">
+        <p style="font-size: 1.5rem; color: #555; font-style: italic; margin-bottom: 2rem;">
+          Привет, если эти строки появились перед Тобой — значит, где-то глубоко внутри, Ты уже сделала шаг навстречу новому пути…
         </p>
+
+        <h2 style="font-size: 2rem; color: #222; margin-bottom: 1.5rem; line-height: 1.3;">
+          Добро пожаловать в пространство моей авторской программы <br>
+          <span style="color: #d4a373;">«Психологическое сопровождение при поиске партнера в интернет пространстве»</span>, <br>
+          созданной для Тебя.
+        </h2>
+
+        <div class="strategy-block" style="background: rgba(249, 249, 249, 0.8); padding: 30px; border-radius: 15px; margin: 30px 0; backdrop-filter: blur(5px);">
+          <h3 style="font-size: 1.4rem; font-weight: 400; line-height: 1.6; color: #333;">
+            Эта программа — работающий метод, который стал ключом к счастью для многих моих клиенток. 
+            Мой личный опыт женщины, нашедшей счастливые отношения на сайте знакомств, 
+            переработанный через глубокие профессиональные знания психологии, 
+            стал <strong>выверенной, четко работающей стратегией</strong> — для Тебя.
+          </h3>
+        </div>
+
+        <p style="font-size: 1.5rem; color: #555; font-style: italic; margin-bottom: 3rem;">
+          Это Твой шанс не изобретать велосипед, а воспользоваться готовой и работающей программой.
+        </p>
+      </div>
+      
+    </div>
+  </section>
+</div>
+
+<!-- ══ DIRECTION ══ -->
+<section class="section" id="direction" style="background: #fff;">
+  <div class="container">
+    <div class="two-col reveal">
+      <div class="direction-content">
+        <h2>Направлю твой взгляд</h2>
+        <p class="subtitle">Глубокая работа с собой, своими паттернами и тем, как ты строишь отношения в онлайн-пространстве и жизни</p>
+        
+        <div id="directionModulesContainer" class="module-cards">
+          <!-- Модули будут загружаться из Firebase -->
+        </div>
       </div>
     </div>
   </div>
@@ -1095,23 +1183,6 @@ footer a:hover { color: var(--rose); }
 </div>
 
 
-<!-- ══ QUOTE ══ -->
-<div class="quote-banner reveal">
-  <div class="container">
-    <h2>Не все свидания ведут к любви,<br>зато все — к пониманию себя</h2>
-  </div>
-</div>
-
-<!-- ══ DIRECTION ══ -->
-<section class="section" id="direction">
-  <div class="container">
-    <div class="two-col reveal">
-      <div class="direction-content">
-        <h2>Направлю твой взгляд</h2>
-        <p class="subtitle">Глубокая работа с собой, своими паттернами и тем, как ты строишь отношения в онлайн-пространстве и жизни</p>
-        <div class="module-cards" id="directionModulesContainer">
-          <!-- модули будут загружены из БД -->
-        </div>
 
             <!-- Booking modal (выбор услуги) -->
             <div id="bookingModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:9998;align-items:center;justify-content:center;">
@@ -1125,6 +1196,9 @@ footer a:hover { color: var(--rose); }
                   <input name="lastName" placeholder="Фамилия (обязательно)" required style="padding:10px;border:1px solid #eee;border-radius:8px;">
                   <input name="phone" placeholder="Телефон или WhatsApp (обязательно)" required style="padding:10px;border:1px solid #eee;border-radius:8px;">
                   <input type="date" name="bookingDate" id="bookingDateInput" required style="padding:10px;border:1px solid #eee;border-radius:8px;font-family:'Raleway',sans-serif;">
+                  <select name="bookingTime" id="bookingTimeSelect" required style="padding:10px;border:1px solid #eee;border-radius:8px;font-family:'Raleway',sans-serif;">
+                    <option value="">Сначала выберите дату</option>
+                  </select>
                   <textarea name="note" placeholder="Коротко: что нужно" rows="4" required style="padding:10px;border:1px solid #eee;border-radius:8px;"></textarea>
                   <input type="hidden" name="serviceId">
                   <div style="display:flex;gap:8px;align-items:center;">
@@ -1132,6 +1206,17 @@ footer a:hover { color: var(--rose); }
                     <div id="bookingStatus" style="color:var(--muted);"></div>
                   </div>
                 </form>
+              </div>
+            </div>
+            
+            <!-- Contact Modal (выбор мессенджера) -->
+            <div id="contactModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:9998;align-items:center;justify-content:center;">
+              <div style="position:absolute;background:#fff;padding:24px;border-radius:16px;max-width:360px;width:90%;box-shadow:0 12px 40px rgba(0,0,0,0.18);">
+                <button id="closeContactModalBtn" style="position:absolute;right:12px;top:12px;border:none;background:transparent;font-size:18px;cursor:pointer;">✕</button>
+                <h3 style="margin-bottom:16px;font-family:'Playfair Display',serif;text-align:center;">Связаться со мной</h3>
+                <div id="contactOptions" style="display:flex;flex-direction:column;gap:10px;">
+                  <!-- Заполняется динамически -->
+                </div>
               </div>
             </div>
       </div>
@@ -1146,33 +1231,37 @@ footer a:hover { color: var(--rose); }
       <div class="how-content">
         <h2>Как это будет…</h2>
         <p class="subtitle">5 недель интенсивной, но деликатной работы — онлайн, в своём темпе, с поддержкой.</p>
-        <div class="steps-wrap">
-          <div class="step-card">
-            <div class="step-num">Шаг 01</div>
-            <h4>Диагностика</h4>
-            <p>Заполняешь анкету и получаешь первый разбор своего типа привязанности</p>
+        
+        <div class="steps-wrap" style="display:grid;grid-template-columns:1fr auto 1fr;gap:20px;align-items:center;">
+          <div style="display:flex;flex-direction:column;gap:40px;">
+            <div class="step-card">
+              <div class="step-num">Шаг 01</div>
+              <h4>Диагностика</h4>
+              <p>Заполняешь анкету и получаешь первый разбор своего типа привязанности</p>
+            </div>
+            <div class="step-card">
+              <div class="step-num">Шаг 02</div>
+              <h4>Практики</h4>
+              <p>Видео-уроки, рефлексивные задания и живые разборы реальных ситуаций</p>
+            </div>
           </div>
           <div class="step-center">
-            <div class="orbit">
+            <div class="orbit" style="width:180px;height:180px;">
               <div class="orbit-dot"></div>
               <div class="orbit-inner">Ты<br>в центре</div>
             </div>
           </div>
-          <div class="step-card">
-            <div class="step-num">Шаг 02</div>
-            <h4>Практики</h4>
-            <p>Видео-уроки, рефлексивные задания и живые разборы реальных ситуаций</p>
-          </div>
-          <div class="step-card">
-            <div class="step-num">Шаг 03</div>
-            <h4>Поддержка</h4>
-            <p>Чат с куратором и другими участницами. Ты не одна в этом процессе</p>
-          </div>
-          <div></div>
-          <div class="step-card">
-            <div class="step-num">Шаг 04</div>
-            <h4>Результат</h4>
-            <p>Финальная сессия — осознаёшь, что изменилось, и идёшь вперёд с новым взглядом</p>
+          <div style="display:flex;flex-direction:column;gap:40px;">
+            <div class="step-card">
+              <div class="step-num">Шаг 03</div>
+              <h4>Поддержка</h4>
+              <p>Чат с куратором и другими участницами. Ты не одна в этом процессе</p>
+            </div>
+            <div class="step-card">
+              <div class="step-num">Шаг 04</div>
+              <h4>Результат</h4>
+              <p>Финальная сессия — осознаёшь, что изменилось, и идёшь вперёд с новым взглядом</p>
+            </div>
           </div>
         </div>
         <div class="steps-cta">
@@ -1239,16 +1328,16 @@ footer a:hover { color: var(--rose); }
     <div class="author-inner reveal">
 
       <!-- Polaroid photos -->
-      <div class="author-photos">
-        <div class="polaroid polaroid-main">
-          <div class="polaroid-img"><img src="images/2.png" alt="author" style="width:100%;height:100%;object-fit:cover;display:block;border-radius:6px;"></div>
-          <div class="polaroid-caption">Фото</div>
+        <div class="author-photos">
+          <div class="polaroid polaroid-main">
+            <div class="polaroid-img"><img src="images/2.png" alt="author" style="width:100%;height:100%;object-fit:cover;display:block;border-radius:6px;"></div>
+            <div class="polaroid-caption">Фото</div>
+          </div>
+          <div class="polaroid polaroid-small">
+            <div class="polaroid-img"><img src="images/5.png" alt="author-small" style="width:100%;height:100%;object-fit:cover;display:block;border-radius:6px;"></div>
+            <div class="polaroid-caption">Фото</div>
+          </div>
         </div>
-        <div class="polaroid polaroid-small">
-          <div class="polaroid-img"><img src="images/5.png" alt="author-small" style="width:100%;height:100%;object-fit:cover;display:block;border-radius:6px;"></div>
-          <div class="polaroid-caption">Фото</div>
-        </div>
-      </div>
 
       <!-- Info -->
       <div class="author-info">
@@ -1422,8 +1511,8 @@ function renderSlidesFromFirebase(slidesArray) {
             ${slide.title ? `<h1 style="font-family:'Playfair Display',serif;font-size:clamp(42px,6.5vw,80px);font-weight:700;line-height:1.05;letter-spacing:-0.02em;color:#fff;margin-bottom:22px;text-shadow:0 2px 30px rgba(0,0,0,0.3);">${escapeHtml(slide.title)}${slide.titleSub ? '<br><em style="font-style:italic;font-weight:400;color:rgba(255,220,210,0.95);">' + escapeHtml(slide.titleSub) + '</em>' : ''}</h1>` : ''}
             ${slide.subtitle ? `<p style="font-size:15px;font-weight:400;color:rgba(255,255,255,0.75);max-width:420px;line-height:1.7;margin-bottom:36px;">${escapeHtml(slide.subtitle)}</p>` : ''}
             <div class="hero-btns" style="display:flex;gap:14px;flex-wrap:wrap;">
-              ${slide.btn1Text ? `<a href="${slide.btn1Link || '#'}" class="btn btn-dark">${escapeHtml(slide.btn1Text)}</a>` : ''}
-              ${slide.btn2Text ? `<a href="${slide.btn2Link || '#'}" class="btn btn-outline-white">${escapeHtml(slide.btn2Text)}</a>` : ''}
+              ${slide.btn1Text ? `<a href="${getExternalLink(slide.btn1Link) || '#'}" data-btn-link="${slide.btn1Link || ''}" class="btn btn-dark">${escapeHtml(slide.btn1Text)}</a>` : ''}
+              ${slide.btn2Text ? `<a href="${getExternalLink(slide.btn2Link) || '#'}" data-btn-link="${slide.btn2Link || ''}" class="btn btn-outline-white">${escapeHtml(slide.btn2Text)}</a>` : ''}
             </div>
           </div>
         `;
@@ -1508,12 +1597,46 @@ document.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
   const db = getDatabase(app);
   const storage = getStorage(app);
 
+  // Функция для конвертации изображения в base64
+  function imageToBase64(file) {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => resolve(reader.result);
+      reader.onerror = error => reject(error);
+    });
+  }
+  
+  // Функция для загрузки изображения модуля (сохраняем как base64 в базе данных)
+  async function uploadModuleImage(file, moduleId) {
+    if (!file) return null;
+    console.log('Конвертируем файл в base64:', file.name, file.size);
+    try {
+      // Ограничиваем размер файла (максимум 800KB)
+      if (file.size > 800000) {
+        showNotification('Файл слишком большой. Максимум 800KB');
+        return null;
+      }
+      
+      const base64 = await imageToBase64(file);
+      console.log('Файл конвертирован в base64, длина:', base64.length);
+      return base64;
+    } catch (e) {
+      console.error('Ошибка конвертации:', e);
+      if (showNotification) showNotification('Ошибка загрузки изображения');
+      return null;
+    }
+  }
+  // Делаем функцию глобальной для использования в админ-панели
+  window.uploadModuleImage = uploadModuleImage;
+
   // helper to sanitize phone for wa link (доступен глобально)
   function phoneToWa(phone){ if(!phone) return null; const digits = phone.replace(/[^+0-9]/g,''); let d = digits.replace(/[^0-9]/g,''); if(d.startsWith('8') && d.length===11) d = '7'+d.slice(1); return d; }
 
   // клиентская кэш-переменная для services и render
   let services = {};
   let blogPosts = {}; // кэш для статей блога
+  let currentServiceSettings = {}; // настройки текущей услуги для записи
   let faqData = {}; // кэш для FAQ
 
   // Загрузка и отображение контента с сайта
@@ -1708,6 +1831,11 @@ document.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
     container.querySelectorAll('.select-service').forEach(btn=> btn.addEventListener('click', (e)=>{
       e.preventDefault(); e.stopPropagation();
       const id = btn.dataset.id; const title = btn.dataset.title; const price = btn.dataset.price;
+      
+      // Получаем настройки времени для этой услуги из глобальной переменной services
+      currentServiceSettings = services[id] || {};
+      console.log('Service ID:', id, 'Settings:', currentServiceSettings);
+      
       const bm = document.getElementById('bookingModal');
       const box = document.getElementById('bookingBox');
       if(!bm || !box) return;
@@ -1719,6 +1847,13 @@ document.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
       if(serviceTitleEl) serviceTitleEl.textContent = title || '';
       if(servicePriceEl) servicePriceEl.textContent = price || '';
       const hidden = bm.querySelector('input[name="serviceId"]'); if(hidden) hidden.value = id || '';
+
+      // Сбрасываем выбор времени
+      const timeSelect = document.getElementById('bookingTimeSelect');
+      if(timeSelect) {
+        timeSelect.innerHTML = '<option value="">Сначала выберите дату</option>';
+        timeSelect.disabled = true;
+      }
 
       // Показываем модальное окно внутри блока pricingGrid, если он есть
       box.style.display = 'block';
@@ -1804,10 +1939,10 @@ document.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
           if (heroBtns) {
             let btnsHTML = '';
             if (slideData.btn1Text) {
-              btnsHTML += `<a href="${slideData.btn1Link || '#'}" class="btn btn-dark">${slideData.btn1Text}</a>`;
+              btnsHTML += `<a href="${getExternalLink(slideData.btn1Link) || '#'}" data-btn-link="${slideData.btn1Link || ''}" class="btn btn-dark">${slideData.btn1Text}</a>`;
             }
             if (slideData.btn2Text) {
-              btnsHTML += `<a href="${slideData.btn2Link || '#'}" class="btn btn-outline-white">${slideData.btn2Text}</a>`;
+              btnsHTML += `<a href="${getExternalLink(slideData.btn2Link) || '#'}" data-btn-link="${slideData.btn2Link || ''}" class="btn btn-outline-white">${slideData.btn2Text}</a>`;
             }
             heroBtns.innerHTML = btnsHTML;
           }
@@ -1845,10 +1980,10 @@ document.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
         }
         textHTML += '<div class="hero-btns" style="display:flex;gap:14px;flex-wrap:wrap;">';
         if (slideData.btn1Text) {
-          textHTML += `<a href="${slideData.btn1Link || '#'}" class="btn btn-dark">${escapeHtml(slideData.btn1Text)}</a>`;
+          textHTML += `<a href="${getExternalLink(slideData.btn1Link) || '#'}" data-btn-link="${slideData.btn1Link || ''}" class="btn btn-dark">${escapeHtml(slideData.btn1Text)}</a>`;
         }
         if (slideData.btn2Text) {
-          textHTML += `<a href="${slideData.btn2Link || '#'}" class="btn btn-outline-white">${escapeHtml(slideData.btn2Text)}</a>`;
+          textHTML += `<a href="${getExternalLink(slideData.btn2Link) || '#'}" data-btn-link="${slideData.btn2Link || ''}" class="btn btn-outline-white">${escapeHtml(slideData.btn2Text)}</a>`;
         }
         textHTML += '</div>';
         
@@ -1894,9 +2029,9 @@ document.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
   get(ref(db,'siteContent/modules')).then(snap => {
     if (!snap.exists()) {
       const defaultModules = [
-        { tag: 'Модуль 1', title: 'Начнёшь с себя, а не с него', desc: 'Найдёшь блоки, которые мешают строить близость. Поймёшь, каких партнёров ты притягиваешь и почему.', emoji: '🪞', order: 1 },
-        { tag: 'Модуль 2', title: 'Переписка как инструмент', desc: 'Научишься выстраивать общение так, чтобы сразу видеть намерения человека — без лишнего времени.', emoji: '💬', order: 2 },
-        { tag: 'Модуль 3', title: 'Свидание не как испытание', desc: 'Первые встречи перестанут быть стрессом. Ты будешь приходить с ясной головой и выбирать сама — а не ждать оценки.', emoji: '', order: 3 }
+        { tag: 'Модуль 1', title: 'Начнёшь с себя, а не с него', desc: 'Найдёшь блоки, которые мешают строить близость. Поймёшь, каких партнёров ты притягиваешь и почему.', image: 'images/1.png', order: 1 },
+        { tag: 'Модуль 2', title: 'Переписка как инструмент', desc: 'Научишься выстраивать общение так, чтобы сразу видеть намерения человека — без лишнего времени.', image: 'images/2.png', order: 2 },
+        { tag: 'Модуль 3', title: 'Свидание не как испытание', desc: 'Первые встречи перестанут быть стрессом. Ты будешь приходить с ясной головой и выбирать сама — а не ждать оценки.', image: 'images/3.png', order: 3 }
       ];
       defaultModules.forEach((mod) => {
         const newRef = push(ref(db, 'siteContent/modules'));
@@ -1906,10 +2041,184 @@ document.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
   });
 
   // подписка на контакты для отображения на странице (настройки психолога)
+  let contactsData = {};
   onValue(ref(db,'psycholoog/contacts'), snap=>{
     const c = snap.val() || {};
+    contactsData = c;
     document.querySelectorAll('.social-pill.tg').forEach(a=>{ if(c.telegram) a.href = 'https://t.me/' + c.telegram; });
     document.querySelectorAll('.social-pill.wa').forEach(a=>{ if(c.phone){ const w = phoneToWa(c.phone); a.href = 'https://wa.me/' + w; } });
+    
+    // Обновляем ссылки на кнопках с внешними мессенджерами
+    updateExternalLinks();
+  });
+  
+  // Функция для преобразования плейсхолдеров внешних ссылок в реальные URL
+  function getExternalLink(link) {
+    if (!link) return '#';
+    if (link === '::telegram::') {
+      return contactsData.telegram ? 'https://t.me/' + contactsData.telegram : '#';
+    }
+    if (link === '::whatsapp::') {
+      // Если указан явный WhatsApp link, используем его
+      if (contactsData.whatsapp) {
+        // Проверяем, если это полная ссылка или только номер
+        if (contactsData.whatsapp.startsWith('http')) {
+          return contactsData.whatsapp;
+        }
+        return 'https://wa.me/' + contactsData.whatsapp.replace(/[^0-9]/g, '');
+      }
+      // Иначе используем телефон
+      if (contactsData.phone) {
+        const w = phoneToWa(contactsData.phone);
+        return w ? 'https://wa.me/' + w : '#';
+      }
+      return '#';
+    }
+    if (link === '::vk::') {
+      return contactsData.vk ? (contactsData.vk.startsWith('http') ? contactsData.vk : 'https://vk.com/' + contactsData.vk) : '#';
+    }
+    if (link === '::max::') {
+      return contactsData.max ? (contactsData.max.startsWith('http') ? contactsData.max : 'https://' + contactsData.max) : '#';
+    }
+    if (link === '::email::') {
+      return contactsData.email ? 'mailto:' + contactsData.email : '#';
+    }
+    if (link === '::phone::') {
+      return contactsData.phone ? 'tel:' + contactsData.phone.replace(/[^0-9+]/g, '') : '#';
+    }
+    if (link === '::contact-modal::') {
+      // Возвращаем специальный маркер для открытия модального окна выбора
+      return 'javascript:void(0)';
+    }
+    return link;
+  }
+  
+  // Функция обновления всех ссылок на кнопках
+  function updateExternalLinks() {
+    document.querySelectorAll('[data-btn-link]').forEach(btn => {
+      const link = btn.getAttribute('data-btn-link');
+      if (link === '::telegram::' || link === '::whatsapp::') {
+        btn.href = getExternalLink(link);
+      } else if (link && link.startsWith('http')) {
+        // Для обычных внешних ссылок тоже обновляем href
+        btn.href = link;
+      } else if (link === '::contact-modal::') {
+        // Для модального окна - добавляем обработчик
+        btn.onclick = function(e) {
+          e.preventDefault();
+          openContactModal();
+        };
+        btn.href = '#';
+      }
+    });
+  }
+  
+  // Функция открытия модального окна выбора контактов
+  function openContactModal() {
+    const modal = document.getElementById('contactModal');
+    const optionsContainer = document.getElementById('contactOptions');
+    if(!modal || !optionsContainer) return;
+    
+    const contacts = contactsData || {};
+    const options = [];
+    
+    // Добавляем доступные мессенджеры
+    if(contacts.phone) {
+      options.push({
+        icon: 'fas fa-phone',
+        label: 'Позвонить',
+        link: 'tel:' + contacts.phone.replace(/[^0-9+]/g, ''),
+        color: '#27ae60'
+      });
+    }
+    
+    if(contacts.whatsapp) {
+      let waLink = contacts.whatsapp;
+      if(!waLink.startsWith('http')) {
+        waLink = 'https://wa.me/' + waLink.replace(/[^0-9]/g, '');
+      }
+      options.push({
+        icon: 'fab fa-whatsapp',
+        label: 'WhatsApp',
+        link: waLink,
+        color: '#25D366'
+      });
+    } else if(contacts.phone) {
+      const wa = phoneToWa(contacts.phone);
+      if(wa) {
+        options.push({
+          icon: 'fab fa-whatsapp',
+          label: 'WhatsApp',
+          link: 'https://wa.me/' + wa,
+          color: '#25D366'
+        });
+      }
+    }
+    
+    if(contacts.telegram) {
+      options.push({
+        icon: 'fab fa-telegram-plane',
+        label: 'Telegram',
+        link: 'https://t.me/' + contacts.telegram,
+        color: '#0088cc'
+      });
+    }
+    
+    if(contacts.vk) {
+      let vkLink = contacts.vk;
+      if(!vkLink.startsWith('http')) {
+        vkLink = 'https://vk.com/' + vkLink;
+      }
+      options.push({
+        icon: 'fab fa-vk',
+        label: 'ВКонтакте',
+        link: vkLink,
+        color: '#4a76a8'
+      });
+    }
+    
+    if(contacts.max) {
+      let maxLink = contacts.max;
+      if(!maxLink.startsWith('http')) {
+        maxLink = 'https://' + maxLink;
+      }
+      options.push({
+        icon: 'fab fa-telegram-plane',
+        label: 'MAX',
+        link: maxLink,
+        color: '#0077ff'
+      });
+    }
+    
+    if(contacts.email) {
+      options.push({
+        icon: 'fas fa-envelope',
+        label: 'Написать на email',
+        link: 'mailto:' + contacts.email,
+        color: '#e74c3c'
+      });
+    }
+    
+    // Если нет доступных контактов
+    if(options.length === 0) {
+      optionsContainer.innerHTML = '<div style="text-align:center;color:#666;">Нет доступных контактов</div>';
+    } else {
+      optionsContainer.innerHTML = options.map(opt => `
+        <a href="${opt.link}" target="_blank" style="display:flex;align-items:center;gap:12px;padding:14px 16px;background:${opt.color}15;border:1px solid ${opt.color}30;border-radius:12px;text-decoration:none;transition:all 0.2s;">
+          <i class="${opt.icon}" style="font-size:20px;color:${opt.color};"></i>
+          <span style="font-weight:600;color:#333;">${opt.label}</span>
+        </a>
+      `).join('');
+    }
+    
+    modal.style.display = 'flex';
+    modal.style.alignItems = 'center';
+    modal.style.justifyContent = 'center';
+  }
+  
+  // Вызываем при загрузке страницы
+  document.addEventListener('DOMContentLoaded', function() {
+    setTimeout(updateExternalLinks, 100);
   });
 
   // рендер отзывов для публичной страницы (только одобренные)
@@ -1964,14 +2273,27 @@ document.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
     const items = Object.entries(data || {}).sort((a,b)=>(a[1].order||0)-(b[1].order||0));
     container.innerHTML = items.map(([id, mod], idx) => {
       const two = idx < 2 ? 'two-panel' : '';
-      const emoji = mod.emoji ? `<div class="module-card-visual">${escapeHtml(mod.emoji)}</div>` : '';
+      // Показываем изображение, URL картинки или emoji
+      let visual = '';
+      if (mod.image) {
+        // Прямой путь к файлу (локальный)
+        visual = `<div class="module-card-visual"><img src="${escapeHtml(mod.image)}" alt=""></div>`;
+      } else if (mod.imageUrl && mod.imageUrl.startsWith('data:')) {
+        // Base64 изображение
+        visual = `<div class="module-card-visual"><img src="${escapeHtml(mod.imageUrl)}" alt=""></div>`;
+      } else if (mod.imageUrl) {
+        // URL изображения
+        visual = `<div class="module-card-visual"><img src="${escapeHtml(mod.imageUrl)}" alt=""></div>`;
+      } else if (mod.emoji) {
+        visual = `<div class="module-card-visual">${escapeHtml(mod.emoji)}</div>`;
+      }
       return `<div class="module-card ${two}">
         <div class="module-card-body">
           <div class="module-tag">${escapeHtml(mod.tag || ('Модуль ' + (idx+1)))}</div>
           <h4>${escapeHtml(mod.title || '')}</h4>
           <p>${escapeHtml(mod.desc || '')}</p>
         </div>
-        ${emoji}
+        ${visual}
       </div>`;
     }).join('');
   }
@@ -2067,6 +2389,128 @@ document.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
   const bookingForm = document.getElementById('bookingForm');
   const closeBookingModalBtn = document.getElementById('closeBookingModalBtn');
   const bookingDateInput = document.getElementById('bookingDateInput');
+  const bookingTimeSelect = document.getElementById('bookingTimeSelect');
+  
+  // Contact Modal handlers
+  const contactModalEl = document.getElementById('contactModal');
+  const closeContactModalBtn = document.getElementById('closeContactModalBtn');
+  
+  // Закрытие контактного модального окна
+  if(closeContactModalBtn) {
+    closeContactModalBtn.addEventListener('click', () => {
+      contactModalEl.style.display = 'none';
+    });
+  }
+  
+  // Закрытие по клику на фон
+  if(contactModalEl) {
+    contactModalEl.addEventListener('click', (e) => {
+      if (e.target === contactModalEl) {
+        contactModalEl.style.display = 'none';
+      }
+    });
+  }
+  
+  // Хранилище занятых слотов (загружается из Firebase)
+  let bookedSlots = {};
+  
+  // Подписка на bookings для проверки занятых слотов
+  onValue(ref(db,'bookings'), snap=>{
+    const bookings = snap.val() || {};
+    bookedSlots = {};
+    // Группируем по дате
+    Object.values(bookings).forEach(b => {
+      if(b.bookingDate && b.bookingTime) {
+        const key = b.bookingDate + '_' + b.bookingTime;
+        bookedSlots[key] = true;
+      }
+    });
+  });
+  
+  //映射 русских дней недели на номер
+  const dayMap = {'Вс':0,'Пн':1,'Вт':2,'Ср':3,'Чт':4,'Пт':5,'Сб':6};
+  
+  // Функция генерации доступных временных слотов
+  function generateTimeSlots(dateStr, serviceSettings) {
+    const slots = [];
+    const availableDays = serviceSettings.availableDays || [];
+    const timeStart = serviceSettings.timeStart || '10:00';
+    const timeEnd = serviceSettings.timeEnd || '18:00';
+    const duration = serviceSettings.duration || 60;
+    
+    // Если дни не настроены, используем все рабочие дни
+    const daysToUse = availableDays.length > 0 ? availableDays : ['Пн','Вт','Ср','Чт','Пт'];
+    
+    // Проверяем, является ли выбранный день доступным
+    const selectedDate = new Date(dateStr + 'T00:00:00');
+    const dayNum = selectedDate.getDay();
+    const dayNames = ['Вс','Пн','Вт','Ср','Чт','Пт','Сб'];
+    const dayName = dayNames[dayNum];
+    
+    if(!daysToUse.includes(dayName)) return slots;
+    
+    // Генерируем временные слоты
+    const startHour = parseInt(timeStart.split(':')[0]);
+    const startMin = parseInt(timeStart.split(':')[1]);
+    const endHour = parseInt(timeEnd.split(':')[0]);
+    const endMin = parseInt(timeEnd.split(':')[1]);
+    
+    let currentHour = startHour;
+    let currentMin = startMin;
+    
+    while(currentHour < endHour || (currentHour === endHour && currentMin < endMin)) {
+      const timeStr = String(currentHour).padStart(2,'0') + ':' + String(currentMin).padStart(2,'0');
+      const slotKey = dateStr + '_' + timeStr;
+      
+      // Проверяем, не занят ли слот
+      if(!bookedSlots[slotKey]) {
+        slots.push(timeStr);
+      }
+      
+      // Увеличиваем время на duration минут
+      currentMin += duration;
+      if(currentMin >= 60) {
+        currentHour += Math.floor(currentMin / 60);
+        currentMin = currentMin % 60;
+      }
+    }
+    
+    return slots;
+  }
+  
+  // Обработчик изменения даты
+  if(bookingDateInput && bookingTimeSelect) {
+    bookingDateInput.addEventListener('change', function() {
+      const dateStr = this.value;
+      if(!dateStr) {
+        bookingTimeSelect.innerHTML = '<option value="">Сначала выберите дату</option>';
+        bookingTimeSelect.disabled = true;
+        return;
+      }
+      
+      // Если настройки услуги не загружены, показываем все дни
+      const serviceSettings = currentServiceSettings || {};
+      const slots = generateTimeSlots(dateStr, serviceSettings);
+      
+      if(slots.length === 0) {
+        // Если нет слотов, возможно услуга не настроена - показываем все дни
+        const defaultSettings = { availableDays: ['Пн','Вт','Ср','Чт','Пт'], timeStart: '10:00', timeEnd: '18:00', duration: 60 };
+        const defaultSlots = generateTimeSlots(dateStr, defaultSettings);
+        if(defaultSlots.length > 0) {
+          bookingTimeSelect.innerHTML = '<option value="">Выберите время</option>' + 
+            defaultSlots.map(s => `<option value="${s}">${s}</option>`).join('');
+          bookingTimeSelect.disabled = false;
+        } else {
+          bookingTimeSelect.innerHTML = '<option value="">Нет доступного времени</option>';
+          bookingTimeSelect.disabled = true;
+        }
+      } else {
+        bookingTimeSelect.innerHTML = '<option value="">Выберите время</option>' + 
+          slots.map(s => `<option value="${s}">${s}</option>`).join('');
+        bookingTimeSelect.disabled = false;
+      }
+    });
+  }
   
   // Устанавливаем минимальную дату (сегодня) для поля выбора даты
   if(bookingDateInput){
@@ -2100,16 +2544,50 @@ document.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
       const lastName = (fd.get('lastName')||'').toString().trim();
       const phone = (fd.get('phone')||'').toString().trim();
       const bookingDate = (fd.get('bookingDate')||'').toString().trim();
+      const bookingTime = (fd.get('bookingTime')||'').toString().trim();
       const note = (fd.get('note')||'').toString().trim();
       const serviceId = (fd.get('serviceId')||'').toString().trim();
       const serviceTitle = document.getElementById('bookingServiceTitle') ? document.getElementById('bookingServiceTitle').textContent : '';
+      
       if(!firstName || !lastName || !phone || !bookingDate || !note){ document.getElementById('bookingStatus').textContent = 'Заполните все поля'; return; }
-      const payload = { firstName, lastName, phone, bookingDate, note, serviceId, serviceTitle, ts: Date.now() };
+      
+      // Проверяем, выбрано ли время
+      if(!bookingTime) {
+        document.getElementById('bookingStatus').textContent = 'Выберите время'; return;
+      }
+      
+      // Проверяем, не занят ли слот
+      const slotKey = bookingDate + '_' + bookingTime;
+      if(bookedSlots[slotKey]) {
+        document.getElementById('bookingStatus').textContent = 'Это время уже занято'; 
+        // Обновляем слоты
+        const slots = generateTimeSlots(bookingDate, currentServiceSettings);
+        const timeSelect = document.getElementById('bookingTimeSelect');
+        if(timeSelect) {
+          if(slots.length === 0) {
+            timeSelect.innerHTML = '<option value="">Нет доступного времени</option>';
+            timeSelect.disabled = true;
+          } else {
+            timeSelect.innerHTML = '<option value="">Выберите время</option>' + 
+              slots.map(s => `<option value="${s}">${s}</option>`).join('');
+            timeSelect.disabled = false;
+          }
+        }
+        return;
+      }
+      
+      const payload = { firstName, lastName, phone, bookingDate, bookingTime, note, serviceId, serviceTitle, ts: Date.now() };
       try{
         const newRef = push(ref(db,'bookings'));
         await set(newRef, payload);
         document.getElementById('bookingStatus').textContent = 'Заявка отправлена';
         bookingForm.reset();
+        // Сбрасываем выбор времени
+        const timeSelect = document.getElementById('bookingTimeSelect');
+        if(timeSelect) {
+          timeSelect.innerHTML = '<option value="">Сначала выберите дату</option>';
+          timeSelect.disabled = true;
+        }
         showNotification('Заявка отправлена');
       }catch(err){ console.error(err); showNotification('Ошибка отправки'); document.getElementById('bookingStatus').textContent = 'Ошибка'; }
       setTimeout(()=>{ 
@@ -2127,6 +2605,7 @@ document.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
     document.body.appendChild(el);
     setTimeout(()=> el.remove(), timeout);
   }
+  window.showNotification = showNotification;
 
   // функция обновления уведомлений в админ-панели
   function updateAdminNotifications(){
@@ -2252,11 +2731,15 @@ document.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
     // renderers
     function renderContacts(){
       const el = document.getElementById('adminContent');
-      // render contact settings editor (phone, telegram)
+      // render contact settings editor (phone, telegram, whatsapp, vk, etc)
       el.innerHTML = `<div style="font-weight:700;margin-bottom:8px">Настройки контактов</div>
         <div style="display:grid;gap:8px;margin-bottom:12px;">
           <input id="sitePhone" placeholder="Телефон для связи" style="padding:8px;border:1px solid #eee;border-radius:8px;">
           <input id="siteTelegram" placeholder="Telegram (ник)" style="padding:8px;border:1px solid #eee;border-radius:8px;">
+          <input id="siteWhatsapp" placeholder="WhatsApp (ссылка или номер)" style="padding:8px;border:1px solid #eee;border-radius:8px;">
+          <input id="siteVk" placeholder="ВКонтакте (ссылка)" style="padding:8px;border:1px solid #eee;border-radius:8px;">
+          <input id="siteMax" placeholder="MAX (ссылка)" style="padding:8px;border:1px solid #eee;border-radius:8px;">
+          <input id="siteEmail" placeholder="Email" style="padding:8px;border:1px solid #eee;border-radius:8px;">
           <div style="display:flex;gap:8px;"><button id="saveContactsBtn" style="background:#0f766e;color:#fff;padding:8px 12px;border-radius:8px;border:none">Сохранить</button><button id="loadContactsBtn" style="background:transparent;border:1px solid #ddd;padding:8px 12px;border-radius:8px;">Загрузить</button></div>
         </div>
         <div style="font-weight:700;margin:10px 0 8px">Входящие заявки</div>
@@ -2268,12 +2751,20 @@ document.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
         const s = snap.val() || {};
         document.getElementById('sitePhone').value = s.phone||'';
         document.getElementById('siteTelegram').value = s.telegram||'';
+        document.getElementById('siteWhatsapp').value = s.whatsapp||'';
+        document.getElementById('siteVk').value = s.vk||'';
+        document.getElementById('siteMax').value = s.max||'';
+        document.getElementById('siteEmail').value = s.email||'';
       }, { onlyOnce: true });
 
       document.getElementById('saveContactsBtn').addEventListener('click', async ()=>{
         const phone = document.getElementById('sitePhone').value.trim();
         const telegram = document.getElementById('siteTelegram').value.trim();
-        try{ await set(ref(db,'psycholoog/contacts'), { phone, telegram }); showNotification('Контакты сохранены'); }catch(e){ console.error(e); showNotification('Ошибка'); }
+        const whatsapp = document.getElementById('siteWhatsapp').value.trim();
+        const vk = document.getElementById('siteVk').value.trim();
+        const max = document.getElementById('siteMax').value.trim();
+        const email = document.getElementById('siteEmail').value.trim();
+        try{ await set(ref(db,'psycholoog/contacts'), { phone, telegram, whatsapp, vk, max, email }); showNotification('Контакты сохранены'); }catch(e){ console.error(e); showNotification('Ошибка'); }
       });
 
       // render incoming submissions
@@ -2357,7 +2848,7 @@ document.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
               <span style="display:flex;align-items:center;gap:6px;color:#7A7A8C;font-size:12px;font-weight:500;min-width:110px;">
                 <i class="fas fa-calendar-alt" style="color:#1E3A5F;font-size:12px;"></i> Дата приёма:
               </span>
-              <span style="color:#1A1A2E;font-size:13px;">${new Date(item.bookingDate).toLocaleDateString('ru-RU')}</span>
+              <span style="color:#1A1A2E;font-size:13px;">${new Date(item.bookingDate).toLocaleDateString('ru-RU')}${item.bookingTime ? ' в ' + item.bookingTime : ''}</span>
             </div>` : ''}
             
             ${clientMessage ? `
@@ -2413,15 +2904,49 @@ document.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
       // edit handlers
       el.querySelectorAll('.admin-edit-service').forEach(btn=> btn.addEventListener('click', ()=>{
         const id = btn.getAttribute('data-id'); const s = services[id];
-        const formHtml = `<div style="padding:8px 0;background:#fafafa;border-radius:8px;margin-top:8px;">
-            <input id="svc_title_${id}" value="${escapeHtml(s.title||'')}" style="width:100%;padding:8px;margin-bottom:6px;border:1px solid #ddd;border-radius:6px;">
-            <input id="svc_price_${id}" value="${escapeHtml(s.price||'')}" style="width:100%;padding:8px;margin-bottom:6px;border:1px solid #ddd;border-radius:6px;">
-            <textarea id="svc_desc_${id}" style="width:100%;padding:8px;border:1px solid #ddd;border-radius:6px;">${escapeHtml(s.description||'')}</textarea>
-            <div style="display:flex;gap:8px;margin-top:8px;"><button id="svc_save_${id}" style="background:#0f766e;color:#fff;padding:8px 10px;border-radius:8px;border:none;">Сохранить</button><button id="svc_cancel_${id}" style="background:transparent;border:1px solid #ccc;padding:8px 10px;border-radius:8px;">Отмена</button></div>
+        // Получаем текущие настройки времени
+        const availableDays = s.availableDays || [];
+        const timeStart = s.timeStart || '10:00';
+        const timeEnd = s.timeEnd || '18:00';
+        const duration = s.duration || 60;
+        const daysOptions = ['Пн','Вт','Ср','Чт','Пт','Сб','Вс'];
+        const daysCheckboxes = daysOptions.map(day => {
+          const checked = availableDays.includes(day) ? 'checked' : '';
+          return `<label style="display:inline-flex;align-items:center;gap:4px;margin-right:12px;cursor:pointer;"><input type="checkbox" class="svc-day" value="${day}" ${checked}> ${day}</label>`;
+        }).join('');
+        const formHtml = `<div style="padding:12px;background:#fafafa;border-radius:8px;margin-top:8px;border:1px solid #e0e0e0;">
+            <div style="font-weight:600;margin-bottom:8px;">Редактирование услуги</div>
+            <input id="svc_title_${id}" value="${escapeHtml(s.title||'')}" style="width:100%;padding:8px;margin-bottom:6px;border:1px solid #ddd;border-radius:6px;" placeholder="Название">
+            <input id="svc_price_${id}" value="${escapeHtml(s.price||'')}" style="width:100%;padding:8px;margin-bottom:6px;border:1px solid #ddd;border-radius:6px;" placeholder="Цена">
+            <textarea id="svc_desc_${id}" style="width:100%;padding:8px;border:1px solid #ddd;border-radius:6px;margin-bottom:8px;" placeholder="Описание">${escapeHtml(s.description||'')}</textarea>
+            <div style="margin:12px 0 8px;font-weight:600;font-size:13px;">Доступное время для записи:</div>
+            <div style="margin-bottom:8px;">${daysCheckboxes}</div>
+            <div style="display:flex;gap:8px;align-items:center;margin-bottom:8px;">
+              <label style="font-size:13px;">С:</label>
+              <input id="svc_timeStart_${id}" type="time" value="${timeStart}" style="padding:6px;border:1px solid #ddd;border-radius:6px;">
+              <label style="font-size:13px;">До:</label>
+              <input id="svc_timeEnd_${id}" type="time" value="${timeEnd}" style="padding:6px;border:1px solid #ddd;border-radius:6px;">
+            </div>
+            <div style="display:flex;gap:8px;align-items:center;margin-bottom:8px;">
+              <label style="font-size:13px;">Длительность (мин):</label>
+              <input id="svc_duration_${id}" type="number" value="${duration}" min="15" max="180" step="15" style="padding:6px;width:80px;border:1px solid #ddd;border-radius:6px;">
+            </div>
+            <div style="display:flex;gap:8px;"><button id="svc_save_${id}" style="background:#0f766e;color:#fff;padding:8px 10px;border-radius:8px;border:none;">Сохранить</button><button id="svc_cancel_${id}" style="background:transparent;border:1px solid #ccc;padding:8px 10px;border-radius:8px;">Отмена</button></div>
           </div>`;
         btn.parentElement.parentElement.insertAdjacentHTML('afterend', formHtml);
         document.getElementById(`svc_save_${id}`).addEventListener('click', async ()=>{
-          const updated = { title: document.getElementById(`svc_title_${id}`).value, price: document.getElementById(`svc_price_${id}`).value, description: document.getElementById(`svc_desc_${id}`).value };
+          // Собираем выбранные дни
+          const dayCheckboxes = document.querySelectorAll(`.svc-day:checked`);
+          const selectedDays = Array.from(dayCheckboxes).map(cb => cb.value);
+          const updated = { 
+            title: document.getElementById(`svc_title_${id}`).value, 
+            price: document.getElementById(`svc_price_${id}`).value, 
+            description: document.getElementById(`svc_desc_${id}`).value,
+            availableDays: selectedDays,
+            timeStart: document.getElementById(`svc_timeStart_${id}`).value,
+            timeEnd: document.getElementById(`svc_timeEnd_${id}`).value,
+            duration: parseInt(document.getElementById(`svc_duration_${id}`).value) || 60
+          };
           try{ await update(ref(db,'services/'+id), updated); showNotification('Услуга обновлена'); }catch(e){ console.error(e); showNotification('Ошибка'); }
         });
         document.getElementById(`svc_cancel_${id}`).addEventListener('click', ()=>{ renderServices(); });
@@ -2825,6 +3350,9 @@ document.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
             ${items.length === 0 ? '<p style="color:#999;font-size:13px;">Модулей пока нет. Добавьте первый.</p>' : ''}
             ${items.map(([id, m])=>`
               <div style="display:flex;align-items:center;gap:12px;background:#f8f9fa;padding:12px;border-radius:10px;border:1px solid #e0e0e0;">
+                <div style="width:50px;height:50px;border-radius:8px;overflow:hidden;flex-shrink:0;background:#e0e0e0;display:flex;align-items:center;justify-content:center;">
+                  ${m.image ? `<img src="${escapeHtml(m.image)}" style="width:100%;height:100%;object-fit:cover;">` : (m.imageUrl ? `<img src="${escapeHtml(m.imageUrl)}" style="width:100%;height:100%;object-fit:cover;">` : (m.emoji ? `<span style="font-size:24px;">${escapeHtml(m.emoji)}</span>` : '<span style="color:#999;">—</span>'))}
+                </div>
                 <div style="flex:1;">
                   <div style="font-size:12px;color:#666;">${escapeHtml(m.tag||'')}</div>
                   <div style="font-size:13px;color:#333;margin-top:4px;"><strong>${escapeHtml(m.title||'')}</strong> — ${escapeHtml(m.desc||'')}</div>
@@ -2838,6 +3366,8 @@ document.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
             <input id="newModuleTag" placeholder="Тег (например, Модуль 1)" class="admin-input" style="margin-bottom:8px;">
             <input id="newModuleTitle" placeholder="Заголовок" class="admin-input" style="margin-bottom:8px;">
             <textarea id="newModuleDesc" placeholder="Описание" class="admin-textarea" style="margin-bottom:8px;"></textarea>
+            <input id="newModuleImagePath" placeholder="Путь к картинке (например: images/1.png)" class="admin-input" style="margin-bottom:8px;">
+            <p style="font-size:11px;color:#666;margin:4px 0 8px;">или эмодзи:</p>
             <input id="newModuleEmoji" placeholder="Эмодзи (по желанию)" class="admin-input" style="margin-bottom:8px;">
             <button id="addModuleBtn" style="background:linear-gradient(135deg,#27ae60,#2ecc71);color:#fff;padding:10px 20px;border:none;border-radius:10px;cursor:pointer;font-weight:600;"><i class="fas fa-plus"></i> Добавить модуль</button>
           </div>
@@ -2869,13 +3399,14 @@ document.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
         const tag = document.getElementById('newModuleTag').value.trim();
         const title = document.getElementById('newModuleTitle').value.trim();
         const desc = document.getElementById('newModuleDesc').value.trim();
+        const image = document.getElementById('newModuleImagePath').value.trim();
         const emoji = document.getElementById('newModuleEmoji').value.trim();
         if(!title || !desc){ showNotification('Заполните заголовок и описание'); return; }
         try{
           const items = Object.entries(modules||{}).map(([id,m])=>({id,...m}));
           const maxOrder = items.reduce((max,i)=>Math.max(max,i.order||0),0);
           const newRef = push(ref(db,'siteContent/modules'));
-          await set(newRef,{ tag, title, desc, emoji, order: maxOrder+1, createdAt: Date.now() });
+          await set(newRef,{ tag, title, desc, image, emoji, order: maxOrder+1, createdAt: Date.now() });
           showNotification('Модуль добавлен');
           renderModules();
         }catch(e){ console.error(e); showNotification('Ошибка добавления'); }
@@ -2894,7 +3425,19 @@ document.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
           <input id="moduleTagEdit" placeholder="Тег" class="admin-input" style="margin-bottom:8px;" value="${escapeHtml(m.tag||'')}">
           <input id="moduleTitleEdit" placeholder="Заголовок" class="admin-input" style="margin-bottom:8px;" value="${escapeHtml(m.title||'')}">
           <textarea id="moduleDescEdit" placeholder="Описание" class="admin-textarea" style="margin-bottom:8px;">${escapeHtml(m.desc||'')}</textarea>
-          <input id="moduleEmojiEdit" placeholder="Эмодзи" class="admin-input" style="margin-bottom:8px;" value="${escapeHtml(m.emoji||'')}">
+          <div style="background:#f8f9fa;padding:16px;border-radius:12px;border:1px solid #e0e0e0;">
+            <div style="font-weight:600;font-size:14px;margin-bottom:12px;color:#1E3A5F;">Изображение</div>
+            ${m.image ? `<div style="width:100%;height:120px;border-radius:8px;overflow:hidden;margin-bottom:16px;"><img src="${escapeHtml(m.image)}" style="width:100%;height:100%;object-fit:cover;"></div>` : ''}
+            ${m.imageUrl ? `<div style="width:100%;height:120px;border-radius:8px;overflow:hidden;margin-bottom:16px;"><img src="${escapeHtml(m.imageUrl)}" style="width:100%;height:100%;object-fit:cover;"></div>` : ''}
+            <div>
+              <label style="display:block;font-weight:600;font-size:13px;margin-bottom:6px;color:#333;">Путь к файлу (локальный)</label>
+              <input id="moduleImageEdit" placeholder="Например: images/1.png" class="admin-input" style="margin-bottom:8px;" value="${escapeHtml(m.image||'')}">
+            </div>
+          </div>
+          <div>
+            <label style="display:block;font-weight:600;font-size:13px;margin-bottom:6px;color:#333;">или используйте эмодзи</label>
+            <input id="moduleEmojiEdit" placeholder="Эмодзи" class="admin-input" style="margin-bottom:8px;" value="${escapeHtml(m.emoji||'')}">
+          </div>
           <button id="saveModuleBtn" style="background:linear-gradient(135deg,#27ae60,#2ecc71);color:#fff;padding:12px 24px;border:none;border-radius:10px;cursor:pointer;font-weight:600;">
             <i class="fas fa-save"></i> Сохранить
           </button>
@@ -2904,10 +3447,11 @@ document.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
         const tag = document.getElementById('moduleTagEdit').value.trim();
         const title = document.getElementById('moduleTitleEdit').value.trim();
         const desc = document.getElementById('moduleDescEdit').value.trim();
+        const image = document.getElementById('moduleImageEdit').value.trim();
         const emoji = document.getElementById('moduleEmojiEdit').value.trim();
         if(!title || !desc){ showNotification('Заполните заголовок и описание'); return; }
         try{
-          await update(ref(db,'siteContent/modules/'+moduleId), { tag, title, desc, emoji });
+          await update(ref(db,'siteContent/modules/'+moduleId), { tag, title, desc, image, emoji });
           showNotification('Модуль сохранён');
           renderModules();
         }catch(e){ console.error(e); showNotification('Ошибка сохранения'); }
@@ -3042,6 +3586,10 @@ document.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
     // helper: показать форму добавления услуги
     function showAddServiceForm(){
       const el = document.getElementById('adminContent');
+      const daysOptions = ['Пн','Вт','Ср','Чт','Пт','Сб','Вс'];
+      const daysCheckboxes = daysOptions.map(day => 
+        `<label style="display:inline-flex;align-items:center;gap:4px;margin-right:12px;cursor:pointer;"><input type="checkbox" class="new-service-day" value="${day}"> ${day}</label>`
+      ).join('');
       el.innerHTML = `
         <div style="font-weight:700;margin-bottom:8px">Новая услуга</div>
         <div style="display:grid;gap:8px;">
@@ -3049,6 +3597,18 @@ document.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
           <input id="newPrice" placeholder="Цена" style="padding:8px;border:1px solid #eee;border-radius:8px;">
           <input id="newLabel" placeholder="Метка (Базовый/Популярный)" style="padding:8px;border:1px solid #eee;border-radius:8px;">
           <textarea id="newDesc" placeholder="Фичи, по одной в строке" rows="4" style="padding:8px;border:1px solid #eee;border-radius:8px;"></textarea>
+          <div style="margin:12px 0 8px;font-weight:600;font-size:13px;">Доступное время для записи:</div>
+          <div style="margin-bottom:8px;">${daysCheckboxes}</div>
+          <div style="display:flex;gap:8px;align-items:center;margin-bottom:8px;">
+            <label style="font-size:13px;">С:</label>
+            <input id="newTimeStart" type="time" value="10:00" style="padding:6px;border:1px solid #ddd;border-radius:6px;">
+            <label style="font-size:13px;">До:</label>
+            <input id="newTimeEnd" type="time" value="18:00" style="padding:6px;border:1px solid #ddd;border-radius:6px;">
+          </div>
+          <div style="display:flex;gap:8px;align-items:center;margin-bottom:8px;">
+            <label style="font-size:13px;">Длительность (мин):</label>
+            <input id="newDuration" type="number" value="60" min="15" max="180" step="15" style="padding:6px;width:80px;border:1px solid #ddd;border-radius:6px;">
+          </div>
           <div style="display:flex;gap:8px;">
             <button id="saveNewService" style="background:#0f766e;color:#fff;padding:8px 12px;border-radius:8px;border:none;">Сохранить</button>
             <button id="cancelNewService" style="background:transparent;border:1px solid #ddd;padding:8px 12px;border-radius:8px;">Отмена</button>
@@ -3061,9 +3621,22 @@ document.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
         const price = document.getElementById('newPrice').value.trim();
         const label = document.getElementById('newLabel').value.trim();
         const desc = document.getElementById('newDesc').value.trim();
+        // Собираем выбранные дни
+        const dayCheckboxes = document.querySelectorAll('.new-service-day:checked');
+        const selectedDays = Array.from(dayCheckboxes).map(cb => cb.value);
         if(!title){ alert('Введите название'); return; }
         const id = 'service_' + Date.now();
-        const payload = { title, price, label, description: desc, ts: Date.now() };
+        const payload = { 
+          title, 
+          price, 
+          label, 
+          description: desc, 
+          availableDays: selectedDays,
+          timeStart: document.getElementById('newTimeStart').value,
+          timeEnd: document.getElementById('newTimeEnd').value,
+          duration: parseInt(document.getElementById('newDuration').value) || 60,
+          ts: Date.now() 
+        };
         try{ await set(ref(db,'services/'+id), payload); showNotification('Услуга добавлена'); renderServices(); }catch(e){ console.error(e); showNotification('Ошибка'); }
       });
     }
@@ -3129,6 +3702,7 @@ document.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
       const slide = adminSlides[slideId] || {};
       
       // Available sections on the site
+      // Внешние ссылки будут заменены на реальные URL из настроек
       const sections = [
         { value: '#pricing', label: 'Тарифы (pricing)' },
         { value: '#pain', label: 'Боли (pain)' },
@@ -3139,7 +3713,14 @@ document.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
         { value: '#reviews', label: 'Отзывы (reviews)' },
         { value: '#blog', label: 'Блог (blog)' },
         { value: '#faq', label: 'FAQ (faq)' },
-        { value: '#contacts', label: 'Контакты (contacts)' }
+        { value: '#contacts', label: 'Контакты (contacts)' },
+        { value: '::contact-modal::', label: '📱 Связаться (модальное окно)' },
+        { value: '::telegram::', label: '📱 Telegram (внешняя ссылка)' },
+        { value: '::whatsapp::', label: '💬 WhatsApp (внешняя ссылка)' },
+        { value: '::vk::', label: '📘 ВКонтакте (внешняя ссылка)' },
+        { value: '::max::', label: '🔷 MAX (внешняя ссылка)' },
+        { value: '::phone::', label: '📞 Позвонить' },
+        { value: '::email::', label: '✉️ Написать на email' }
       ];
       
       const createSelect = (id, currentValue) => {
