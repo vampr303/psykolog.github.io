@@ -1582,6 +1582,78 @@ footer a:hover { color: var(--rose); }
   .hero-content p { font-size: 13px; }
   .pricing-card { padding: 20px 16px; }
   .author-photos { width: 200px; height: 260px; }
+  
+  /* Forms responsive */
+  .consent-modal { padding: 24px 20px; }
+  .consent-buttons { flex-direction: column; }
+  .consent-buttons .btn { width: 100%; }
+  
+  /* Two column layout on mobile */
+  .two-col { grid-template-columns: 1fr; gap: 16px; }
+  .two-col .sec-label { grid-column: 1; }
+  .two-col > *:last-child { grid-column: 1; }
+  
+  /* Container padding on mobile */
+  .container { padding: 0 20px; }
+  
+  /* Hero content on mobile */
+  .hero-content { padding: 0 20px; }
+  .hero-btns { flex-direction: column; gap: 10px; }
+  .hero-btns .btn { width: 100%; }
+  
+  /* Section padding on mobile */
+  .section { padding: 60px 0; }
+  
+  /* Nav on mobile */
+  nav { padding: 12px 20px; }
+  nav.scrolled { padding: 8px 20px; }
+  .nav-links { display: none; }
+  
+  /* Pricing grid on mobile */
+  .pricing-grid { grid-template-columns: 1fr; gap: 20px; }
+  .pricing-card.featured { transform: none; }
+  
+  /* Testimonials on mobile */
+  .testi-grid { grid-template-columns: 1fr; }
+  
+  /* Footer on mobile */
+  footer { flex-direction: column; align-items: center; text-align: center; padding: 24px 20px; }
+  footer .footer-disclaimer { max-width: 100%; text-align: left; }
+  
+  /* Modal on mobile */
+  #leaveReviewModal > div,
+  #bookingBox,
+  #contactModal > div,
+  .consent-modal { width: 95%; padding: 20px 16px; }
+  
+  /* Consent checkbox on mobile */
+  .consent-checkbox { flex-direction: row; align-items: flex-start; gap: 10px; }
+  .consent-checkbox label { font-size: 12px; line-height: 1.4; }
+}
+
+/* Tablet devices */
+@media (min-width: 481px) and (max-width: 768px) {
+  .hero-content h1 { font-size: 36px; }
+  .hero-content p { font-size: 14px; }
+  
+  /* Two column on tablet */
+  .two-col { grid-template-columns: 100px 1fr; gap: 0 30px; }
+  
+  /* Container padding on tablet */
+  .container { padding: 0 30px; }
+  
+  /* Pricing grid on tablet */
+  .pricing-grid { grid-template-columns: repeat(2, 1fr); }
+  .pricing-card.featured { grid-column: span 2; }
+  
+  /* Footer on tablet */
+  footer { flex-wrap: wrap; justify-content: center; gap: 20px; }
+  
+  /* Modal on tablet */
+  #leaveReviewModal > div,
+  #bookingBox,
+  #contactModal > div,
+  .consent-modal { width: 90%; max-width: 450px; }
 }
 
 /* Admin panel styles - button positioned in nav */
@@ -2202,7 +2274,7 @@ footer a:hover { color: var(--rose); }
       <p>Статус: самозанятая</p>
       <p>ИНН: 753406408510</p>
       <p>Телефон: +7 981 747-14-02</p>
-      <p>Электронная почта: Valguru.pro@mail.ru</p>
+      <p>Электронная почта: psykolog@valguru.pro</p>
       <p>Город фактического осуществления деятельности: Москва</p>
       <hr>
       <h3>ПОЛИТИКА ОБРАБОТКИ ПЕРСОНАЛЬНЫХ ДАННЫХ</h3>
