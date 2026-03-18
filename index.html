@@ -82,6 +82,11 @@ nav.scrolled { padding: 10px 48px; box-shadow: 0 2px 20px rgba(0,0,0,0.06); }
 }
 .nav-cta:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(28,26,23,0.3); }
 
+/* Mobile: hide CTA in nav, show hamburger */
+@media (max-width: 768px) {
+  .nav-cta { display: none; }
+}
+
 
 /* ══════════════════════════════
    COOKIE CONSENT MODAL
@@ -1199,33 +1204,240 @@ footer a:hover { color: var(--rose); }
 .reveal.visible { opacity: 1; transform: translateY(0); }
 
 /* ══════════════════════════════
+   HAMBURGER MENU & MOBILE OVERLAY
+════════════════════════════════════ */
+
+/* Hamburger menu button */
+.hamburger {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  width: 28px;
+  height: 28px;
+  cursor: pointer;
+  z-index: 201;
+  background: none;
+  border: none;
+  padding: 0;
+}
+.hamburger span {
+  display: block;
+  width: 100%;
+  height: 2px;
+  background: var(--text);
+  border-radius: 2px;
+  transition: all 0.3s ease;
+}
+.hamburger.active span:nth-child(1) {
+  transform: rotate(45deg) translate(5px, 5px);
+}
+.hamburger.active span:nth-child(2) {
+  opacity: 0;
+}
+.hamburger.active span:nth-child(3) {
+  transform: rotate(-45deg) translate(5px, -5px);
+}
+
+/* Mobile menu overlay */
+.mobile-menu-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.5);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s, visibility 0.3s;
+  z-index: 198;
+}
+.mobile-menu-overlay.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* Mobile menu panel */
+.mobile-menu {
+  position: fixed;
+  top: 0;
+  right: -100%;
+  width: 280px;
+  max-width: 85%;
+  height: 100vh;
+  background: var(--bg);
+  z-index: 199;
+  padding: 80px 24px 24px;
+  transition: right 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: -4px 0 24px rgba(0,0,0,0.15);
+  overflow-y: auto;
+}
+.mobile-menu.active {
+  right: 0;
+}
+.mobile-menu-links {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.mobile-menu-links a {
+  text-decoration: none;
+  color: var(--text);
+  font-size: 16px;
+  font-weight: 500;
+  padding: 12px 16px;
+  border-radius: 10px;
+  transition: background 0.2s, color 0.2s;
+}
+.mobile-menu-links a:hover {
+  background: var(--card);
+}
+.mobile-menu-cta {
+  display: inline-block;
+  margin-top: 20px;
+  background: var(--btn-dark);
+  color: #fff;
+  padding: 14px 28px;
+  border-radius: var(--btn-r);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  text-decoration: none;
+  text-align: center;
+}
+
+/* Hide mobile menu elements on desktop */
+.mobile-menu-overlay,
+.mobile-menu {
+  display: none;
+}
+
+/* ══════════════════════════════
+   HAMBURGER IN NAV
+════════════════════════════════════ */
+
+.nav-cta { display: inline-flex; }
+
+/* ══════════════════════════════
    RESPONSIVE
 ══════════════════════════════ */
 @media (max-width: 768px) {
+  /* Show hamburger on mobile */
+  .hamburger { display: flex; }
+  .mobile-menu-overlay { display: block; }
+
+  /* Base mobile adjustments */
+  html { font-size: 14px; }
+  
   nav { padding: 14px 20px; }
   nav.scrolled { padding: 10px 20px; }
   .nav-links { display: none; }
-  .hero-content { padding: 0 24px; }
-  .carousel-dots { left: 24px; }
-  .carousel-arrows { right: 24px; }
-  .container { padding: 0 24px; }
+  
+  /* Hero mobile */
+  .hero-wrap { min-height: 350px; max-height: 450px; }
+  .hero-content { 
+    padding: 0 20px; 
+    top: 55%;
+  }
+  .hero-badge {
+    padding: 5px 12px;
+    font-size: 10px;
+    margin-bottom: 16px;
+  }
+  .hero-content h1 {
+    font-size: clamp(28px, 8vw, 42px);
+    margin-bottom: 14px;
+  }
+  .hero-content p {
+    font-size: 14px;
+    margin-bottom: 24px;
+  }
+  .hero-btns { 
+    flex-direction: column; 
+    gap: 10px; 
+  }
+  .hero-btns .btn {
+    width: 100%;
+    justify-content: center;
+    padding: 14px 24px;
+  }
+  .carousel-dots { left: 20px; bottom: 24px; }
+  .carousel-arrows { right: 20px; bottom: 18px; }
+  .arrow-btn { width: 36px; height: 36px; font-size: 16px; }
+  .scroll-hint { display: none; }
+  
+  /* Container & sections */
+  .container { padding: 0 20px; }
+  .section { padding: 50px 0; }
+  
+  /* Two column layout */
   .two-col { grid-template-columns: 1fr; }
   .two-col .sec-label { display: block; }
   .two-col > *:last-child { grid-column: 1; }
-  .section { padding: 60px 0; }
+  
+  /* Grids to single column */
   .steps-wrap, .testi-grid, .pricing-grid { grid-template-columns: 1fr; }
+  .steps-carousel { width: 220px; height: 220px; margin: 0 auto; }
+  
+  /* Pricing */
   .pricing-card.featured { transform: none; }
+  .pricing-card { padding: 24px; }
+  .pricing-card h3 { font-size: 20px; }
+  .pricing-price { font-size: 32px; }
+  
+  /* Author section */
   .author-inner { grid-template-columns: 1fr; }
-  .author-photos { width: 280px; height: 340px; margin: 0 auto 20px; }
+  .author-photos { width: 240px; height: 300px; margin: 0 auto 20px; }
+  .author-content { text-align: center; }
+  
+  /* Module cards */
   .module-card.two-panel { grid-template-columns: 1fr; }
   .module-card-visual { display: none; }
+  .module-card-content { padding: 24px; }
+  
+  /* Pain section bubbles */
+  .bubble { max-width: 85%; padding: 12px 16px; font-size: 14px; }
+  .bubble-circle { max-width: 70%; padding: 16px 20px; }
+  
+  /* FAQ */
+  .faq-item { padding: 16px; }
+  .faq-q { font-size: 15px; padding-right: 36px; }
+  .faq-a { font-size: 14px; }
+  
+  /* Blog cards */
+  .blog-grid { grid-template-columns: 1fr; }
+  .blog-card { padding: 20px; }
+  
+  /* Footer */
   footer { flex-direction: column; gap: 14px; text-align: center; padding: 24px 20px; }
-  .quote-banner { padding: 40px 24px; }
-
+  .quote-banner { padding: 30px 20px; }
+  .quote-banner blockquote { font-size: 18px; }
+  
+  /* Consent modal */
+  .consent-modal { padding: 28px 20px; }
+  .consent-modal h2 { font-size: 20px; }
+  .consent-buttons { flex-direction: column; }
+  .consent-buttons .btn { width: 100%; }
+  
+  /* Testimonials */
+  .testi-card { padding: 20px; }
+  .testi-card blockquote { font-size: 14px; }
+  
+  /* Buttons - larger touch targets */
+  .btn { min-height: 48px; }
+  .btn-dark, .btn-rose { padding: 16px 28px; }
+  
   /* admin on mobile */
   .site-admin-btn{position:fixed;right:12px;top:80px;z-index:9999;margin-left:0}
   #admin-panel{right:-100%;width:100%;max-width:100%;border-radius:0}
   #admin-panel.open{right:0}
+}
+
+/* Extra small devices */
+@media (max-width: 480px) {
+  .hero-wrap { min-height: 320px; }
+  .hero-content h1 { font-size: 26px; }
+  .hero-content p { font-size: 13px; }
+  .pricing-card { padding: 20px 16px; }
+  .author-photos { width: 200px; height: 260px; }
 }
 
 /* Admin panel styles - button positioned in nav */
@@ -1342,7 +1554,28 @@ footer a:hover { color: var(--rose); }
     <a href="#faq">FAQ</a>
   </div>
   <a href="#" class="nav-cta" id="navBookingBtn">Записаться</a>
+  <button class="hamburger" id="hamburgerBtn" aria-label="Меню">
+    <span></span>
+    <span></span>
+    <span></span>
+  </button>
 </nav>
+
+<!-- ══ MOBILE MENU OVERLAY ══ -->
+<div class="mobile-menu-overlay" id="mobileOverlay"></div>
+
+<!-- ══ MOBILE MENU PANEL ══ -->
+<div class="mobile-menu" id="mobileMenu">
+  <div class="mobile-menu-links">
+    <a href="#pain" class="mobile-menu-link">О курсе</a>
+    <a href="#direction" class="mobile-menu-link">Программа</a>
+    <a href="#how" class="mobile-menu-link">Как это будет</a>
+    <a href="#pricing" class="mobile-menu-link">Тарифы</a>
+    <a href="#blog" class="mobile-menu-link">Блог</a>
+    <a href="#faq" class="mobile-menu-link">FAQ</a>
+  </div>
+  <a href="#" class="mobile-menu-cta" id="mobileMenuCta">Записаться</a>
+</div>
 
 <!-- ══ HERO + CAROUSEL ══ -->
 <div class="hero-wrap">
@@ -1893,6 +2126,42 @@ function resetTimer() {
 window.addEventListener('scroll', () => {
   document.getElementById('main-nav').classList.toggle('scrolled', window.scrollY > 60);
 });
+
+// ── MOBILE MENU ──
+const hamburgerBtn = document.getElementById('hamburgerBtn');
+const mobileMenu = document.getElementById('mobileMenu');
+const mobileOverlay = document.getElementById('mobileOverlay');
+const mobileLinks = document.querySelectorAll('.mobile-menu-link');
+
+function toggleMobileMenu() {
+  hamburgerBtn.classList.toggle('active');
+  mobileMenu.classList.toggle('active');
+  mobileOverlay.classList.toggle('active');
+  document.body.style.overflow = mobileMenu.classList.contains('active') ? 'hidden' : '';
+}
+
+function closeMobileMenu() {
+  hamburgerBtn.classList.remove('active');
+  mobileMenu.classList.remove('active');
+  mobileOverlay.classList.remove('active');
+  document.body.style.overflow = '';
+}
+
+if (hamburgerBtn) {
+  hamburgerBtn.addEventListener('click', toggleMobileMenu);
+}
+if (mobileOverlay) {
+  mobileOverlay.addEventListener('click', closeMobileMenu);
+}
+mobileLinks.forEach(link => {
+  link.addEventListener('click', closeMobileMenu);
+});
+
+// Close menu on nav CTA click
+const navCta = document.getElementById('navBookingBtn');
+if (navCta) {
+  navCta.addEventListener('click', closeMobileMenu);
+}
 
 // ── FAQ ──
 function toggleFaq(el) {
